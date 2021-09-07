@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  </head>
+
+  <body>
+
+    <% let name = "drake" %>
+
+    <p> <% name %> </p>
+
+    <div id="data">
+
+    </div>
+
+    <!-- Javascript Template -->
+    <script id="quote-template" type="text/x-handlebars-template">
+      <h3>Fave {{name}} Quotes</h3>
+      <ol>
+        {{#each quotes}}
+        <li>{{quote}}</li>
+        {{/each}}
+      </ol>
+    </script>
+
+    <script type="text/javascript">
+      var quoteInfo = document.getElementById("quote-template").innerHTML;
+      var template = Handlebars.compile(quoteInfo);
+      var quoteData = template({
+        name: "Ahad",
+        quotes: [
+          {
+            quote: "Do right and kill everything"
+          },
+          {
+            quote: "999 Smile"
+          },
+          {
+            quote: "Sheeeeesh"
+          }
+        ]
+      })
+
+      document.getElementById("data").innerHTML = quoteData;
+    </script>
+  </body>
+
+</html>
