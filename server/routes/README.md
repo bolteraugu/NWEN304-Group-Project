@@ -2,53 +2,11 @@
 
 To initialise server, run `node .` in this directory.
 
-## In Postman:
+## GET Requests in Postman or Web Browser:
 
-### GET Request:
-  `http://localhost:8080/tshirt`
+### Return a list of recipes based on keyword/query
+* `http://localhost:8080/recipes?keyword=curry`
+* `http://localhost:8080/recipes?keyword=curry&limit=5`
 
-Will return:
-
-```
-{
-    "id": "1",
-    "size": "large"
-}
-```
-
-### POST Request:
-
-`http://localhost:8080/tshirt/23`
-
-and sending the following in the body:
-
-```
-{
-    "logo": "your logo here"
-}
-```
-
-Will return:
-
-```
-{
-    "id": "tshirt with your esf and 23"
-}
-```
-
-
-OR sending the following in the body:
-
-```
-{
-    "logo": ""
-}
-```
-
-Will return:
-
-```
-{
-  "message": "We need a logo!"
-}
-```
+### Returns recipe details based on recipe ID:
+* `http://localhost:8080/recipes/650378`

@@ -26,7 +26,7 @@ app.get('/recipes', (req, res) => {
     })
 });
 
-// Example 1: http://localhost:8080/recipes?keyword=curry
+// Example 1: http://localhost:8080/recipes/650378
 app.get('/recipes/:id', (req, res) => {
   const { id } = req.params;
   getRecipeByID(id)
