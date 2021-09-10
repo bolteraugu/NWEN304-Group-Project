@@ -1,4 +1,6 @@
-const express = require('express');
+import express from 'express';
+import { getRecipeByQuery, getRecipeByID } from "../controller/index.js";
+
 const app = express();
 const PORT = 8080;
 
@@ -9,28 +11,36 @@ app.listen(
   () => console.log(`Listening on http://localhost:${PORT}`)
 );
 
-app.get('/tshirt', (req, res) => {
-  res.status(200).send({
-    id: '1',
-    size: 'large',
-  });
+// Example 1: http://localhost:8080/recipes?keyword=curry
+// Example 2: http://localhost:8080/recipes?keyword=curry&limit=5
+app.get('/recipes', (req, res) => {
+  let keywordQuery = req.query.keyword;
+  // If limit exists inside query parameter and is between 0 and 100, then use the limit in query. Otherwise, default to 10
+  let limit = (req.query.limit && req.query.limit > 0 && req.query.limit < 100) ? req.query.limit : 10;
+  getRecipeByQuery(keywordQuery, limit)
+    .then(response => {
+      res.status(200).send(response);
+    })
+    .catch(error => {
+      res.status(400).send(error);
+    })
 });
 
-app.post('/tshirt/:id', (req, res) => {
+// Example 1: http://localhost:8080/recipes?keyword=curry
+app.get('/recipes/:id', (req, res) => {
   const { id } = req.params;
-  console.log(req.body);
-  const { logo } = req.body;
-
-  console.log(logo);
-
-  if (!logo) {
-    res.status(418).send({
-      message: "We need a logo!"
+  getRecipeByID(id)
+    .then(response => {
+      if (response.status == 404) {
+        res.status(404).send({
+          "status" : 404,
+          "message" : "The recipe with the id does not exist"
+        })
+      } else {
+        res.status(200).send(response);
+      }
     })
-  } else {
-    res.send({
-      id: `tshirt with your ${logo} and ${id}`,
-    });
-  }
-
+    .catch(error => {
+      console.error(error);
+    })
 });
