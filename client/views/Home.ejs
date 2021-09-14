@@ -6,10 +6,14 @@
         <title><%= title %></title>
     </head>
     <body>
+        <!-- The '=' indicates to output onto the screen -->
         <h1><%= title %></h1>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/login">Login</a>
-        </nav>
+
+        <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
+        <%- include('./partials/nav.ejs') %>
+
+        <!-- Below is an example of using variables -->
+        <% var example = "Drake" %>
+        <p>Hi <%- example %>, how are you?</p>
     </body>
 </html>
