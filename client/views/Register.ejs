@@ -4,19 +4,25 @@
 <!-- Relied on this source: https://vegibit.com/node-js-mongodb-user-registration/ to learn how to do registration with JWT and MongoDB -->
 
 <html>
-    <head>
-        <title><%= title %></title>
-    </head>
+    <%- include('./partials/head.ejs') %>
     <body>
         <h1><%= title %></h1>
         <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
         <%- include('./partials/nav.ejs') %>
+        <!-- Register fields and inputs -->
         <p>Email</p>
-        <input type="text" id="email" name="email"></input>
+        <input type="text" id="emailInput" name="email"></input>
         <p>Password</p>
-        <input type="text" id="password" name="password"></input>
+        <input type="text" id="passwordInput" name="password"></input>
         <p></p>
+        <!-- Registration button -->
         <button id="submitRegistration">Submit</button>
-        <script src = "controller/index.js"></script>
+        <p></p>
+        <!-- Password complexity bar -->
+        <hr id = "complexityBar" style="border:none; visibility: hidden;" />
+        <!-- Error message that shows due to account already exsiting with inputted email, password not being complex enough or email being invalid. -->
+        <p id = "errorMessage" style="color:red; visibility: hidden; font-size: 14;"></p>
+        <!-- Adding client controller so it can set up listeners for some of the above components. -->
+        <script src = "/client_controller/index.js"></script> 
     </body>
 </html>
