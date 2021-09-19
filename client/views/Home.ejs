@@ -2,12 +2,11 @@
 <!--// Feel free to delete this file.-->
 
 <html>
-    <head>
-        <title><%= title %></title>
-    </head>
+    <%- include('./partials/head.ejs') %>
     <body>
+        <!-- Example of tailwind css class name -->
         <!-- The '=' indicates to output onto the screen -->
-        <h1><%= title %></h1>
+        <h1 class="flex-auto text-xl font-semibold"><%= title %></h1>
 
         <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
         <%- include('./partials/nav.ejs') %>
