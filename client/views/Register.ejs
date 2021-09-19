@@ -1,0 +1,22 @@
+<!--// Directory Structure Example-->
+<!--// Feel free to delete this file.-->
+
+<!-- Relied on this source: https://vegibit.com/node-js-mongodb-user-registration/ to learn how to do registration with JWT and MongoDB -->
+
+<html>
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <h1><%= title %></h1>
+        <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
+        <%- include('./partials/nav.ejs') %>
+        <p>Email</p>
+        <input type="text" id="email" name="email"></input>
+        <p>Password</p>
+        <input type="text" id="password" name="password"></input>
+        <p></p>
+        <button id="submitRegistration">Submit</button>
+        <script src = "controller/index.js"></script>
+    </body>
+</html>

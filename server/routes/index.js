@@ -31,6 +31,10 @@ app.get("/recipes", (req, res) => {
         });
 });
 
+app.get("/register", (req, res) => {
+    console.log("see");
+})
+
 // Example 1: http://localhost:8080/recipes/650378
 app.get("/recipes/:id", (req, res) => {
     const {id} = req.params;
