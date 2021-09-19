@@ -11,7 +11,7 @@ const __dirname = dirname(__filename);
 
 const PORT = 3000;
 const router = express();
-router.set('views', '../views');
+router.set('views', '../../views');
 router.set('view engine', 'ejs');
 
 let publicPath = path.join(__dirname, '../../public');
