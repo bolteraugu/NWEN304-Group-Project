@@ -14,9 +14,8 @@ const router = express();
 router.set('views', '../views');
 router.set('view engine', 'ejs');
 
-let x = path.join(__dirname, '../../public');
-console.log(x);
-router.use(express.static(x));
+let publicPath = path.join(__dirname, '../../public');
+router.use(express.static(publicPath));
 
 router.listen(
 	PORT,
