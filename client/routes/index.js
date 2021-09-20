@@ -30,6 +30,11 @@ router.get('/', (req, res) => {
 	res.render('Home', { title: "Home Page", recipes: recipes} );
 });
 
+router.get('/details/:id', (req, res) => {
+	const {id} = req.params;
+	res.render('Details', {title: 'Recipe Details', recipeID: id})
+});
+
 router.get('/login', (req, res) => {
 	res.render('Login', { title: "Login"});
 });
