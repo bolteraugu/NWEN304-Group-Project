@@ -7,6 +7,8 @@ import {
 } from "../controller/index.js";
 import {validateUser, User} from "../../client/model/user.js";
 
+import { v4 as uuidv4 } from 'uuid';
+
 //Importing so we can connect to MongoDB
 import mongoose from "mongoose";
 //Importing so we can create a hash for the password
@@ -58,7 +60,6 @@ router.post("/register", async (req, res) => {
     if (valid === 0) {
         //If they are then check if email already exists in MongoDB
         let user = await User.find({ email: req.body.emailVal}).limit(1).size();
-        console.log(user);
         //If they do then return error because you can't have two accounts with the same email address
         if (user.length !== 0) {
             return res.status(400).send({message: "A user with the email you provided already exists. Please try submit a different email."})
@@ -75,7 +76,8 @@ router.post("/register", async (req, res) => {
         user.password = await bcrypt.hash(user.password, salt);
         //Send the user to the database
         await user.save();
-        const token = jwt.sign({ _id: user._id }, '89e947af-4266-4827-bbf3-1e4b33a18236');
+        const token = jwt.sign({ _id: user._id }, uuidv4());
+
         res.header("Access-Control-Allow-Origin", "http://localhost:3000");
         res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
         res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -113,7 +115,7 @@ router.post('/login', async (req, res) => {
         }
         else {
             //Create JWT token using private key which is a UUID and send the token.
-            const token = jwt.sign({ _id: user._id }, '89e947af-4266-4827-bbf3-1e4b33a18236');
+            const token = jwt.sign({ _id: user._id }, uuidv4());
             res.send({token: token});
         }
     }
