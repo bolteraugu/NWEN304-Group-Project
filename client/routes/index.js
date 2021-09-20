@@ -30,3 +30,7 @@ router.get('/', (req, res) => {
 router.get('/login', (req, res) => {
 	res.render('Login', { title: "Login"});
 });
+
+router.get('/register', (req, res) => {
+	res.render('Register', { title: "Register"});
+});
