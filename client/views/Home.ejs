@@ -1,18 +1,16 @@
-<!--// Directory Structure Example-->
-<!--// Feel free to delete this file.-->
-
 <html>
     <%- include('./partials/head.ejs') %>
-    <body>
-        <!-- Example of tailwind css class name -->
-        <!-- The '=' indicates to output onto the screen -->
-        <h1 class="flex-auto text-xl font-semibold"><%= title %></h1>
+    <body class="h-screen">
 
-        <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
         <%- include('./partials/nav.ejs') %>
+        <div class="container page-content w-full px-16 mx-auto bg-white">
+            <div class="p-8 space-y-8 flex-col">
 
-        <!-- Below is an example of using variables -->
-        <% var example = "Drake" %>
-        <p>Hi <%- example %>, how are you?</p>
+                <!-- Ideally, we would be passing a group of relevant recipes into belo partials to display -->
+                <%- include('./partials/section.ejs') %>
+                <%- include('./partials/section.ejs') %>
+                <%- include('./partials/section.ejs') %>
+            </div>
+        </div>
     </body>
 </html>

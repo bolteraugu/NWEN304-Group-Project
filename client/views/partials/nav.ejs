@@ -1,5 +1,33 @@
-<nav>
-    <a href="/">Home</a>
-    <a href="/login">Login</a>
-    <a href='/register'>Register</a>
+<nav class="bg-gradient-to-b from-green-800 to-green-700 text-white shadow">
+    <div class="container px-6 py-3 mx-auto flex justify-between items-center">
+        <div class="flex items-center justify-between">
+            <div>
+                <a class="text-xl font-bold md:text-2xl hover:text-yellow-400" href="/">App Name</a>
+            </div>
+        </div>
+
+        <div class="items-center flex">
+            <div class="flex flex-row mx-6">
+                <a class="mx-4 hover:text-yellow-400">Recommendations</a>
+                <a class="mx-4 hover:text-yellow-400">Chef's Choice</a>
+            </div>
+
+            <form class="w-48 my-auto">
+                <label class="hidden" for="search-form">Search</label>
+                <input class="bg-grey-lightest border-2 focus:border-gray p-1 rounded-lg shadow-inner w-full text-black"
+                       placeholder="Search for a recipe"
+                       type="text">
+                <button class="hidden">Submit</button>
+            </form>
+        </div>
+
+        <div class="items-center flex">
+            <div class="flex flex-row mx-6">
+<!--                <a class="mx-4 hover:text-yellow-400">My Cookbook</a>-->
+<!--                <a class="mx-4 hover:text-yellow-400">Sign Out</a>-->
+                <a class="mx-4 hover:text-yellow-400" href="/login">Login</a>
+                <a class="mx-4 hover:text-yellow-400" href="/register">Register</a>
+            </div>
+        </div>
+    </div>
 </nav>
