@@ -7,10 +7,14 @@ import {
 } from "../controller/index.js";
 import {validateUser, User} from "../../client/model/user.js";
 
+import { v4 as uuidv4 } from 'uuid';
+
 //Importing so we can connect to MongoDB
 import mongoose from "mongoose";
 //Importing so we can create a hash for the password
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+
+import jwt from "jsonwebtoken";
 
 //So we don't get blocked by same origin policy since we make fetch requests from our client to our server (which violates this policy hence why we need this 'cors' library)
 import cors from "cors";
@@ -23,10 +27,9 @@ const app = express();
 const PORT = 8080;
 //Creating router for routes
 const router = express.Router();
-app.use("/", router);
-
 app.use(express.json());
 app.use(cors());
+app.use("/", router);
 
 app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
 
@@ -56,10 +59,10 @@ router.post("/register", async (req, res) => {
     let valid = validateUser(email, password); //Checking if they are valid
     if (valid === 0) {
         //If they are then check if email already exists in MongoDB
-        let user = await User.findOne({ email: req.body.email });
+        let user = await User.find({ email: req.body.emailVal}).limit(1).size();
         //If they do then return error because you can't have two accounts with the same email address
-        if (user) {
-            return res.status(400).send("A user with the email you provided already exists. Please try submit a different email.")
+        if (user.length !== 0) {
+            return res.status(400).send({message: "A user with the email you provided already exists. Please try submit a different email."})
         }
         else {
             //Otherwise create the user using the User MongoDB Model I created
@@ -73,7 +76,12 @@ router.post("/register", async (req, res) => {
         user.password = await bcrypt.hash(user.password, salt);
         //Send the user to the database
         await user.save();
-        res.send(user).status(200);
+        const token = jwt.sign({ _id: user._id }, uuidv4());
+
+        res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+        res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+        res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.header('x-auth-token', token).send({user: user}).status(200);
     }
     else {
         //If invalid email then send error message
@@ -87,6 +95,28 @@ router.post("/register", async (req, res) => {
         else {
             //If invalid email and password's complexity is inadequate then send error message
             res.status(400).send({message: "The email you provided is invalid. Please make sure it is at least three characters and contains a @. Also, your password needs to be stronger. Please make sure it has at least 8 characters and contains at least one letter, number and symbol."})
+        }
+    }
+});
+
+//Login functionality
+router.post('/login', async (req, res) => {
+    //  Now find the user by their email address
+    let user = await User.find({ email: req.body.emailVal}).limit(1).size();
+    if (!user || user.length === 0) {
+        return res.status(400).send({message: 'Incorrect email or password.'});
+    }
+    else {
+        // Then validate the Credentials in MongoDB match
+        // those provided in the request
+        const validPassword = await bcrypt.compare(req.body.passwordVal, user[0].password);
+        if (!validPassword) {
+            return res.status(400).send({message: 'Incorrect email or password.'});
+        }
+        else {
+            //Create JWT token using private key which is a UUID and send the token.
+            const token = jwt.sign({ _id: user._id }, uuidv4());
+            res.send({token: token});
         }
     }
 });
