@@ -7,5 +7,18 @@
         <h1><%= title %></h1>
         <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
         <%- include('./partials/nav.ejs') %>
+        <!-- Login fields and inputs -->
+        <p>Email</p>
+        <input type="text" id="emailInputLogin" name="email"></input>
+        <p>Password</p>
+        <input type="text" id="passwordInputLogin" name="password"></input>
+        <p></p>
+        <!-- Login button -->
+        <button id="submitLogin">Submit</button>
+        <p></p>
+        <!-- Error message -->
+        <p id = "errorMessageLogin" style="color:red; visibility: hidden; font-size: 14;"></p>
+        <!-- Adding client controller so it can set up listeners for some of the above components. -->
+        <script src = "/client_controller/index.js"></script> 
     </body>
 </html>
