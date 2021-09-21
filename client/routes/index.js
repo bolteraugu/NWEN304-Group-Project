@@ -6,6 +6,9 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
 
+import recipes from '../model/Recipe.js'
+import Recipe from "../model/Recipe.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -24,7 +27,7 @@ router.listen(
 
 
 router.get('/', (req, res) => {
-	res.render('Home', { title: "Home Page"} );
+	res.render('Home', { title: "Home Page", recipes: recipes} );
 });
 
 router.get('/login', (req, res) => {
@@ -33,4 +36,23 @@ router.get('/login', (req, res) => {
 
 router.get('/register', (req, res) => {
 	res.render('Register', { title: "Register"});
+});
+
+router.get('/chefchoice', (req, res) => {
+	res.render('ChefChoice', { title: "Chef Choice", recipes: recipes});
+});
+
+router.get('/cookbook', (req, res) => {
+	res.render('Cookbook', { title: "Your Cookbook", recipes: recipes});
+});
+
+router.get('/recipes/:id', (req, res) => {
+	const {id} = req.params;
+	let selectedRecipe;
+	recipes.forEach(r => {
+		if (r.id == id) {
+			selectedRecipe = r;
+		}
+	});
+	res.render('RecipeDetails', { title: "Recipe Details", rec: selectedRecipe});
 });
