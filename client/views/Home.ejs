@@ -15,10 +15,8 @@
         <% var example = "Drake" %>
         <p>Hi <%- example %>, how are you?</p>
 
-        <% 
-            var items = [{id: 1, name: "Ahad"}, {id: 2, name: "August"}];
-            items.forEach(i => { %>
-            	<li> <%- i.name %> </li>
+        <% recipes.forEach(r => { %>
+            	<li><a href=<%-"/recipes/"+r.id%>> <%- r.name %> </a> </li>
         <%  }) %>
 
 
