@@ -43,10 +43,6 @@ router.get('/register', (req, res) => {
 	res.render('Register', { title: "Register"});
 });
 
-router.get('/chefchoice', (req, res) => {
-	res.render('ChefChoice', { title: "Chef Choice", recipes: recipes});
-});
-
 router.get('/cookbook', (req, res) => {
 	res.render('Cookbook', { title: "Your Cookbook", recipes: recipes});
 });
