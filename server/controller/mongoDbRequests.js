@@ -16,11 +16,6 @@ export async function getCookbook(cookbook_id, client) {
   const results = await cursor.toArray();
 
   if (results.length > 0) {
-    console.log(`Found ${results.length} listing(s):`);
-    results.forEach((result, i) => {
-      console.log(result);
-    });
-
     if (results.length > 1) {
       throw "THERE SHOULDN'T BE MORE THAN ONE COOKBOOK";
     }
@@ -28,7 +23,7 @@ export async function getCookbook(cookbook_id, client) {
     cookbook = results[0];
   }
 
-  return cookbook;
+  return cookbook; // TODO Put an invalid response code if its undefined
 }
 
 /**
@@ -44,7 +39,6 @@ export async function createCookbook(client) {
       recipes: [],
     });
 
-  console.log('Cookbook id:', result.insertedId);
   return result.insertedId;
 }
 
@@ -99,6 +93,5 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
  * @param {MongoClient} client
  */
 export const closeConnection = (client) => {
-  console.log('Closing connection....');
   client.close();
 };
