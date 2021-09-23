@@ -1,20 +1,4 @@
-import { MONGO_URI } from '../../credentials.js';
 import { MongoClient } from 'mongodb';
-
-main().catch(console.error);
-
-/**
- * For testing purposes, can be deleted once we have integrated the front end
- */
-export default async function main() {
-  console.log('Running main');
-  const client = new MongoClient(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  await client.connect();
-  addCookbook(client).finally(() => closeConnection(client));
-}
 
 /**
  * Sends a request to MongoDB Atlas to get the cookbook based off the given ID.
@@ -69,7 +53,7 @@ async function addCookbook(client) {
 }
 
 /**
- *
+ * TODO Discuss how we generate recipe ids.
  * @param {MongoClient} client
  * @param {String} cookbook_id
  * @param {Recipe} recipe
