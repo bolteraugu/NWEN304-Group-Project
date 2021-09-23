@@ -14,5 +14,11 @@
         <!-- Below is an example of using variables -->
         <% var example = "Drake" %>
         <p>Hi <%- example %>, how are you?</p>
+
+        <% recipes.forEach(r => { %>
+            	<li><a href=<%-"/recipes/"+r.id%>> <%- r.name %> </a> </li>
+        <%  }) %>
+
+
     </body>
 </html>
