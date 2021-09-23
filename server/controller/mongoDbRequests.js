@@ -6,7 +6,7 @@ import { MongoClient } from 'mongodb';
  * @param {MongoClient} client
  * @returns Cookbook | undefined
  */
-async function getCookbook(cookbook_id, client) {
+export async function getCookbook(cookbook_id, client) {
   cookbook = undefined;
 
   const cursor = client.db('CookbookDB').collection('cookbooks').find({
@@ -36,16 +36,12 @@ async function getCookbook(cookbook_id, client) {
  * @param {MongoClient} client
  * @returns ID of the newly created cookbook
  */
-async function addCookbook(client) {
+export async function createCookbook(client) {
   const result = await client
     .db('CookbookDB')
     .collection('cookbooks')
     .insertOne({
-      // This can just be an empty object. Seems weird but we just want the newly created ID.
-      recipe: {
-        name: 'test',
-        ingredients: ['deleteme', 'forreal'],
-      },
+      recipes: [],
     });
 
   console.log('Cookbook id:', result.insertedId);
@@ -59,7 +55,7 @@ async function addCookbook(client) {
  * @param {Recipe} recipe
  * @returns Response
  */
-async function addRecipe(client, cookbook_id, recipe) {
+export async function addRecipe(client, cookbook_id, recipe) {
   return await client
     .db('CookbookDB')
     .collection('cookbooks')
@@ -81,7 +77,7 @@ async function addRecipe(client, cookbook_id, recipe) {
  * @param {String} recipe_id 
  * @returns Response
  */
-async function removeRecipe(client, cookbook_id, recipe_id) {
+export async function removeRecipe(client, cookbook_id, recipe_id) {
   return await client
     .db('CookbookDB')
     .collection('cookbooks')
