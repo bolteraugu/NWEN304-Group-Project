@@ -1,0 +1,12 @@
+<!--// Directory Structure Example-->
+<!--// Feel free to delete this file.-->
+
+<html>
+    <%- include('./partials/head.ejs') %>
+    <body>
+        <h1>Your Cookbook</h1>
+        <% recipes.forEach(r => { %>
+        <li><a href=<%-"/recipes/"+r.id%>> <%- r.name %> </a> </li>
+        <%  }) %>
+    </body>
+</html>
