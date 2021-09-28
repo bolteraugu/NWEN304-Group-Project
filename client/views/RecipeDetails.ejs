@@ -3,10 +3,34 @@
     <body class="h-screen">
 
     <%- include('./partials/nav.ejs') %>
-        <div class="container page-content px-16 bg-white">
-            <div class="p-16 space-x-8 flex h-full justify-center">
-                <h1>Recipe Details</h1>
-                <h2> <%- rec.title %> has the ID <%- rec.id %> </h2>
+        <div class="container page-content px-16 py-8 bg-white">
+            <div class="container w-full bg-eggshell rounded-md shadow-xl flex flex-row mx-auto p-8 space-x-16">
+                <div class="w-1/3 flex-col">
+                    <h2 class="uppercase text-primary-dg font-bold"><%- rec.title %></h2>
+                    <p class="border-b-2 border-secondary-brown mt-2"></p>
+
+                    <!-- Image Placeholder -->
+                    <!-- <img src="/public/images/recipe1.png" alt=""> -->
+                    <div class="block w-full h-96 bg-primary-lg rounded-2xl my-6"></div>
+
+                    <div class="text-sm font-light text-center mt-2">
+                        <span>Ready in <%- rec.readyInMinutes%> minutes | </span>
+                        <span>Serves <%- rec.servings%></span>
+                    </div>
+                </div>
+
+                <div class="w-2/3 flex-col space-y-4">
+                    <div class="space-y-1">
+                        <p class="uppercase text-primary-dg font-bold text-center">Ingredients</p>
+                        <% rec.extendedIngredients.forEach(function (ingredient) { %>
+                        <p class="text-sm"><%=ingredient%></p>
+                        <% })%>
+                    </div>
+
+                    <div>
+                        <p class="uppercase text-primary-dg font-bold text-center">Preparations</p>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
