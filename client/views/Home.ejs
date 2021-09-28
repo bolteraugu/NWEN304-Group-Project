@@ -11,11 +11,10 @@
 
                 <div class="w-3/4 m-auto">
                     <%- include('./partials/recipeList.ejs') %>
+                    <% recipes.forEach(r => { %>
+                    <li><a href=<%-"/recipes/"+r.id%>> <%- r.title %> </a> </li>
+                    <%  }) %>
                 </div>
-
-                <% recipes.forEach(r => { %>
-                <li><a href=<%-"/recipes/"+r.id%>> <%- r.name %> </a> </li>
-                <%  }) %>
             </div>
         </div>
     </body>
