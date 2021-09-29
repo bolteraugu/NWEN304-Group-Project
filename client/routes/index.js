@@ -57,3 +57,4 @@ router.get('/recipes/:id', (req, res) => {
 	});
 	res.render('RecipeDetails', { title: "Recipe Details", rec: selectedRecipe});
 });
+
