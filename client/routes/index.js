@@ -58,8 +58,3 @@ router.get('/recipes/:id', (req, res) => {
 	res.render('RecipeDetails', { title: "Recipe Details", rec: selectedRecipe});
 });
 
-router.get('/cookbook/:userId', (req, res) => {
-	const {userId} = req.params;
-	res.render('Cookbook', { title: "Cookbook"});
-});
-
