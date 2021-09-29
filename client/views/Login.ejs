@@ -1,23 +1,40 @@
-<!--// Directory Structure Example-->
-<!--// Feel free to delete this file.-->
-
 <html>
     <%- include('./partials/head.ejs') %>
-    <body>
-        <h1><%= title %></h1>
-        <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
+    <body class="h-screen">
         <%- include('./partials/nav.ejs') %>
-        <!-- Login fields and inputs -->
-        <p>Email</p>
-        <input type="text" id="emailInputLogin" name="email"></input>
-        <p>Password</p>
-        <input type="password" id="passwordInputLogin" name="password"></input>
-        <p></p>
-        <!-- Login button -->
-        <button id="submitLogin">Submit</button>
-        <p></p>
-        <!-- Error message -->
-        <p id = "errorMessageLogin" style="color:red; visibility: hidden; font-size: 14;"></p>
+        <div class="container page-content p-16 bg-white flex mx-auto">
+            <div class="bg-eggshell rounded-md py-6 shadow-lg p-8 space-y-4 flex-col justify-center mx-auto">
+
+                <div class="mx-auto space-y-1">
+                    <!-- Login fields and inputs -->
+                    <p class="text-md">Email</p>
+                    <input type="text" id="emailInputLogin" name="email" class="w-full"/>
+                </div>
+
+                <div class="mx-auto space-y-1">
+                    <p class="text-md">Password</p>
+                    <input type="password" id="passwordInputLogin" name="password" class="w-full"/>
+                </div>
+
+                <div class="pt-6">
+                    <!-- Login button -->
+                    <button id="submitLogin"
+                            class="block bg-primary-lg text-center text-md no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl hover:bg-primary-dg hover:shadow-md">
+                        Login
+                    </button>
+                </div>
+
+                <div class="text-primary-dg m-4 text-sm">
+                    <!-- Error message -->
+                    <p id = "errorMessageLogin" style="color:red; visibility: hidden; font-size: 14;"></p>
+                </div>
+
+                <div class="pb-4">
+                    <a class="m-4 text-sm hover:text-secondary-pink" href="/register">Don't have an account?</a>
+                </div>
+            </div>
+    </div>
+
         <!-- Adding client controller so it can set up listeners for some of the above components. -->
         <script src = "/client_controller/index.js"></script> 
     </body>
