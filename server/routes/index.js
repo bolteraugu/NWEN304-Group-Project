@@ -78,11 +78,10 @@ router.post("/register", async (req, res) => {
         //Send the user to the database
         await user.save();
         const token = jwt.sign({ _id: user._id }, uuidv4());
-
         res.header("Access-Control-Allow-Origin", "http://localhost:3000");
         res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
         res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        res.header('x-auth-token', token).send({user: user}).status(200);
+        res.send({user: user, token: token}).status(200);
     }
     else {
         //If invalid email then send error message
@@ -117,7 +116,7 @@ router.post('/login', async (req, res) => {
         else {
             //Create JWT token using private key which is a UUID and send the token.
             const token = jwt.sign({ _id: user._id }, uuidv4());
-            res.send({token: token});
+            res.send({user: user, token: token}).status(200);
         }
     }
 });

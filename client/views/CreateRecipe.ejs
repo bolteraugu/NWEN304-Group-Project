@@ -1,0 +1,25 @@
+<html>
+    <%- include('./partials/head.ejs') %>
+    <body>
+        <!-- Example of tailwind css class name -->
+        <!-- The '=' indicates to output onto the screen -->
+        <h1 class="flex-auto text-xl font-semibold"><%= title %></h1>
+
+        <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
+        <%- include('./partials/nav.ejs', {token: `${token}`}) %>
+        <p>Title</p>
+        <input type="text" id="titleInput" name="title"></input>
+        <p>Servings</p>
+        <input type="text" id="servingsInput" name="servings"></input>
+        <p>Time until ready (in minutes)</p>
+        <input type="text" id="readyInMinutesInput" name="readyInMinutes"></input>
+        <p>Ingredients</p>
+        <input type="text" id="ingredientsInput" name="ingredients"></input>
+        <p>Instructions</p>
+        <input type="text" id="instructionsInput" name="instructions"></input>
+        <p></p>
+        <button id="createRecipeButton">Create</button>
+        <!-- Adding client controller so it can set up listeners for some of the above components. -->
+        <script src = "/client_controller/index.js"></script> 
+    </body>
+</html>
