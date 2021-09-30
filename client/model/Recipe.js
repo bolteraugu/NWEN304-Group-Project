@@ -1,12 +1,11 @@
 export class Recipe {
-	constructor(id, title, image, servings, readyInMinutes, instructions, dishTypes, extendedIngredients, summary) {
+	constructor(id, title, image, servings, readyInMinutes, instructions, extendedIngredients, summary) {
 		this.id = id;
 		this.title = title;
 		this.image = image;
 		this.servings = servings;
 		this.readyInMinutes = readyInMinutes;
 		this.instructions = instructions;
-		this.dishTypes = dishTypes;
 		this.extendedIngredients = extendedIngredients;
 		this.summary = summary;
 	}
@@ -22,8 +21,7 @@ export default recipes = [new Recipe(
 	"https://spoonacular.com/recipeImages/716429-556x370.jpg",
 	2,
 	45,
-	"",
-	["lunch", "main course", "main dish", "dinner"],
+	"Add mayonnaise. Keep adding mayonnaise. Just mayonnaise.",
 	[
 		"1 tbsp butter",
 		"about 2 cups frozen cauliflower florets, thawed, cut into bite-sized pieces",
@@ -46,7 +44,6 @@ export default recipes = [new Recipe(
 		2,
 		45,
 		"",
-		["lunch", "main course", "main dish", "dinner"],
 		[
 			"1 tbsp butter",
 			"about 2 cups frozen cauliflower florets, thawed, cut into bite-sized pieces",
