@@ -1,74 +1,46 @@
 <div>
     <div class="bg-eggshell flex-col border-2 border-gray-300 border-dashed rounded-xl py-6 shadow-lg">
         <div class="mx-4 space-y-4">
-            <form class="w-full mx-auto">
+            <form class="w-full mx-auto" id="searchForm">
                 <label class="hidden" for="search-form">Search</label>
                 <input class="bg-grey-lightest border-2 focus:border-gray p-1 rounded-lg shadow-inner w-full text-black"
                        placeholder="Search for a recipe"
                        type="text" id="searchInput">
-                <button class="" id="searchButton">Submit</button>
+                <button class="hidden" id="searchButton" type="submit">Submit</button>
             </form>
         </div>
 
         <div class="flex flex-wrap text-eggshell justify-center mx-4">
             <div class="flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink">
-                <button class="rounded-m">spicy</button>
+                <a href="/?search=spicy" class="rounded-m searchTerm">spicy</a>
             </div>
 
             <div class="flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink">
-                <button class="rounded-m">Japanese</button>
+                <a href="/?search=Japanese" class="rounded-m searchTerm">Japanese</a>
             </div>
 
             <div class="flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink">
-                <button class="rounded-m">pizza</button>
+                <a href="/?search=pizza" class="rounded-m">pizza</a>
             </div>
 
             <div class="flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink">
-                <button class="rounded-m">dessert</button>
+                <a href="/?search=dessert" class="rounded-m">dessert</a>
             </div>
 
             <div class="flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink">
-                <button class="rounded-m">Italian</button>
+                <a href="/?search=Italian" class="rounded-m">Italian</a>
             </div>
 
             <div class="flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink">
-                <button class="rounded-m">burgers</button>
+                <a href="/?search=burgers" class="rounded-m">burgers</a>
             </div>
 
             <div class="flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink">
-                <button class="rounded-m">noodles</button>
-            </div>
-
-            <div class="flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink">
-                <p id="replace">hiii</p>
+                <a href="/?search=noodles" class="rounded-m">noodles</a>
             </div>
 
         </div>
     </div>
 </div>
 
-<!--<script>-->
-<!--    document.querySelector('#searchButton').addEventListener("click", () => {-->
-<!--        // let searchQuery = document.querySelector('#searchInput').value;-->
-<!--        // window.location.href = "/recipes?keyword=" + searchQuery;-->
-<!--        console.log('test');-->
-<!--        window.location.href = "/test";-->
-<!--    });-->
-<!--</script>-->
-
-<!--<script src = "/client_controller/index.js"></script>-->
-
-<!--<script>-->
-<!--// window.addEventListener("load", bind);-->
-<!--    //-->
-<!--    // function bind() {-->
-<!--    //     document.querySelector('#searchButton').addEventListener("click", button);-->
-<!--    // }-->
-<!--    //-->
-<!--    // function button() {-->
-<!--    // 	console.log("drake");-->
-<!--    //     // let searchQuery = document.querySelector('#searchInput').value;-->
-<!--    //     // console.log(searchQuery);-->
-<!--    //     // document.querySelector("#replace").innerText = searchQuery;-->
-<!--    // }-->
-<!--</script>-->
+<script src = "/client_controller/index.js"></script>

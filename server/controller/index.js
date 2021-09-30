@@ -61,3 +61,16 @@ export function getRecipeSummaryByID(id) {
             console.log(e);
         });
 }
+
+export function getRandomRecipes(number) {
+    return fetch(
+      `https://api.spoonacular.com/recipes/random?apiKey=${SPOONACULAR_API_KEY}&number=${number}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+          return data;
+      })
+      .catch((e) => {
+          console.log(e);
+      });
+}

@@ -2,6 +2,7 @@
 window.addEventListener("load",init);
 function init(){
     addButtonListener();
+    searchQueryButton();
 }
 
 function addButtonListener() {
@@ -133,13 +134,17 @@ function addButtonListener() {
             }
         })
     }
+}
+
+function searchQueryButton() {
     if (document.querySelector('#searchButton') != null) {
         document.querySelector('#searchButton').addEventListener("click", function() {
-            console.log("sheesh");
+            let searchQuery = document.querySelector('#searchInput').value;
+            window.location.href = "/?search=" + searchQuery;
+        });
 
-            // let searchQuery = document.querySelector('#searchInput').value;
-            // console.log(searchQuery);
-            // document.querySelector("#replace").innerHTML = searchQuery;
+        document.querySelector('#searchForm').addEventListener("submit", function(event) {
+            event.preventDefault();
         })
     }
 }

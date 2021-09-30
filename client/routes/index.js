@@ -5,9 +5,9 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
+import fetch from "node-fetch";
 
 import recipes from '../model/Recipe.js'
-import Recipe from "../model/Recipe.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,25 +26,32 @@ router.listen(
 );
 
 
-router.get('/', (req, res) => {
-	let searchQuery = req.query.search;
+router.get('/', async (req, res) => {
+	let searchQuery = req.query.search || "";
+	let results = [];
 	if (searchQuery) {
-		//http://localhost:8080/recipes?keyword=curry
-		fetch("http://localhost:8080/recipes?keyword=" + searchQuery)
+		await fetch("http://localhost:8080/recipes?keyword=" + searchQuery)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
+				results = data.results;
 			})
 			.catch((e) => {
 				console.log(e);
 			});
+		res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery} );
+	} else {
+			// If nothing has been searched
+			await fetch("http://localhost:8080/randomrecipes")
+				.then((response) => response.json())
+				.then((data) => {
+					results = data.recipes;
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+			res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery} );
 	}
-	res.render('Home', { title: "Home Page", recipes: recipes} );
-});
 
-router.get('/details/:id', (req, res) => {
-	const {id} = req.params;
-	res.render('Details', {title: 'Recipe Details', recipeID: id})
 });
 
 router.get('/login', (req, res) => {
@@ -59,14 +66,13 @@ router.get('/cookbook', (req, res) => {
 	res.render('Cookbook', { title: "Your Cookbook", recipes: recipes});
 });
 
-router.get('/recipes/:id', (req, res) => {
+router.get('/recipes/:id', async (req, res) => {
 	const {id} = req.params;
 	let selectedRecipe;
-	recipes.forEach(r => {
-		if (r.id == id) {
-			selectedRecipe = r;
-		}
-	});
-	res.render('RecipeDetails', { title: "Recipe Details", rec: selectedRecipe});
+	await fetch("http://localhost:8080/recipes/" + id)
+		.then((response) => response.json())
+		.then((data) => {
+			selectedRecipe = data;
+		});
+	res.render('RecipeDetails', { title: "Recipe Details", recipe: selectedRecipe});
 });
-
