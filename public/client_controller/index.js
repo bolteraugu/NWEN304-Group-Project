@@ -133,4 +133,13 @@ function addButtonListener() {
             }
         })
     }
+    if (document.querySelector('#searchButton') != null) {
+        document.querySelector('#searchButton').addEventListener("click", function() {
+            console.log("sheesh");
+
+            // let searchQuery = document.querySelector('#searchInput').value;
+            // console.log(searchQuery);
+            // document.querySelector("#replace").innerHTML = searchQuery;
+        })
+    }
 }

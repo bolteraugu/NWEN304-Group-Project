@@ -27,6 +27,18 @@ router.listen(
 
 
 router.get('/', (req, res) => {
+	let searchQuery = req.query.search;
+	if (searchQuery) {
+		//http://localhost:8080/recipes?keyword=curry
+		fetch("http://localhost:8080/recipes?keyword=" + searchQuery)
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	}
 	res.render('Home', { title: "Home Page", recipes: recipes} );
 });
 
