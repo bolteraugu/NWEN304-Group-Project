@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
 				.catch((e) => {
 					console.log(e);
 				});
-			res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery} );
+			res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery, token: req.query.token} );
 	}
 
 });
@@ -64,6 +64,10 @@ router.get('/register', (req, res) => {
 
 router.get('/cookbook', (req, res) => {
 	res.render('Cookbook', { title: "Your Cookbook", recipes: recipes});
+});
+
+router.get('/createRecipe', (req, res) => {
+	res.render('CreateRecipe', { title: "Create Recipe", token: req.query.token});
 });
 
 router.get('/recipes/:id', async (req, res) => {

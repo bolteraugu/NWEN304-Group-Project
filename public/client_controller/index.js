@@ -25,7 +25,9 @@ function addButtonListener() {
             }).then((response) => {
                 //If account was created successfully then redirect user back to home page (which should be different then if they visited it not logged in)
                 if (response.ok) {
-                    window.location.href = "/"
+                    response.json().then((data) => {
+                        window.location.href = "/?token=" + encodeURIComponent(data.token)
+                    })
                 }
                 else {
                     //Otherwise if an error occured
@@ -63,7 +65,9 @@ function addButtonListener() {
             }).then((response) => {
                 //If login was successful then redirect user back to home page (which should be different then if they visited it not logged in)
                 if (response.ok) {
-                    window.location.href = "/"
+                    response.json().then((data) => {
+                        window.location.href = "/?token=" + encodeURIComponent(data.token)
+                    })
                 }
                 else {
                     //Otherwise if an error occured

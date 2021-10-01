@@ -2,7 +2,7 @@
     <%- include('./partials/head.ejs') %>
     <body class="h-screen">
 
-        <%- include('./partials/nav.ejs') %>
+        <%- include('./partials/nav.ejs', {token: `${token}`}) %>
         <div class="container page-content px-16 bg-white">
             <div class="px-16 py-8 space-x-8 flex h-full justify-center flex mx-auto">
                 <div class="w-1/4">
@@ -12,6 +12,11 @@
                 <div class="w-3/4 flex-row">
                     <%- include('./partials/recipeList.ejs') %>
                 </div>
+
+                <% if (token !== "undefined" && token != null) { %>
+                    <% var createRecipeLink = "/createRecipe?token=" + token %>
+                    <a href="<%= createRecipeLink %>" + >Create Recipe</a>
+                <% } %>
             </div>
         </div>
 
