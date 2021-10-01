@@ -6,7 +6,7 @@
         <h1 class="flex-auto text-xl font-semibold"><%= title %></h1>
 
         <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
-        <%- include('./partials/nav.ejs', {token: `${token}`}) %>
+        <%- include('./partials/nav.ejs') %>
         <p>Title</p>
         <input type="text" id="titleInput" name="title"></input>
         <p>Servings</p>

@@ -5,22 +5,29 @@
                 <a class="text-xl font-bold md:text-2xl hover:text-secondary-pink" href="/">App Name</a>
             </div>
         </div>
-        <% if (token == null || token === "undefined") { %>
 
         <div class="items-center flex">
             <div class="flex flex-row mx-6">
 <!--                <a class="mx-4 hover:text-yellow-400">My Cookbook</a>-->
 <!--                <a class="mx-4 hover:text-yellow-400">Sign Out</a>-->
-                <a class="mx-4 hover:text-secondary-pink" href="/login">Login</a>
-                <a class="mx-4 hover:text-secondary-pink" href="/register">Register</a>
+                <a id = "loginButton" class="mx-4 hover:text-secondary-pink" href="/login">Login</a>
+                <a id = "registerButton" class="mx-4 hover:text-secondary-pink" href="/register">Register</a>
             </div>
         </div>
-        <% } 
-        else { %>
-            <div>
-                <a href='/cookbook'>Your Cookbook</a>
-            </div>
-            <a href="/">Logout</a>
-        <% } %>
+        <div>
+            <a id = "cookbookButton" href='/cookbook'>Your Cookbook</a>
+        </div>
+        <a id = "logoutButton" href="/">Logout</a>
     </div>
 </nav>
+<script src = "/client_controller/index.js"></script> 
+<script>
+    if (window.localStorage.getItem("token") != null && window.localStorage.getItem("token").length !== 0) {
+        document.getElementById("registerButton").style.display = "none";
+        document.getElementById("loginButton").style.display = "none";
+    }
+    else {
+        document.getElementById("cookbookButton").style.display = "none";
+        document.getElementById("logoutButton").style.display = "none";
+    }
+</script>

@@ -6,6 +6,11 @@ function init(){
 }
 
 function addButtonListener() {
+    if (document.querySelector('#logoutButton') != null) {
+        document.querySelector("#logoutButton").addEventListener("click", function() {
+            window.localStorage.setItem("token", "");
+        });
+    }
     //Add one to the registration submit button, for when it is clicked.
     if (document.querySelector('#submitRegistration') != null) {
         document.querySelector('#submitRegistration').addEventListener("click", async function() {
@@ -26,7 +31,8 @@ function addButtonListener() {
                 //If account was created successfully then redirect user back to home page (which should be different then if they visited it not logged in)
                 if (response.ok) {
                     response.json().then((data) => {
-                        window.location.href = "/?token=" + encodeURIComponent(data.token)
+                        window.localStorage.setItem("token", data.token);
+                        window.location.href = "/";
                     })
                 }
                 else {
@@ -66,7 +72,8 @@ function addButtonListener() {
                 //If login was successful then redirect user back to home page (which should be different then if they visited it not logged in)
                 if (response.ok) {
                     response.json().then((data) => {
-                        window.location.href = "/?token=" + encodeURIComponent(data.token)
+                        window.localStorage.setItem("token", data.token);
+                        window.location.href = "/";
                     })
                 }
                 else {
@@ -84,7 +91,7 @@ function addButtonListener() {
                 }
             }).catch((error) => { //Log any errors that occur
                     console.log(error);
-            })
+            });
         });
     }
     if (document.querySelector('#passwordInput') != null) {

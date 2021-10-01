@@ -1,6 +1,6 @@
 // Directory Structure Example
 // Feel free to delete this file.
-
+global.token = "";
 import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -38,7 +38,8 @@ router.get('/', async (req, res) => {
 			.catch((e) => {
 				console.log(e);
 			});
-		res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery} );
+			res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery} );
+
 	} else {
 			// If nothing has been searched
 			await fetch("http://localhost:8080/randomrecipes")
@@ -49,7 +50,8 @@ router.get('/', async (req, res) => {
 				.catch((e) => {
 					console.log(e);
 				});
-			res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery, token: req.query.token} );
+				res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery} );
+
 	}
 
 });
@@ -67,7 +69,7 @@ router.get('/cookbook', (req, res) => {
 });
 
 router.get('/createRecipe', (req, res) => {
-	res.render('CreateRecipe', { title: "Create Recipe", token: req.query.token});
+	res.render('CreateRecipe', { title: "Create Recipe"});
 });
 
 router.get('/recipes/:id', async (req, res) => {
