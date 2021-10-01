@@ -4,16 +4,13 @@
 
         <%- include('./partials/nav.ejs') %>
         <div class="container page-content px-16 bg-white">
-            <div class="p-16 space-x-8 flex h-full justify-center">
+            <div class="px-16 py-8 space-x-8 flex h-full justify-center flex mx-auto">
                 <div class="w-1/4">
                     <%- include('./partials/searchField.ejs') %>
                 </div>
 
-                <div class="w-3/4 m-auto">
+                <div class="w-3/4 flex-row">
                     <%- include('./partials/recipeList.ejs') %>
-                    <% recipes.forEach(r => { %>
-                    <li><a href=<%-"/recipes/"+r.id%>> <%- r.title %> </a> </li>
-                    <%  }) %>
                 </div>
             </div>
         </div>
