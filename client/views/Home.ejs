@@ -13,7 +13,7 @@
                     <%- include('./partials/recipeList.ejs') %>
                 </div>
 
-                <% if (token !== "undefined") { %>
+                <% if (token !== "undefined" && token != null) { %>
                     <% var createRecipeLink = "/createRecipe?token=" + token %>
                     <a href="<%= createRecipeLink %>" + >Create Recipe</a>
                 <% } %>
