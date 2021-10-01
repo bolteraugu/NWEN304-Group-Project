@@ -2,6 +2,7 @@
 window.addEventListener("load",init);
 function init(){
     addButtonListener();
+    searchQueryButton();
 }
 
 function addButtonListener() {
@@ -131,6 +132,19 @@ function addButtonListener() {
                 document.getElementById('complexityBar').style.top = height * 0.03;
                 document.getElementById('complexityBar').style.visibility = "visible";
             }
+        })
+    }
+}
+
+function searchQueryButton() {
+    if (document.querySelector('#searchButton') != null) {
+        document.querySelector('#searchButton').addEventListener("click", function() {
+            let searchQuery = document.querySelector('#searchInput').value;
+            window.location.href = "/?search=" + searchQuery;
+        });
+
+        document.querySelector('#searchForm').addEventListener("submit", function(event) {
+            event.preventDefault();
         })
     }
 }

@@ -1,6 +1,14 @@
 <div>
     <!--    <p class="text-right mx-8 mb-2">Title Here ></p>-->
-    <div class="bg-eggshell flex border-2 border-gray-300 border-dashed h-full w-full rounded-xl shadow-lg">
-
+    <div class="bg-eggshell flex flex-col border-2 border-gray-300 border-dashed h-full w-full rounded-xl shadow-lg">
+        <% if (searchQuery == "") { %>
+            <h1>Recommendations</h1>
+        <% } else { %>
+            <h1>Showing results for <%- searchQuery %> </h1>
+        <% } %>
+        <% recipes.forEach(r => { %>
+            <img src=<%-r.image%>>
+            <li> <a href=<%-"/recipes/"+r.id%>> <%- r.title %> </a> </li>
+        <%  }) %>
     </div>
 </div>

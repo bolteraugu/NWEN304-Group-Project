@@ -3,7 +3,8 @@ import {
     getRecipeByQuery,
     getRecipeByID,
     getSimilarRecipesByID,
-    getRecipeSummaryByID
+    getRecipeSummaryByID,
+    getRandomRecipes
 } from "../controller/index.js";
 import {validateUser, User} from "../../client/model/user.js";
 
@@ -176,4 +177,22 @@ app.get("/recipes/:id/summary", (req, res) => {
         .catch((error) => {
             console.error(error);
         });
+});
+
+// Example 1: http://localhost:8080/recipes/random
+app.get("/randomrecipes", (req, res) => {
+    getRandomRecipes(5)
+      .then((response) => {
+          if (response.status == 404) {
+              res.status(404).send({
+                  status: 404,
+                  message: "Random recipes could not be found",
+              });
+          } else {
+              res.status(200).send(response);
+          }
+      })
+      .catch((error) => {
+          console.error(error);
+      });
 });

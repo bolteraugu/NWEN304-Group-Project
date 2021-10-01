@@ -6,17 +6,16 @@
         <div class="container page-content px-16 py-8 bg-white flex mx-auto">
             <div class="container w-full bg-eggshell rounded-md shadow-xl flex flex-row mx-auto p-8 space-x-16">
                 <div class="w-1/3 flex-col">
-                    <h2 class="uppercase text-primary-dg font-bold text-center"><%- rec.title %></h2>
+                    <h2 class="uppercase text-primary-dg font-bold text-center"><%- recipe.title %></h2>
                     <p class="border-b-2 border-secondary-brown mt-2"></p>
 
                     <div class="text-sm text-center mt-2 text-primary-dg">
-                        <span>Ready in <%- rec.readyInMinutes%> minutes | </span>
-                        <span>Serves <%- rec.servings%></span>
+                        <span>Ready in <%- recipe.readyInMinutes%> minutes | </span>
+                        <span>Serves <%- recipe.servings%></span>
                     </div>
 
                     <!-- Image Placeholder -->
-                    <!-- <img src="/public/images/recipe1.png" alt=""> -->
-                    <div class="block w-full h-96 bg-primary-lg rounded-2xl my-6"></div>
+                    <img src=<%-recipe.image%>>
 
                     <p class="border-b-2 border-secondary-brown mb-2"></p>
                 </div>
@@ -24,8 +23,8 @@
                 <div class="w-2/3 flex-col space-y-4">
                     <div class="space-y-1">
                         <p class="uppercase text-primary-dg font-bold text-center">Ingredients</p>
-                        <% rec.extendedIngredients.forEach(function (ingredient) { %>
-                        <p class="text-sm"><%=ingredient%></p>
+                        <% recipe.extendedIngredients.forEach(function (ingredient) { %>
+                        <p class="text-sm"><%=ingredient.original%></p>
                         <% })%>
                     </div>
 
@@ -33,7 +32,7 @@
 
                     <div class="space-y-1">
                         <p class="uppercase text-primary-dg font-bold text-center">Preparations</p>
-                        <p class="text-sm"><%- rec.instructions%></p>
+                        <p class="text-sm"><%- recipe.instructions%></p>
                     </div>
                 </div>
             </div>
