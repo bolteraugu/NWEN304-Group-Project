@@ -15,10 +15,14 @@
                         <span>Serves <%- recipe.servings%></span>
                     </div>
 
-                    <!-- Image Placeholder -->
-                    <img class="rounded-xl my-6 w-full object-fit" src=<%-recipe.image%> alt=<%-recipe.title%>>
+                    <img class="rounded-xl my-6 w-full object-cover" src=<%-recipe.image%> alt=<%-recipe.title%>>
 
-                    <p class="border-b-2 border-secondary-brown mb-2"></p>
+                    <p class="border-b-2 border-secondary-brown mb-8"></p>
+
+                    <button id="saveRecipe"
+                            class="block bg-secondary-brown text-center text-md no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl shadow-md hover:bg-secondary-pink hover:shadow-xl">
+                        Save Recipe
+                    </button>
                 </div>
 
                 <div class="w-2/3 flex-col space-y-4">
