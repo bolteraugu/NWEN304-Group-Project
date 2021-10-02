@@ -77,7 +77,7 @@ router.post("/register", async (req, res) => {
         user.password = await bcrypt.hash(user.password, salt);
         //Send the user to the database
         await user.save();
-        const token = jwt.sign({ _id: user._id }, uuidv4());
+        const token = jwt.sign({ _id: user._id }, "JWT_SECRET", {expiresIn: "60m"});
         res.header("Access-Control-Allow-Origin", "http://localhost:3000");
         res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
         res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -115,7 +115,7 @@ router.post('/login', async (req, res) => {
         }
         else {
             //Create JWT token using private key which is a UUID and send the token.
-            const token = jwt.sign({ _id: user._id }, uuidv4());
+            const token = jwt.sign({ _id: user._id }, "JWT_SECRET", {expiresIn: "60m"});
             res.send({user: user, token: token}).status(200);
         }
     }
