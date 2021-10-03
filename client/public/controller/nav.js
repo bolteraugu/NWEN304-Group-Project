@@ -1,9 +1,9 @@
 //On window load add listeners
-window.addEventListener('load', init);
+window.addEventListener('load', initialRendering);
 
 function init() {
-    logout();
     initialRendering();
+    // logout();
 }
 
 function logout() {
@@ -15,6 +15,9 @@ function logout() {
 }
 
 function initialRendering() {
+    logout();
+
+    console.log("nav");
     if (window.localStorage.getItem("token") != null && window.localStorage.getItem("token").length !== 0) {
         document.getElementById("registerButton").style.display = "none";
         document.getElementById("loginButton").style.display = "none";

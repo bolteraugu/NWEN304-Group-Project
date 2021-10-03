@@ -6,6 +6,7 @@ function init() {
 }
 
 function initialRendering() {
+    console.log("home");
     if (window.localStorage.getItem("token") != null && window.localStorage.getItem("token").length !== 0) {
         document.getElementById("createRecipeButton").style.display = "inline";
     }
