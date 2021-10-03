@@ -1,46 +1,45 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import { MONGO_URI } from '../../credentials.js';
 import {
   addRecipe,
-  closeConnection,
+  connectToMongoDb,
   createCookbook,
+  getCookbook,
   removeRecipe,
 } from './mongoDbRequests.js';
 
-main()
-  .finally((client) => closeConnection(client))
-  .catch(console.error);
+main();
 
 /**
  * For testing purposes, can be deleted once we have integrated the front end
  */
 export default async function main() {
   console.log('Running main');
-  
-  const client = new MongoClient(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  await client.connect();
+
+  const client = await connectToMongoDb();
+
+  const myBook = await getCookbook('6153d4d7cf358e3c2fd48904', client);
+
+  console.log(myBook);
+
+  client.close();
 
   // Test functions here, change these to whatever you wanna try do (e.g delete, update etc.).
-  createCookbook(client)
-    .then((id) => {
-      addRecipe(client, id, {
-        recipe_id: '1234',
-        name: 'obiwan',
-        ingredients: ['general', 'kenobi', 'cough'],
-      });
+  // createCookbook(client)
+  //   .then((id) => {
+  //     addRecipe(client, id, {
+  //       recipe_id: '1234',
+  //       name: 'obiwan',
+  //       ingredients: ['general', 'kenobi', 'cough'],
+  //     });
 
-      addRecipe(client, id, {
-        recipe_id: '1',
-        name: 'anakin',
-        ingredients: ['i', 'have', 'highground'],
-      });
+  //     addRecipe(client, id, {
+  //       recipe_id: '1',
+  //       name: 'anakin',
+  //       ingredients: ['i', 'have', 'highground'],
+  //     });
 
-      return id;
-    })
-    .then((id) => removeRecipe(client, id, '1234'));
-
-  return client;
+  //     return id;
+  //   })
+  //   .then((id) => removeRecipe(client, id, '1234'));
 }

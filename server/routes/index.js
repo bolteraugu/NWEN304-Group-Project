@@ -15,12 +15,15 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 //So we don't get blocked by same origin policy since we make fetch requests from our client to our server (which violates this policy hence why we need this 'cors' library)
 import cors from 'cors';
-import { CLIENT_PORT, MONGO_URI, PORT as SERVER_PORT } from '../../credentials.js';
-import { client, getCookbook } from '../controller/mongoDbRequests.js';
+import { MONGO_URI, SERVER_PORT } from '../../credentials.js';
+import {
+  connectToMongoDb,
+  getCookbook,
+} from '../controller/mongoDbRequests.js';
 
-mongoose
-  .connect(MONGO_URI)
-  .catch((err) => console.error('Something went wrong', err));
+// mongoose
+//   .connect(MONGO_URI)
+//   .catch((err) => console.error('Something went wrong', err));
 
 const app = express();
 
@@ -210,22 +213,23 @@ app.get('/randomrecipes', (req, res) => {
     });
 });
 
-app.get('/cookbooks/:id', (req, res) => {
+app.get('/cookbook/:id', async (req, res) => {
   const { id } = req.params;
-  console.log(id);
 
-  return getCookbook(id, client);
-  // .then((response) => {
-  //   if (response.status == 404) {
-  //     res.status(404).send({
-  //       status: 404,
-  //       message: 'The recipe with the id does not exist',
-  //     });
-  //   } else {
-  //     res.status(200).send(response);
-  //   }
-  // })
-  // .catch((error) => {
-  //   console.error(error);
-  // });
+  const client = await connectToMongoDb();
+
+  return getCookbook(id, client)
+    .then((response) => {
+      if (response.status == 404) {
+        res.status(404).send({
+          status: 404,
+          message: 'The recipe with the id does not exist',
+        });
+      } else {
+        res.status(200).send(response);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 });

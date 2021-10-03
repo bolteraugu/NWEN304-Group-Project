@@ -2,7 +2,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 import recipes from '../model/Recipe.js';
 import Recipe from '../model/Recipe.js';
 import { CLIENT_PORT, SERVER_PORT } from '../../credentials.js';
@@ -21,35 +21,41 @@ router.listen(CLIENT_PORT, () =>
   console.log(`Client side running on http://localhost:${CLIENT_PORT}`)
 );
 
-
 router.get('/', async (req, res) => {
-	let searchQuery = req.query.search || "";
-	let results = [];
-	if (searchQuery) {
-		await fetch(`http://localhost:${SERVER_PORT}/recipes?keyword=${searchQuery}`)
-			.then((response) => response.json())
-			.then((data) => {
-				results = data.results;
-			})
-			.catch((e) => {
-				console.log(e);
-			});
-			res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery} );
-
-	} else {
-			// If nothing has been searched
-			await fetch(`http://localhost:${SERVER_PORT}/randomrecipes`)
-				.then((response) => response.json())
-				.then((data) => {
-					results = data.recipes;
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-				res.render('Home', { title: "Home Page", recipes: results, searchQuery: searchQuery} );
-
-	}
-
+  let searchQuery = req.query.search || '';
+  let results = [];
+  if (searchQuery) {
+    await fetch(
+      `http://localhost:${SERVER_PORT}/recipes?keyword=` + searchQuery
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        results = data.results;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    res.render('Home', {
+      title: 'Home Page',
+      recipes: results,
+      searchQuery: searchQuery,
+    });
+  } else {
+    // If nothing has been searched
+    await fetch(`http://localhost:${SERVER_PORT}/randomrecipes`)
+      .then((response) => response.json())
+      .then((data) => {
+        results = data.recipes;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    res.render('Home', {
+      title: 'Home Page',
+      recipes: results,
+      searchQuery: searchQuery,
+    });
+  }
 });
 
 router.get('/login', (req, res) => {
@@ -60,9 +66,17 @@ router.get('/register', (req, res) => {
   res.render('Register', { title: 'Register' });
 });
 
-router.get('/cookbooks/:id', (req, res) => {
-  console.log(req);
-  res.render('Cookbook', { title: 'Your Cookbook', recipes: recipes });
+router.get('/cookbook/:id', async (req, res) => {
+  const { id } = req.params;
+  const data = await fetch(
+    `http://localhost:${SERVER_PORT}/cookbook/${id}`
+  ).then((response) => response.json());
+
+  // TODO Discuss how this should look.
+  res.render('Cookbook', {
+    title: 'Your Cookbook',
+    recipes: data ? data.recipes : [],
+  });
 });
 
 router.get('/createRecipe', (req, res) => {
@@ -70,12 +84,15 @@ router.get('/createRecipe', (req, res) => {
 });
 
 router.get('/recipes/:id', async (req, res) => {
-	const {id} = req.params;
-	let selectedRecipe;
-	await fetch("http://localhost:8080/recipes/" + id)
-		.then((response) => response.json())
-		.then((data) => {
-			selectedRecipe = data;
-		});
-	res.render('RecipeDetails', { title: "Recipe Details", recipe: selectedRecipe});
+  const { id } = req.params;
+  let selectedRecipe;
+  await fetch(`http://localhost:${SERVER_PORT}/recipes/${id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      selectedRecipe = data;
+    });
+  res.render('RecipeDetails', {
+    title: 'Recipe Details',
+    recipe: selectedRecipe,
+  });
 });

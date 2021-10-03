@@ -1,37 +1,36 @@
 import { MongoClient } from 'mongodb';
 import { MONGO_URI } from '../../credentials.js';
+import { ObjectId } from 'bson';
 
 /**
  * Creates the client and opens a connection.
  *
  * ? Lets discuss when this function should be called.
- * @returns {MongoClient}
+ * @returns {Promise<MongoClient>}
  */
-const connectToMongoDb = async () => {
-  let client = new MongoClient(MONGO_URI, {
+export const connectToMongoDb = async () => {
+  const client = new MongoClient(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-
-  return await client
-    .connect()
-    .catch((err) => console.error('Something went wrong', err));
+  return client.connect();
 };
-
-export const client = connectToMongoDb();
 
 /**
  * Sends a request to MongoDB Atlas to get the cookbook based off the given ID.
  * @param {String} cookbook_id ID which should be contained within the logged in user.
  * @param {MongoClient} client
- * @returns Cookbook | undefined
+ * @returns {Promise<Cookbook>} Cookbook | undefined
  */
 export async function getCookbook(cookbook_id, client) {
-  cookbook = undefined;
+  let cookbook = undefined;
 
-  const cursor = client.db('CookbookDB').collection('cookbooks').find({
-    _id: cookbook_id,
-  }); // You can also add another object parameter for projection.
+  const cursor = client
+    .db('CookbookDB')
+    .collection('cookbooks')
+    .find({
+      _id: new ObjectId(cookbook_id),
+    }); // You can also add another object parameter for projection.
 
   const results = await cursor.toArray();
 
@@ -105,13 +104,3 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
       { multi: false }
     );
 }
-
-/**
- * Should be called at the end to kill the connection.
- * TODO discuss how often this should be called
- *
- * @param {MongoClient} client
- */
-export const closeConnection = (client) => {
-  client.close();
-};
