@@ -1,12 +1,3 @@
-// Directory Structure Example
-// Feel free to delete this file.
-
-// This file would have methods like:
-// - getRecipeByQuery()
-// - getRecipeByID()
-// - postRecipe()
-// etc..
-
 import fetch from "node-fetch";
 import {SPOONACULAR_API_KEY} from "../../credentials.js";
 
