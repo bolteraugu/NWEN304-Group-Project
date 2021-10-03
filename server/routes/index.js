@@ -87,10 +87,6 @@ router.post('/register', async (req, res) => {
     const token = jwt.sign({ _id: user._id }, uuidv4());
 
     res.header(
-      'Access-Control-Allow-Origin',
-      `http://localhost:${CLIENT_PORT}`
-    );
-    res.header(
       'Access-Control-Allow-Headers',
       'Origin, Content-Type, Accept, Authorization'
     );
