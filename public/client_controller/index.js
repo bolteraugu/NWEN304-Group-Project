@@ -1,5 +1,3 @@
-import { CLIENT_PORT, SERVER_PORT } from '../../credentials.js';
-
 //On window load add listeners
 window.addEventListener('load', init);
 function init() {
@@ -27,9 +25,9 @@ function addButtonListener() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append(`Origin','http://localhost:${CLIENT_PORT}`);
+        headers.append('Origin', 'http://localhost:3000');
 
-        await fetch(`http://localhost:${SERVER_PORT}/register`, {
+        await fetch('http://localhost:8080/register', {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({ emailVal: email, passwordVal: password }),
@@ -72,12 +70,12 @@ function addButtonListener() {
         let email = document.querySelector('#emailInputLogin').value;
         let password = document.querySelector('#passwordInputLogin').value;
         //Send a POST request to the server with the request body containing the email and password
-        await fetch(`http://localhost:${SERVER_PORT}/login`, {
+        await fetch(`http://localhost:8080/login`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Origin: `http://localhost:${CLIENT_PORT}`,
+            Origin: `http://localhost:3000`,
           },
           body: JSON.stringify({ emailVal: email, passwordVal: password }),
         })

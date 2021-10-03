@@ -1,5 +1,5 @@
 import { SERVER_PORT } from '../../credentials.js';
-import { Recipe } from './Recipe';
+import { Recipe } from './Recipe.js';
 
 /**
  * For bookmarking recipes to your cookbook.
