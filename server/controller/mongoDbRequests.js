@@ -1,4 +1,24 @@
 import { MongoClient } from 'mongodb';
+import { MONGO_URI } from '../../credentials.js';
+
+/**
+ * Creates the client and opens a connection.
+ *
+ * ? Lets discuss when this function should be called.
+ * @returns {MongoClient}
+ */
+const connectToMongoDb = async () => {
+  let client = new MongoClient(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  return await client
+    .connect()
+    .catch((err) => console.error('Something went wrong', err));
+};
+
+export const client = connectToMongoDb();
 
 /**
  * Sends a request to MongoDB Atlas to get the cookbook based off the given ID.
@@ -66,9 +86,9 @@ export async function addRecipe(client, cookbook_id, recipe) {
 /**
  * Assumes you know the recipe id.
  * TODO discuss recipe structure and whether we want to find them by an id.
- * @param {MongoClient} client 
- * @param {String} cookbook_id 
- * @param {String} recipe_id 
+ * @param {MongoClient} client
+ * @param {String} cookbook_id
+ * @param {String} recipe_id
  * @returns Response
  */
 export async function removeRecipe(client, cookbook_id, recipe_id) {

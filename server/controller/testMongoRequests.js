@@ -16,11 +16,14 @@ main()
  */
 export default async function main() {
   console.log('Running main');
+  
   const client = new MongoClient(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
   await client.connect();
+
+  // Test functions here, change these to whatever you wanna try do (e.g delete, update etc.).
   createCookbook(client)
     .then((id) => {
       addRecipe(client, id, {
