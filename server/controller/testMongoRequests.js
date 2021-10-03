@@ -20,8 +20,6 @@ export default async function main() {
 
   const myBook = await getCookbook('6153d4d7cf358e3c2fd48904', client);
 
-  console.log(myBook);
-
   client.close();
 
   // Test functions here, change these to whatever you wanna try do (e.g delete, update etc.).

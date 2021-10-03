@@ -83,6 +83,9 @@ router.get('/createRecipe', (req, res) => {
 	res.render('CreateRecipe', { title: "Create Recipe"});
 });
 
+/**
+ * ? Is this still necessary? What is it doing?
+ */
 router.get('/recipes/:id', async (req, res) => {
   const { id } = req.params;
   let selectedRecipe;

@@ -17,8 +17,10 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import { MONGO_URI, SERVER_PORT } from '../../credentials.js';
 import {
+  addRecipe,
   connectToMongoDb,
   getCookbook,
+  removeRecipe,
 } from '../controller/mongoDbRequests.js';
 
 // mongoose
@@ -216,9 +218,58 @@ app.get('/randomrecipes', (req, res) => {
 app.get('/cookbook/:id', async (req, res) => {
   const { id } = req.params;
 
-  const client = await connectToMongoDb();
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
 
   return getCookbook(id, client)
+    .then((response) => {
+      if (response.status == 404) {
+        res.status(404).send({
+          status: 404,
+          message: 'The recipe with the id does not exist',
+        });
+      } else {
+        res.status(200).send(response);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
+/**
+ * Add recipe to cookbook.
+ */
+app.put('/cookbook/:id/recipes/', async (req, res) => {
+  const cookbook_id = req.params.id;
+  const recipe = req.body;
+
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  return addRecipe(client, cookbook_id, recipe)
+    .then((response) => {
+      if (response.status == 404) {
+        res.status(404).send({
+          status: 404,
+          message: 'The recipe with the id does not exist',
+        });
+      } else {
+        res.status(200).send(response);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
+/**
+ * Delete recipe from cookbook.
+ */
+app.delete('/cookbook/:id/recipes/:recipe-id', async (req, res) => {
+  const { id, recipe_id } = req.params;
+
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  return removeRecipe(client, id, recipe_id)
     .then((response) => {
       if (response.status == 404) {
         res.status(404).send({

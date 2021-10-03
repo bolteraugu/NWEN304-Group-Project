@@ -74,7 +74,7 @@ export async function addRecipe(client, cookbook_id, recipe) {
     .collection('cookbooks')
     .updateOne(
       {
-        _id: cookbook_id,
+        _id: new ObjectId(cookbook_id),
       },
       {
         $push: { recipes: recipe },
@@ -96,7 +96,7 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
     .collection('cookbooks')
     .updateOne(
       {
-        _id: cookbook_id,
+        _id: new ObjectId(cookbook_id),
       },
       {
         $pull: { recipes: { recipe_id: recipe_id } },
