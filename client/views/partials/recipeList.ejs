@@ -1,17 +1,22 @@
 <div>
     <!--    <p class="text-right mx-8 mb-2">Title Here ></p>-->
-    <div class="bg-eggshell flex flex-col h-full w-full rounded-md shadow-lg p-8">
+    <div class="bg-eggshell flex flex-col w-full rounded-md shadow-lg p-8">
         <% if (searchQuery == "") { %>
-            <h1>Recommendations</h1>
+            <p class="mx-auto text-primary-dg text-lg font-bold">Recommendations</p>
         <% } else { %>
-            <h1>Showing results for <%- searchQuery %> </h1>
+            <div class="flex-row mx-auto">
+                <span class="mx-auto text-primary-dg text-lg">Showing results for </span>
+                <span class="mx-auto text-primary-dg text-lg font-bold"><%- searchQuery %> </span>
+            </div>
         <% } %>
-            <div class="flex flex-wrap flex-row mx-auto">
+            <p class="border-b-2 border-secondary-brown mb-6 mt-2"></p>
+
+            <div class="flex flex-wrap flex-row justify-between">
                 <% recipes.forEach(r => { %>
-                    <div class="flex-col m-2 w-1/4">
+                    <div class="flex flex-col my-4 mx-6 w-1/4">
                         <a href=<%-"/recipes/"+r.id%>>
-                            <img class="text-center rounded-md h-48 object-fill" src=<%-r.image%>>
-                            <a class="text-center text-sm text-secondary-brown"> <%- r.title %> </a>
+                            <img class="rounded-md w-72 object-cover shadow-md hover:shadow-lg" src=<%-r.image%>>
+                            <a class="cursor-pointer text-center text-sm text-secondary-brown mt-2 hover:text-secondary-pink"> <%- r.title %> </a>
                         </a>
                     </div>
                 <%  }) %>
