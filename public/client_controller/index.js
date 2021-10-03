@@ -1,4 +1,4 @@
-import { CLIENT_PORT, SERVER_PORT } from '../../credentials';
+import { CLIENT_PORT, SERVER_PORT } from '../../credentials.js';
 
 //On window load add listeners
 window.addEventListener('load', init);

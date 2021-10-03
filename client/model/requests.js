@@ -1,4 +1,4 @@
-import { SERVER_PORT } from '../../credentials';
+import { SERVER_PORT } from '../../credentials.js';
 import { Recipe } from './Recipe';
 
 /**

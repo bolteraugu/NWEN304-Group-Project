@@ -23,9 +23,9 @@ import {
   removeRecipe,
 } from '../controller/mongoDbRequests.js';
 
-// mongoose
-//   .connect(MONGO_URI)
-//   .catch((err) => console.error('Something went wrong', err));
+mongoose
+  .connect(MONGO_URI)
+  .catch((err) => console.error('Something went wrong', err));
 
 const app = express();
 
@@ -86,7 +86,10 @@ router.post('/register', async (req, res) => {
     await user.save();
     const token = jwt.sign({ _id: user._id }, uuidv4());
 
-    res.header('Access-Control-Allow-Origin', `http://localhost:${CLIENT_PORT}`);
+    res.header(
+      'Access-Control-Allow-Origin',
+      `http://localhost:${CLIENT_PORT}`
+    );
     res.header(
       'Access-Control-Allow-Headers',
       'Origin, Content-Type, Accept, Authorization'

@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from 'mongodb';
-import { MONGO_URI } from '../../credentials.js';
+import { CLIENT_PORT, MONGO_URI, SERVER_PORT } from '../../credentials.js';
 import {
   addRecipe,
   connectToMongoDb,
@@ -15,10 +15,13 @@ main();
  */
 export default async function main() {
   console.log('Running main');
+  console.log(SERVER_PORT, CLIENT_PORT);
 
   const client = await connectToMongoDb();
 
   const myBook = await getCookbook('6153d4d7cf358e3c2fd48904', client);
+
+  console.log(myBook);
 
   client.close();
 
