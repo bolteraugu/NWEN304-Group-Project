@@ -7,25 +7,22 @@ import {
     getRandomRecipes
 } from "../controller/index.js";
 import {validateUser, User} from "../../client/model/user.js";
-
 import { v4 as uuidv4 } from 'uuid';
-
 //Importing so we can connect to MongoDB
 import mongoose from "mongoose";
 //Importing so we can create a hash for the password
 import bcrypt from "bcrypt";
-
 import jwt from "jsonwebtoken";
-
 //So we don't get blocked by same origin policy since we make fetch requests from our client to our server (which violates this policy hence why we need this 'cors' library)
 import cors from "cors";
+import { MONGO_URI, PORT } from "../../credentials.js";
 
 //Connecting to MongoDB using August's username and password
-mongoose.connect('mongodb+srv://august:M3sdXPcvHVAZKfLT@cookbook-cluster.cybqc.mongodb.net/CookbookDB?retryWrites=true&w=majority')
+mongoose.connect(MONGO_URI)
     .catch(err => console.error('Something went wrong', err));
 
 const app = express();
-const PORT = 8080;
+
 //Creating router for routes
 const router = express.Router();
 app.use(express.json());
