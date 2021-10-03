@@ -3,8 +3,6 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
 import fetch from 'node-fetch';
-import recipes from '../model/Recipe.js';
-import Recipe from '../model/Recipe.js';
 import { CLIENT_PORT, SERVER_PORT } from '../../credentials.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,7 +12,7 @@ const router = express();
 router.set('views', '../views');
 router.set('view engine', 'ejs');
 
-let publicPath = path.join(__dirname, '../../public');
+let publicPath = path.join(__dirname, '../public');
 router.use(express.static(publicPath));
 
 router.listen(CLIENT_PORT, () =>

@@ -6,7 +6,8 @@ import {
   getRecipeSummaryByID,
   getRandomRecipes,
 } from '../controller/index.js';
-import { validateUser, User } from '../../client/model/user.js';
+import { validateUser } from '../controller/passwordValidate.js';
+import { User } from '../model/user.js';
 import { v4 as uuidv4 } from 'uuid';
 //Importing so we can connect to MongoDB
 import mongoose from 'mongoose';

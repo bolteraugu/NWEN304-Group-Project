@@ -16,11 +16,4 @@
         </div>
     </body>
 </html>
-<script>
-    if (window.localStorage.getItem("token") != null && window.localStorage.getItem("token").length !== 0) {
-        document.getElementById("createRecipeButton").style.display = "inline";
-    }
-    else {
-        document.getElementById("createRecipeButton").style.display = "none";
-    }
-</script>
+<script src = "controller/home.js"></script>
