@@ -199,7 +199,7 @@ app.get('/recipes/:id/summary', (req, res) => {
 
 // Example 1: http://localhost:8080/recipes/random
 app.get('/randomrecipes', (req, res) => {
-  getRandomRecipes(5)
+  getRandomRecipes(6)
     .then((response) => {
       if (response.status == 404) {
         res.status(404).send({

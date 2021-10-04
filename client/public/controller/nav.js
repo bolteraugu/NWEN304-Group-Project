@@ -1,9 +1,9 @@
 //On window load add listeners
-window.addEventListener('load', initialRendering);
+window.addEventListener('load', initNav);
 
-function init() {
-    initialRendering();
-    // logout();
+function initNav() {
+    initialRenderingNav();
+    logout();
 }
 
 function logout() {
@@ -14,16 +14,13 @@ function logout() {
       });
 }
 
-function initialRendering() {
-    logout();
-
-    console.log("nav");
+function initialRenderingNav() {
     if (window.localStorage.getItem("token") != null && window.localStorage.getItem("token").length !== 0) {
-        document.getElementById("registerButton").style.display = "none";
-        document.getElementById("loginButton").style.display = "none";
+        document.getElementById("cookbookButton").style.display = "flex";
+        document.getElementById("logoutButton").style.display = "flex";
     }
     else {
-        document.getElementById("cookbookButton").style.display = "none";
-        document.getElementById("logoutButton").style.display = "none";
+        document.getElementById("registerButton").style.display = "flex";
+        document.getElementById("loginButton").style.display = "flex";
     }
 }

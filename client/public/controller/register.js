@@ -7,7 +7,6 @@ function init() {
 }
 
 function register() {
-  console.log("register");
 //Add one to the registration submit button, for when it is clicked.
 document
       .querySelector('#submitRegistration')
