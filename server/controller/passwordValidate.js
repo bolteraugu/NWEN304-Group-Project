@@ -1,20 +1,3 @@
-import mongoose from "mongoose";
-
-//Create User Data Model
-export const User = mongoose.model('User', new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        minlength: 3,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true,
-        minlength: 8,
-    }
-}));
-
 export function validateUser(email, password) {
     let emailValid = email.length >= 3 && email.includes('@'); //Emails always contain @
     //Password must contain at least one number, letter and special character and must be at least 8 characters.

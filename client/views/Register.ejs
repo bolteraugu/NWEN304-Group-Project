@@ -3,7 +3,7 @@
 <html>
     <%- include('./partials/head.ejs') %>
     <body class="h-screen">
-        <%- include('./partials/nav.ejs', {token: null}) %>
+        <%- include('./partials/nav.ejs') %>
         <div class="container page-content p-16 bg-white flex mx-auto">
             <div class="bg-eggshell rounded-md py-6 shadow-lg p-8 space-y-4 flex-col justify-center mx-auto">
                 <div class="mx-auto space-y-1">
@@ -40,6 +40,6 @@
         </div>
 
         <!-- Adding client controller so it can set up listeners for some of the above components. -->
-        <script src = "/client_controller/index.js"></script>
+        <script src = "/controller/register.js"></script>
     </body>
 </html>
