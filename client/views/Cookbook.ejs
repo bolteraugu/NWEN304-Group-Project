@@ -12,7 +12,7 @@
                     <div class="flex flex-col my-4 mx-6 w-1/4">
                         <a href=<%-"/recipes/"+r.id%>>
                             <img class="rounded-md w-72 object-cover shadow-md hover:shadow-lg" src=<%-r.image%>>
-                            <a class="cursor-pointer text-center text-sm text-secondary-brown mt-2 hover:text-secondary-pink"> <%- r.title %> </a>
+                            <a class="cursor-pointer text-center text-sm text-secondary-brown mt-2 hover:text-secondary-pink" href=<%-"/recipes/"+r.id%>> <%- r.title %> </a>
                         </a>
                     </div>
                 <%  }) %>
