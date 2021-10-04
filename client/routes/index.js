@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
     await fetch(`http://localhost:${SERVER_PORT}/randomrecipes`)
       .then((response) => response.json())
       .then((data) => {
-        results = data.recipes;
+        results = data.recipes ? data.recipes : [];
       })
       .catch((e) => {
         console.log(e);
