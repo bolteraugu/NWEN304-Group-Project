@@ -77,8 +77,14 @@ export async function createCookbook(client) {
 
 export async function checkRecipe(client, cookbookID, recipe) {
   let cookbook = await getCookbook(cookbookID, client);
+  let foundRecipe = false;
+  for (let i = 0; i < cookbook.recipes.length; i++) {
+    if (cookbook.recipes[i].id === parseInt(recipe)) {
+      foundRecipe = true;
+    }
+  }
 
-  return cookbook.recipes.includes(recipe);
+  return foundRecipe;
 }
 
 /**
@@ -119,7 +125,7 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
         _id: new ObjectId(cookbook_id),
       },
       {
-        $pull: { recipes: recipe_id },
+        $pull: { recipes: { id: parseInt(recipe_id) } },
       },
       { multi: false }
     );

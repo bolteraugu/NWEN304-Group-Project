@@ -247,20 +247,7 @@ app.get('/cookbook/:id', async (req, res) => {
           message: 'The cookbook with the id does not exist',
         });
       } else {
-        let recipesObjs = [];
-        for (const recipe of response.recipes) {
-          await getRecipeByID(recipe)
-          .then((response) => {
-            if (response.status == 404) {
-              res.status(404).send({
-                status: 404,
-                message: 'The recipe with the id does not exist',
-              });
-            } else {
-              recipesObjs.push(response);
-            }})
-        }
-        res.status(200).send({response: response, recipesObjs: recipesObjs});
+        res.status(200).send({response: response});
       }
     })
     .catch((error) => {
@@ -273,7 +260,7 @@ app.get('/cookbook/:id', async (req, res) => {
  */
 app.put('/cookbook/:id/recipes/', async (req, res) => {
   const cookbook_id = req.params.id;
-  const recipe = req.body.recipe;
+  const recipeID = req.body.recipe;
 
   const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
 
@@ -281,6 +268,8 @@ app.put('/cookbook/:id/recipes/', async (req, res) => {
     'Access-Control-Allow-Headers',
     'Origin, Content-Type, Accept, Authorization'
   );
+
+  let recipe = await getRecipeByID(recipeID);
 
   return addRecipe(client, cookbook_id, recipe)
     .then((response) => {
