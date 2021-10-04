@@ -64,16 +64,21 @@ export async function getCookbookID(client, userID) {
  * @param {MongoClient} client
  * @returns ID of the newly created cookbook
  */
-export async function createCookbook(client, userID) {
+export async function createCookbook(client) {
   const result = await client
     .db('CookbookDB')
     .collection('cookbooks')
     .insertOne({
       recipes: [],
-      userID: userID
     });
 
   return result.insertedId;
+}
+
+export async function checkRecipe(client, cookbookID, recipe) {
+  let cookbook = await getCookbook(cookbookID, client);
+
+  return cookbook.recipes.includes(recipe);
 }
 
 /**
@@ -114,7 +119,7 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
         _id: new ObjectId(cookbook_id),
       },
       {
-        $pull: { recipes: { recipe_id: recipe_id } },
+        $pull: { recipes: recipe_id },
       },
       { multi: false }
     );

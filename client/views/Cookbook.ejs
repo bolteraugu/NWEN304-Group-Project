@@ -6,9 +6,6 @@
     <body class="h-screen">
         <%- include('./partials/nav.ejs') %>
         <h1>Your Cookbook</h1>
-        <% recipes.forEach(r => { %>
-        <li><a href=<%-"/recipes/"+r.id%>> <%- r.name %> </a> </li>
-        <%  }) %>
         <div class="w-3/4 flex-row">
             <div class="flex flex-wrap flex-row justify-between">
                 <% recipes.forEach(r => { %>
