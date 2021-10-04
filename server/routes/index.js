@@ -20,7 +20,9 @@ import { MONGO_URI, SERVER_PORT } from '../../credentials.js';
 import {
   addRecipe,
   connectToMongoDb,
+  createCookbook,
   getCookbook,
+  getCookbookID,
   removeRecipe,
 } from '../controller/mongoDbRequests.js';
 
@@ -85,14 +87,19 @@ router.post('/register', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     //Send the user to the database
     await user.save();
-    const token = jwt.sign({ _id: user._id }, uuidv4());
+    const token = jwt.sign({ _id: user._id }, "JWT_SECRET");
 
     res.header(
       'Access-Control-Allow-Headers',
       'Origin, Content-Type, Accept, Authorization'
     );
+
+    const userIDClean = user._id.toString();
+    const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+    const cookbookID = await createCookbook(client, userIDClean);
+
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.header('x-auth-token', token).send({ user: user }).status(200);
+    res.send({ token: token, userID: userIDClean, cookbookID: cookbookID }).status(200);
   } else {
     //If invalid email then send error message
     if (valid === 1) {
@@ -134,8 +141,13 @@ router.post('/login', async (req, res) => {
       return res.status(400).send({ message: 'Incorrect email or password.' });
     } else {
       //Create JWT token using private key which is a UUID and send the token.
-      const token = jwt.sign({ _id: user._id }, uuidv4());
-      res.send({ token: token });
+      const token = jwt.sign({ _id: user._id }, "JWT_SECRET");
+
+      const userIDClean = user[0]._id.toString();
+      const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+      const cookbookID = await getCookbookID(client, userIDClean);
+      console.log(userIDClean);
+      res.send({ userID: userIDClean, token: token, cookbookID: cookbookID });
     }
   }
 });
