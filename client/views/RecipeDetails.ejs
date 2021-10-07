@@ -20,8 +20,14 @@
                     <p class="border-b-2 border-secondary-brown mb-8"></p>
 
                     <button id="saveRecipe"
+                            style="display: none"
                             class="block bg-secondary-brown text-center text-md no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl shadow-md hover:bg-secondary-pink hover:shadow-xl">
                         Save Recipe
+                    </button>
+                    <button id="removeRecipe"
+                            style="display: none"
+                            class="block bg-secondary-brown text-center text-md no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl shadow-md hover:bg-secondary-pink hover:shadow-xl">
+                        Remove Recipe
                     </button>
                 </div>
 
@@ -42,5 +48,7 @@
                 </div>
             </div>
         </div>
+        <div class='recipeStore' data-test-value='<%= JSON.stringify(recipe) %>'></div>
+        <script src = "/controller/recipeDetails.js"></script>
     </body>
 </html>

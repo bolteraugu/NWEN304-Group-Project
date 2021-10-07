@@ -30,6 +30,8 @@ document
             if (response.ok) {
               response.json().then((data) => {
                 window.localStorage.setItem('token', data.token);
+                window.localStorage.setItem('userID', data.userID);
+                window.localStorage.setItem('cookbookID', data.cookbookID);
                 window.location.href = '/';
               });
             } else {

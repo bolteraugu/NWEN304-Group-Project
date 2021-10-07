@@ -12,5 +12,9 @@ export const User = mongoose.model('User', new mongoose.Schema({
         type: String,
         required: true,
         minlength: 8,
+    },
+    cookbookID: {
+        type: String,
+        required: true,
     }
 }));

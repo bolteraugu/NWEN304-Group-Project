@@ -20,7 +20,10 @@ import { MONGO_URI, SERVER_PORT } from '../../credentials.js';
 import {
   addRecipe,
   connectToMongoDb,
+  createCookbook,
   getCookbook,
+  checkRecipe,
+  getCookbookID,
   removeRecipe,
 } from '../controller/mongoDbRequests.js';
 
@@ -58,6 +61,14 @@ app.get('/recipes', (req, res) => {
     });
 });
 
+app.get('/cookbook/:cookbookID/checkRecipe/:id', async (req, res) => {
+  const id = req.params.id;
+  const cookbookID = req.params.cookbookID;
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+  let hasRecipe = await checkRecipe(client, cookbookID, id);
+  res.send({hasRecipe: hasRecipe}).status(200);
+});
+
 //Registers the user by sending their details to MongoDB with their password hashed. Should only send it if email is valid and password is complex enough.
 router.post('/register', async (req, res) => {
   //Getting email and pass
@@ -65,6 +76,8 @@ router.post('/register', async (req, res) => {
   let password = req.body.passwordVal;
   let valid = validateUser(email, password); //Checking if they are valid
   if (valid === 0) {
+    const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+    const cookbookID = await createCookbook(client);
     //If they are then check if email already exists in MongoDB
     let user = await User.find({ email: req.body.emailVal }).limit(1).size();
     //If they do then return error because you can't have two accounts with the same email address
@@ -78,6 +91,7 @@ router.post('/register', async (req, res) => {
       user = new User({
         email: email,
         password: password,
+        cookbookID: cookbookID
       });
     }
     //Create the salt and hash the password
@@ -85,14 +99,17 @@ router.post('/register', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     //Send the user to the database
     await user.save();
-    const token = jwt.sign({ _id: user._id }, uuidv4());
+    const token = jwt.sign({ _id: user._id }, "JWT_SECRET");
 
     res.header(
       'Access-Control-Allow-Headers',
       'Origin, Content-Type, Accept, Authorization'
     );
+
+    const userIDClean = user._id.toString();
+
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.header('x-auth-token', token).send({ user: user }).status(200);
+    res.send({ token: token, userID: userIDClean, cookbookID: cookbookID }).status(200);
   } else {
     //If invalid email then send error message
     if (valid === 1) {
@@ -134,8 +151,10 @@ router.post('/login', async (req, res) => {
       return res.status(400).send({ message: 'Incorrect email or password.' });
     } else {
       //Create JWT token using private key which is a UUID and send the token.
-      const token = jwt.sign({ _id: user._id }, uuidv4());
-      res.send({ token: token });
+      const token = jwt.sign({ _id: user._id }, "JWT_SECRET");
+    
+      const userIDClean = user[0]._id.toString();
+      res.send({ userID: userIDClean, token: token, cookbookID: user[0].cookbookID });
     }
   }
 });
@@ -220,15 +239,15 @@ app.get('/cookbook/:id', async (req, res) => {
 
   const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
 
-  return getCookbook(id, client)
-    .then((response) => {
+  getCookbook(id, client)
+    .then(async (response) => {
       if (response.status == 404) {
         res.status(404).send({
           status: 404,
-          message: 'The recipe with the id does not exist',
+          message: 'The cookbook with the id does not exist',
         });
       } else {
-        res.status(200).send(response);
+        res.status(200).send({response: response});
       }
     })
     .catch((error) => {
@@ -241,9 +260,14 @@ app.get('/cookbook/:id', async (req, res) => {
  */
 app.put('/cookbook/:id/recipes/', async (req, res) => {
   const cookbook_id = req.params.id;
-  const recipe = req.body;
+  const recipe = req.body.recipe;
 
   const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, Content-Type, Accept, Authorization'
+  );
 
   return addRecipe(client, cookbook_id, recipe)
     .then((response) => {
@@ -264,8 +288,9 @@ app.put('/cookbook/:id/recipes/', async (req, res) => {
 /**
  * Delete recipe from cookbook.
  */
-app.delete('/cookbook/:id/recipes/:recipe-id', async (req, res) => {
-  const { id, recipe_id } = req.params;
+app.put('/cookbook/:id/recipes/:recipeId', async (req, res) => {
+  const id  = req.params.id;
+  const recipe_id = req.params.recipeId;
 
   const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
 

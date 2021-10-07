@@ -73,7 +73,7 @@ router.get('/cookbook/:id', async (req, res) => {
   // TODO Discuss how this should look.
   res.render('Cookbook', {
     title: 'Your Cookbook',
-    recipes: data ? data.recipes : [],
+    recipes: data ? data.response.recipes : [],
   });
 });
 
