@@ -73,7 +73,21 @@ router.get('/cookbook/:id', async (req, res) => {
   // TODO Discuss how this should look.
   res.render('Cookbook', {
     title: 'Your Cookbook',
+    id: data.response._id,
     recipes: data ? data.response.recipes : [],
+  });
+});
+
+router.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
+  const cookbookID  = req.params.cookbookID;
+  const recipeID = req.params.recipeID;
+  const selectedRecipe = await fetch(
+    `http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${recipeID}`
+  ).then((response) => response.json());
+
+  res.render('RecipeDetails', {
+    title: 'Recipe Details',
+    recipe: selectedRecipe,
   });
 });
 

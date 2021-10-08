@@ -22,8 +22,8 @@ import {
   connectToMongoDb,
   createCookbook,
   getCookbook,
+  getRecipe,
   checkRecipe,
-  getCookbookID,
   removeRecipe,
 } from '../controller/mongoDbRequests.js';
 
@@ -198,6 +198,25 @@ router.post('/signinwithgoogle', async (req, res) => {
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.send({ token: token, userID: userIDClean, cookbookID: cookbookID }).status(200);
   }
+})
+//Login functionality
+router.post('/createRecipe', async (req, res) => {
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  addRecipe(client, req.body.cookbookID, req.body.recipe)
+    .then((response) => {
+      if (response.status == 404) {
+        res.status(404).send({
+          status: 404,
+          message: 'The cookbook could not be found',
+        });
+      } else {
+        res.status(200).send({response: response});
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 });
 
 // Example 1: http://localhost:8080/recipes/650378
@@ -349,4 +368,25 @@ app.put('/cookbook/:id/recipes/:recipeId', async (req, res) => {
     .catch((error) => {
       console.error(error);
     });
+});
+
+/**
+ * Delete recipe from cookbook.
+ */
+ app.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
+  const cookbookID  = req.params.cookbookID;
+  const recipeID = req.params.recipeID;
+
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  const recipe = await getRecipe(client, cookbookID, recipeID);
+  if (recipe == null) {
+    res.status(404).send({
+      status: 404,
+      message: 'The recipe with the id does not exist',
+    });
+  }
+  else {
+    res.status(200).send(recipe);
+  }
 });
