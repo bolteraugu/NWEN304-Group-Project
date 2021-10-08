@@ -15,7 +15,7 @@ function addCreateRecipeListeners() {
         ingredientsArrayUnformatted.forEach((p) => {
             ingredientsArray.push({original: p.replace(/(\r\n|\n|\r)/gm, "")});
         });
-        let preparations = document.getElementById("instructionsInput").value;
+        let instructions = document.getElementById("instructionsInput").value;
         let recipe = {
             id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
             title: title,

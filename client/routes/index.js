@@ -82,6 +82,19 @@ router.get('/cookbook/:id', async (req, res) => {
   });
 });
 
+router.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
+  const cookbookID  = req.params.cookbookID;
+  const recipeID = req.params.recipeID;
+  const selectedRecipe = await fetch(
+    `http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${recipeID}`
+  ).then((response) => response.json());
+
+  res.render('RecipeDetails', {
+    title: 'Recipe Details',
+    recipe: selectedRecipe,
+  });
+});
+
 router.get('/createRecipe', (req, res) => {
   res.render('CreateRecipe', { title: 'Create Recipe' });
 });

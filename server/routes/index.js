@@ -250,6 +250,26 @@ router.post('/createRecipe', async (req, res) => {
         });
 });
 
+//Login functionality
+router.post('/createRecipe', async (req, res) => {
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  addRecipe(client, req.body.cookbookID, req.body.recipe)
+    .then((response) => {
+      if (response.status == 404) {
+        res.status(404).send({
+          status: 404,
+          message: 'The cookbook could not be found',
+        });
+      } else {
+        res.status(200).send({response: response});
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
 // Example 1: http://localhost:8080/recipes/650378
 app.get('/recipes/:id', (req, res) => {
     const {id} = req.params;
@@ -483,4 +503,25 @@ app.get('/users/:id/searches', async (req, res) => {
       console.error(error);
     })
     .finally(() => client.close());
+});
+
+/**
+ * Delete recipe from cookbook.
+ */
+ app.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
+  const cookbookID  = req.params.cookbookID;
+  const recipeID = req.params.recipeID;
+
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  const recipe = await getRecipe(client, cookbookID, recipeID);
+  if (recipe == null) {
+    res.status(404).send({
+      status: 404,
+      message: 'The recipe with the id does not exist',
+    });
+  }
+  else {
+    res.status(200).send(recipe);
+  }
 });
