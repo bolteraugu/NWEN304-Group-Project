@@ -59,7 +59,7 @@ fetch(`http://localhost:8080/cookbook/${cookbook_id}/recipes/`, {
     Origin: `http://localhost:3000`,
     },
     body: JSON.stringify({recipe: recipe}),
-}).then(() => window.location.href = "/cookbook/" + cookbook_id);
+}).then(() => window.location.href = window.location.href);
 
 const removeRecipe = (cookbook_id, recipe_id) => {
 fetch(
