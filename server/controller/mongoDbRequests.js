@@ -175,7 +175,7 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
     .db('CookbookDB')
     .collection('recipes')
     .find({
-      id: parseInt(recipeID),
+      title : {$regex : keywordQuery},
     }); // You can also add another object parameter for projection.
 
   const results = await cursor.toArray();
@@ -183,6 +183,6 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
     return null;
   }
   else {
-    return results[0];
+    return results;
   }
 }

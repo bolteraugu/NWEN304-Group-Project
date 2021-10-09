@@ -47,7 +47,7 @@ app.listen(SERVER_PORT, () =>
 
 // Example 1: http://localhost:8080/recipes?keyword=curry
 // Example 2: http://localhost:8080/recipes?keyword=curry&limit=5
-app.get('/recipes', (req, res) => {
+app.get('/recipes', async (req, res) => {
   let keywordQuery = req.query.keyword;
   // If limit exists inside query parameter and is between 0 and 100, then use the limit in query. Otherwise, default to 10
   let limit =
@@ -56,16 +56,27 @@ app.get('/recipes', (req, res) => {
       : 10;
 
   let results;
-  getRecipeByQuery(keywordQuery, limit)
+  await getRecipeByQuery(keywordQuery, limit)
     .then((response) => {
       results = response;
-      res.status(200).send(response);
     })
     .catch((error) => {
       res.status(400).send(error);
     });
   const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
-  getLocalRecipes(keywordQuery)
+  const localRecipes = await getLocalRecipes(client, keywordQuery);
+
+  if (localRecipes === null) {
+    res.status(200).send(results);
+  }
+  else {
+    for (let i  = 0; i < localRecipes.length; i++) {
+      results.results.unshift(localRecipes[i])
+    }
+    console.log(results);
+    res.status(200).send(results);
+  }
+  
 });
 
 app.get('/cookbook/:cookbookID/checkRecipe/:id', async (req, res) => {
