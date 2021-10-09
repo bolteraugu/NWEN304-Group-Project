@@ -78,36 +78,44 @@ router.get('/cookbook/:id', async (req, res) => {
   });
 });
 
-router.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
-  const cookbookID  = req.params.cookbookID;
-  const recipeID = req.params.recipeID;
-  const selectedRecipe = await fetch(
-    `http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${recipeID}`
-  ).then((response) => response.json());
+// router.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
+//   const cookbookID  = req.params.cookbookID;
+//   const recipeID = req.params.recipeID;
+//   const selectedRecipe = await fetch(
+//     `http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${recipeID}`
+//   ).then((response) => response.json());
 
-  res.render('RecipeDetails', {
-    title: 'Recipe Details',
-    recipe: selectedRecipe,
-  });
-});
+//   res.render('RecipeDetails', {
+//     title: 'Recipe Details',
+//     recipe: selectedRecipe,
+//   });
+// });
 
 router.get('/createRecipe', (req, res) => {
 	res.render('CreateRecipe', { title: "Create Recipe"});
 });
 
-/**
- * ? Is this still necessary? What is it doing?
- */
 router.get('/recipes/:id', async (req, res) => {
   const { id } = req.params;
-  let selectedRecipe;
-  await fetch(`http://localhost:${SERVER_PORT}/recipes/${id}`)
+
+  let recipe;
+
+  if (id.length === 16) {
+    await fetch(`http://localhost:${SERVER_PORT}/userMadeRecipe/${id}`)
     .then((response) => response.json())
     .then((data) => {
-      selectedRecipe = data;
-    });
+      recipe = data.data;
+    })
+  }
+  else {
+    await fetch(`http://localhost:${SERVER_PORT}/recipes/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        recipe = data;
+      });
+  }
   res.render('RecipeDetails', {
     title: 'Recipe Details',
-    recipe: selectedRecipe,
+    recipe: recipe,
   });
 });

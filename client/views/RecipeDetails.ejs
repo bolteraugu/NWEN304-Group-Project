@@ -15,8 +15,9 @@
                         <span>Serves <%- recipe.servings%></span>
                     </div>
 
-                    <img class="rounded-xl my-6 w-full object-cover shadow-sm" src=<%-recipe.image%> alt=<%-recipe.title%>>
-
+                    <% if (recipe.image !== "") { %>
+                        <img class="rounded-xl my-6 w-full object-cover shadow-sm" src=<%-recipe.image%> alt=<%-recipe.title%>>
+                    <% } %>
                     <p class="border-b-2 border-secondary-brown mb-8"></p>
 
                     <button id="saveRecipe"
