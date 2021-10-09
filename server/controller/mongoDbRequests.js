@@ -61,26 +61,6 @@ export async function createCookbook(client) {
   return result.insertedId;
 }
 
-/**
- * Adds a cookbook, which should happen when a new user is created.
- * @param {MongoClient} client
- * @returns ID of the newly created cookbook
- */
- export async function createRecipe(client, recipe) {
-  return await client
-    .db('CookbookDB')
-    .collection('recipes')
-    .insertOne({
-      id: recipe.id,
-      title: recipe.title,
-      servings: recipe.servings,
-      image: recipe.image,
-      readyInMinutes: recipe.readyInMinutes,
-      extendedIngredients: recipe.extendedIngredients,
-      instructions: recipe.instructions
-    });
-}
-
 export async function checkRecipe(client, cookbookID, recipe) {
   let cookbook = await getCookbook(cookbookID, client);
   let foundRecipe = false;
@@ -144,45 +124,14 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
  * @param {String} recipeID
  * @returns Response
  */
- export async function getRecipe(client, recipeID) {
+ export async function getRecipe(client, cookbookID, recipeID) {
+  const cookbook = await getCookbook(cookbookID, client);
+  let recipe = null;
 
-  const cursor = client
-    .db('CookbookDB')
-    .collection('recipes')
-    .find({
-      id: parseInt(recipeID),
-    }); // You can also add another object parameter for projection.
-
-  const results = await cursor.toArray();
-  if (results.length === 0) {
-    return null;
+  for (let i = 0; i < cookbook.recipes.length; i++) {
+    if (cookbook.recipes[i].id === parseInt(recipeID)) {
+      recipe = cookbook.recipes[i]
+    }
   }
-  else {
-    return results[0];
-  }
-}
-
-/**
- * Assumes you know the recipe id.
- * TODO discuss recipe structure and whether we want to find them by an id.
- * @param {MongoClient} client
- * @param {String} keywordQuery
- * @returns Response
- */
- export async function getLocalRecipes(client, keywordQuery) {
-
-  const cursor = client
-    .db('CookbookDB')
-    .collection('recipes')
-    .find({
-      title : {$regex : keywordQuery},
-    }); // You can also add another object parameter for projection.
-
-  const results = await cursor.toArray();
-  if (results.length === 0) {
-    return null;
-  }
-  else {
-    return results;
-  }
+    return recipe;
 }

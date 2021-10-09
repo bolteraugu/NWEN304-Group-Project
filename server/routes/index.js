@@ -25,8 +25,6 @@ import {
   getRecipe,
   checkRecipe,
   removeRecipe,
-  createRecipe,
-  getLocalRecipes
 } from '../controller/mongoDbRequests.js';
 
 mongoose
@@ -55,27 +53,13 @@ app.get('/recipes', async (req, res) => {
       ? req.query.limit
       : 10;
 
-  let results;
   await getRecipeByQuery(keywordQuery, limit)
     .then((response) => {
-      results = response;
+      res.status(200).send(response);
     })
     .catch((error) => {
       res.status(400).send(error);
     });
-  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
-  const localRecipes = await getLocalRecipes(client, keywordQuery);
-
-  if (localRecipes === null) {
-    res.status(200).send(results);
-  }
-  else {
-    for (let i  = 0; i < localRecipes.length; i++) {
-      results.results.unshift(localRecipes[i])
-    }
-    console.log(results);
-    res.status(200).send(results);
-  }
   
 });
 
@@ -220,30 +204,20 @@ router.post('/signinwithgoogle', async (req, res) => {
 //Login functionality
 router.post('/createRecipe', async (req, res) => {
   const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
-
-  createRecipe(client, req.body.recipe).then((response) => {
-    if (response.status == 500) {
-      res.status(500).send({
-        status: 500,
-        message: 'The recipe could not be created',
-      });
+  addRecipe(client, req.body.cookbookID, req.body.recipe)
+  .then((response) => {
+    if (response.status == 404) {
+      res.status(404).send({
+        status: 404,
+        message: 'The cookbook could not be found',
+        });
     } else {
-      addRecipe(client, req.body.cookbookID, req.body.recipe)
-      .then((response) => {
-        if (response.status == 404) {
-          res.status(404).send({
-            status: 404,
-            message: 'The cookbook could not be found',
-          });
-        } else {
-          res.status(200).send({response: response});
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    }
+        res.status(200).send({response: response});
+      }
   })
+  .catch((error) => {
+    console.error(error);
+  });
 });
 
 // Example 1: http://localhost:8080/recipes/650378
@@ -408,6 +382,7 @@ app.put('/cookbook/:id/recipes/:recipeId', async (req, res) => {
 
   const recipe = await getRecipe(client, cookbookID, recipeID);
   if (recipe == null) {
+    console.log(recipe);
     res.status(404).send({
       status: 404,
       message: 'The recipe with the id does not exist',
@@ -415,22 +390,5 @@ app.put('/cookbook/:id/recipes/:recipeId', async (req, res) => {
   }
   else {
     res.status(200).send(recipe);
-  }
-});
-
-/**
- * Check if recipe was usermade
- */
- app.get('/userMadeRecipe/:recipeID', async (req, res) => {
-  const recipeID = req.params.recipeID;
-
-  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
-
-  const recipe = await getRecipe(client, recipeID);
-  if (recipe === null) {
-    res.status(200).send({data: "null"});
-  }
-  else {
-    res.status(200).send({data: recipe});
   }
 });

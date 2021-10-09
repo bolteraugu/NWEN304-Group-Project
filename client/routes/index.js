@@ -78,42 +78,33 @@ router.get('/cookbook/:id', async (req, res) => {
   });
 });
 
-// router.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
-//   const cookbookID  = req.params.cookbookID;
-//   const recipeID = req.params.recipeID;
-//   const selectedRecipe = await fetch(
-//     `http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${recipeID}`
-//   ).then((response) => response.json());
-
-//   res.render('RecipeDetails', {
-//     title: 'Recipe Details',
-//     recipe: selectedRecipe,
-//   });
-// });
-
 router.get('/createRecipe', (req, res) => {
 	res.render('CreateRecipe', { title: "Create Recipe"});
 });
 
 router.get('/recipes/:id', async (req, res) => {
   const { id } = req.params;
-
   let recipe;
-
-  if (id.length === 16) {
-    await fetch(`http://localhost:${SERVER_PORT}/userMadeRecipe/${id}`)
-    .then((response) => response.json())
-    .then((data) => {
-      recipe = data.data;
-    })
-  }
-  else {
-    await fetch(`http://localhost:${SERVER_PORT}/recipes/${id}`)
+  await fetch(`http://localhost:${SERVER_PORT}/recipes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         recipe = data;
-      });
-  }
+  });
+  res.render('RecipeDetails', {
+    title: 'Recipe Details',
+    recipe: recipe,
+  });
+});
+
+router.get('/cookbook/:cookbookID/recipes/:id', async (req, res) => {
+  const cookbookID = req.params.cookbookID;
+  const id = req.params.id;
+  let recipe;
+  await fetch(`http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        recipe = data;
+  });
   res.render('RecipeDetails', {
     title: 'Recipe Details',
     recipe: recipe,
