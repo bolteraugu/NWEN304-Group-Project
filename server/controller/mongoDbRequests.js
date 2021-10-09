@@ -98,7 +98,6 @@ export async function checkRecipe(client, cookbookID, recipe) {
 }
 
 /**
- * TODO Discuss how we generate recipe ids.
  * @param {MongoClient} client
  * @param {String} cookbook_id
  * @param {Recipe} recipe
@@ -118,9 +117,22 @@ export async function addRecipe(client, cookbook_id, recipe) {
     );
 }
 
+export async function addKeywordSearch(client, keywordQuery, userId) {
+  return await client
+    .db('CookbookDB')
+    .collection('users')
+    .updateOne(
+      {
+        _id: new ObjectId(userId),
+      },
+      {
+        $push: { recentSearches: keywordQuery },
+      }
+    );
+}
+
 /**
  * Assumes you know the recipe id.
- * TODO discuss recipe structure and whether we want to find them by an id.
  * @param {MongoClient} client
  * @param {String} cookbook_id
  * @param {String} recipe_id

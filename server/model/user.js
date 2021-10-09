@@ -16,5 +16,10 @@ export const User = mongoose.model('User', new mongoose.Schema({
     cookbookID: {
         type: String,
         required: true,
+    },
+    recentSearches: {
+        type: Array,
+        required: true,
+        maxlength: 7
     }
 }));
