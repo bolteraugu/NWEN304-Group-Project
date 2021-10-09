@@ -254,20 +254,29 @@ router.post('/createRecipe', async (req, res) => {
 router.post('/createRecipe', async (req, res) => {
   const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
 
-  addRecipe(client, req.body.cookbookID, req.body.recipe)
-    .then((response) => {
-      if (response.status == 404) {
-        res.status(404).send({
-          status: 404,
-          message: 'The cookbook could not be found',
-        });
-      } else {
-        res.status(200).send({response: response});
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  createRecipe(client, req.body.recipe).then((response) => {
+    if (response.status == 500) {
+      res.status(500).send({
+        status: 500,
+        message: 'The recipe could not be created',
+      });
+    } else {
+      addRecipe(client, req.body.cookbookID, req.body.recipe)
+      .then((response) => {
+        if (response.status == 404) {
+          res.status(404).send({
+            status: 404,
+            message: 'The cookbook could not be found',
+          });
+        } else {
+          res.status(200).send({response: response});
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+  })
 });
 
 // Example 1: http://localhost:8080/recipes/650378
@@ -506,7 +515,7 @@ app.get('/users/:id/searches', async (req, res) => {
 });
 
 /**
- * Delete recipe from cookbook.
+ * Get recipe from cookbook.
  */
  app.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
   const cookbookID  = req.params.cookbookID;
@@ -523,5 +532,22 @@ app.get('/users/:id/searches', async (req, res) => {
   }
   else {
     res.status(200).send(recipe);
+  }
+});
+
+/**
+ * Check if recipe was usermade
+ */
+ app.get('/userMadeRecipe/:recipeID', async (req, res) => {
+  const recipeID = req.params.recipeID;
+
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  const recipe = await getRecipe(client, recipeID);
+  if (recipe === null) {
+    res.status(200).send({data: "null"});
+  }
+  else {
+    res.status(200).send({data: recipe});
   }
 });

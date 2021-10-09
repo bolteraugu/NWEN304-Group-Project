@@ -82,18 +82,18 @@ router.get('/cookbook/:id', async (req, res) => {
   });
 });
 
-router.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
-  const cookbookID  = req.params.cookbookID;
-  const recipeID = req.params.recipeID;
-  const selectedRecipe = await fetch(
-    `http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${recipeID}`
-  ).then((response) => response.json());
+// router.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
+//   const cookbookID  = req.params.cookbookID;
+//   const recipeID = req.params.recipeID;
+//   const selectedRecipe = await fetch(
+//     `http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${recipeID}`
+//   ).then((response) => response.json());
 
-  res.render('RecipeDetails', {
-    title: 'Recipe Details',
-    recipe: selectedRecipe,
-  });
-});
+//   res.render('RecipeDetails', {
+//     title: 'Recipe Details',
+//     recipe: selectedRecipe,
+//   });
+// });
 
 router.get('/createRecipe', (req, res) => {
   res.render('CreateRecipe', { title: 'Create Recipe' });
@@ -102,28 +102,32 @@ router.get('/createRecipe', (req, res) => {
 router.get('/recipes/:id', async (req, res) => {
   let results = [];
   const { id } = req.params;
-  let selectedRecipe;
-  await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}`)
-    .then((response) => response.json())
-    .then((data) => {
-      selectedRecipe = data;
-    });
-  await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}/similar`)
-    .then((response) => response.json())
-    .then((data) => {
-      results = data;
-    });
 
-  // No duplicates names
-  let similarRecipes = results.filter((obj, pos, arr) => {
-    return arr.map(mapObj => mapObj["title"]).indexOf(obj["title"]) === pos;
-  });
+  let recipe;
 
-  res.render('RecipeDetails', {
-    title: 'Recipe Details',
-    recipe: selectedRecipe,
-    similarRecipes: similarRecipes,
-  });
+  if (id.length === 16) {
+      await fetch(`http://localhost:${SERVER_PORT}/userMadeRecipe/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        selectedRecipe = data;
+      });
+      await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}/similar`)
+        .then((response) => response.json())
+        .then((data) => {
+          results = data;
+        });
+
+      // No duplicates names
+      let similarRecipes = results.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj["title"]).indexOf(obj["title"]) === pos;
+      });
+
+      res.render('RecipeDetails', {
+        title: 'Recipe Details',
+        recipe: selectedRecipe,
+        similarRecipes: similarRecipes,
+      });
+  }
 });
 
 router.get('/cookbook/:cookbookID/recipes/:id', async (req, res) => {
