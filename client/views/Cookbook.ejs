@@ -7,6 +7,9 @@
         <%- include('./partials/nav.ejs') %>
         <h1>Your Cookbook</h1>
         <div class="w-3/4 flex-row">
+            <button id="deleteUser">
+                
+            </button>
             <div class="flex flex-wrap flex-row justify-between">
                 <% recipes.forEach(r => { %>
                     <div class="flex flex-col my-4 mx-6 w-1/4">
@@ -18,5 +21,6 @@
                 <%  }) %>
             </div>
         </div>
+        <script src="/controller/cookbook.js"></script>
     </body>
 </html>
