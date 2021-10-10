@@ -183,42 +183,39 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/signinwithgoogle', async (req, res) => {
-    let email = req.body.emailVal;
-    let password = req.body.passwordVal;
-    let user = await User.find({email: req.body.emailVal}).limit(1).size();
-    if (user.length !== 0) {
-        // User exists
+  let email = req.body.emailVal;
+  let password = req.body.passwordVal;
+  let user = await User.find({ email: req.body.emailVal }).limit(1).size();
+  if (user.length !== 0) {
+    // User exists
 
-        //Create JWT token using private key which is a UUID and send the token.
-        const token = jwt.sign({_id: user._id}, 'JWT_SECRET');
+    //Create JWT token using private key which is a UUID and send the token.
+    const token = jwt.sign({ _id: user._id }, 'JWT_SECRET');
 
-        const userIDClean = user[0]._id.toString();
-        res.send({
-            userID: userIDClean,
-            token: token,
-            cookbookID: user[0].cookbookID,
-        });
-    } else {
-        // User does not exist
-        const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
-        const cookbookID = await createCookbook(client);
-        user = new User({
-            email: email,
-            password: password,
-            cookbookID: cookbookID,
-        });
+    const userIDClean = user[0]._id.toString();
+    res.send({
+      userID: userIDClean,
+      token: token,
+      cookbookID: user[0].cookbookID,
+      recentSearches: user[0].recentSearches,
+    });
+  } else {
+    // User does not exist
+    const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+    const cookbookID = await createCookbook(client);
+    user = new User({
+      email: email,
+      password: password,
+      cookbookID: cookbookID,
+      recentSearches: [],
+    });
 
-        //Create the salt and hash the password
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-        //Send the user to the database
-        await user.save();
-        const token = jwt.sign({_id: user._id}, 'JWT_SECRET');
-
-        res.header(
-            'Access-Control-Allow-Headers',
-            'Origin, Content-Type, Accept, Authorization'
-        );
+    //Create the salt and hash the password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+    //Send the user to the database
+    await user.save();
+    const token = jwt.sign({ _id: user._id }, 'JWT_SECRET');
 
         const userIDClean = user._id.toString();
 
