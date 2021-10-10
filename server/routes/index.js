@@ -27,6 +27,7 @@ import {
   deleteUser, 
   deleteCookbook,
   addKeywordSearch,
+  getKeywordSearch,
 } from '../controller/mongoDbRequests.js';
 
 mongoose
@@ -82,7 +83,9 @@ router.post('/register', async (req, res) => {
 
   if (valid === 0) {
     const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
-    const cookbookID = await createCookbook(client);
+    const cookbookID = await createCookbook(client)
+      .catch((err) => console.error(err))
+      .finally(() => client.close());
     //If they are then check if email already exists in MongoDB
     let checkUser = await User.find({ email: req.body.emailVal })
       .limit(1)
@@ -456,4 +459,26 @@ app.delete('/cookbook/:id', async (req, res) => {
       .catch((error) => {
         console.error(error);
       }).finally(() => client.close());
+
+});
+
+app.get('/users/:id/searches', async (req, res) => {
+  const userId = req.params.id;
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  return await getKeywordSearch(client, userId)
+    .then((response) => {
+      if (response.status == 404) {
+        res.status(404).send({
+          status: 404,
+          message: 'The user with the id does not exist',
+        });
+      } else {
+        res.status(200).send(response);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    .finally(() => client.close());
 });

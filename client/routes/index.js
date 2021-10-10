@@ -20,15 +20,15 @@ router.listen(CLIENT_PORT, () =>
 );
 
 router.get('/', async (req, res) => {
-  let searchQuery = req.query.search || '';
-  let userId = req.query.userId;
   let results = [];
 
-  if (searchQuery) {
+  if (req.query.search) {
+    const urlParams = new URLSearchParams();
+    urlParams.append('search', req.query.search);
+    if (req.query.userID) urlParams.append('userID', req.query.userID);
+
     await fetch(
-      `http://localhost:${SERVER_PORT}/recipes?keyword=${searchQuery}` + userId
-        ? '&userId=' + userId
-        : ''
+      `http://localhost:${SERVER_PORT}/recipes?` + urlParams.toString()
     )
       .then((response) => response.json())
       .then((data) => {
@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
     res.render('Home', {
       title: 'Home Page',
       recipes: results,
-      searchQuery: searchQuery,
+      searchQuery: req.query.search,
     });
   } else {
     // If nothing has been searched
@@ -55,7 +55,7 @@ router.get('/', async (req, res) => {
     res.render('Home', {
       title: 'Home Page',
       recipes: results,
-      searchQuery: searchQuery,
+      searchQuery: '', // ? Is this okay??
     });
   }
 });
