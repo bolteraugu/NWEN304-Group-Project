@@ -209,6 +209,8 @@ router.post('/signinwithgoogle', async (req, res) => {
       cookbookID: cookbookID,
       recentSearches: [],
     });
+    
+    client.close();
 
     //Create the salt and hash the password
     const salt = await bcrypt.genSalt(10);
