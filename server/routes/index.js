@@ -159,6 +159,47 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.post('/signinwithgoogle', async (req, res) => {
+  let email = req.body.emailVal;
+  let password = req.body.passwordVal;
+  let user = await User.find({ email: req.body.emailVal }).limit(1).size();
+  if (user.length !== 0) {
+    // User exists
+
+    //Create JWT token using private key which is a UUID and send the token.
+    const token = jwt.sign({ _id: user._id }, "JWT_SECRET");
+
+    const userIDClean = user[0]._id.toString();
+    res.send({ userID: userIDClean, token: token, cookbookID: user[0].cookbookID });
+  } else {
+    // User does not exist
+    const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+    const cookbookID = await createCookbook(client);
+    user = new User({
+      email: email,
+      password: password,
+      cookbookID: cookbookID
+    });
+
+    //Create the salt and hash the password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+    //Send the user to the database
+    await user.save();
+    const token = jwt.sign({ _id: user._id }, "JWT_SECRET");
+
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, Content-Type, Accept, Authorization'
+    );
+
+    const userIDClean = user._id.toString();
+
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.send({ token: token, userID: userIDClean, cookbookID: cookbookID }).status(200);
+  }
+});
+
 // Example 1: http://localhost:8080/recipes/650378
 app.get('/recipes/:id', (req, res) => {
   const { id } = req.params;
