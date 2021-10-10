@@ -20,6 +20,6 @@ export const User = mongoose.model('User', new mongoose.Schema({
     recentSearches: {
         type: Array,
         required: true,
-        maxlength: 7
+        maxlength: 15
     }
 }));

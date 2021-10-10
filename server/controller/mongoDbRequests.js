@@ -134,7 +134,7 @@ export async function addKeywordSearch(client, keywordQuery, userId) {
         _id: new ObjectId(userId),
       },
       {
-        $push: { recentSearches: keywordQuery },
+        $push: { recentSearches: { $each: [keywordQuery], $slice: -10 } },
       }
     );
 }
