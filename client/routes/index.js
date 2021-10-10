@@ -3,7 +3,9 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
 import fetch from 'node-fetch';
-import { CLIENT_PORT, SERVER_PORT } from '../../credentials.js';
+import { SERVER_PORT } from '../../credentials.js';
+import dotenv from 'dotenv'
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,12 +13,17 @@ const __dirname = dirname(__filename);
 const router = express();
 router.set('views', '../views');
 router.set('view engine', 'ejs');
+dotenv.config();
+
+console.log(process.env.HELLO_THERE);
 
 let publicPath = path.join(__dirname, '../public');
 router.use(express.static(publicPath));
 
-router.listen(CLIENT_PORT, () =>
-  console.log(`Client side running on http://localhost:${CLIENT_PORT}`)
+router.listen(process.env.CLIENT_PORT, () =>
+  console.log(
+    `Client side running on http://localhost:${process.env.CLIENT_PORT}`
+  )
 );
 
 router.get('/', async (req, res) => {
