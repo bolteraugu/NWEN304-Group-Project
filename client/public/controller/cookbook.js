@@ -44,4 +44,4 @@ const deleteCookbook = async (cookbook_id) => {
                 Origin: `http://localhost:3000`,
             },
         }
-    ).then(() => window.location.href = window.location.href)}
+    ).then(() => window.location.href = '/')}
