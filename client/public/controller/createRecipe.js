@@ -1,4 +1,4 @@
-//On window load add listeners
+ //On window load add listeners
 window.addEventListener('load', init);
 
 function init() {

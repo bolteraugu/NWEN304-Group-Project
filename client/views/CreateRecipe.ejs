@@ -1,24 +1,47 @@
 <html>
-    <%- include('./partials/head.ejs') %>
-    <body>
-        <!-- Example of tailwind css class name -->
-        <!-- The '=' indicates to output onto the screen -->
-        <h1 class="flex-auto text-xl font-semibold"><%= title %></h1>
+<%- include('./partials/head.ejs') %>
+    <body class="h-screen">
+    <%- include('./partials/nav.ejs') %>
 
-        <!-- Below is how you essentially get partials (equiv. to React components). Below gets the nav partial -->
-        <%- include('./partials/nav.ejs') %>
-        <p>Title</p>
-        <input type="text" id="titleInput" name="title"></input>
-        <p>Servings</p>
-        <input type="text" id="servingsInput" name="servings"></input>
-        <p>Time until ready (in minutes)</p>
-        <input type="text" id="readyInMinutesInput" name="readyInMinutes"></input>
-        <p>Ingredients (please separate each ingredient by putting a comma after it)</p>
-        <textarea type="text" id="ingredientsInput" name="ingredients"></textarea>
-        <p>Preparations</p>
-        <textarea id="preparationsInput" name="instructions"></textarea>
-        <p></p>
-        <button id="createRecipeButton">Create</button>
+        <div class="container page-content p-16 bg-white flex mx-auto">
+            <div class="bg-eggshell rounded-md py-6 shadow-lg p-8 space-y-4 flex-col justify-center w-96 mx-auto text-sm">
+                <div class="flex-row mx-auto">
+                    <p class="mx-auto text-primary-dg text-lg font-bold text-center">Create a Recipe!</p>
+                    <p class="border-b-2 border-secondary-brown mb-6 mt-2"></p>
+                </div>
+                <div class="mx-auto space-y-1">
+                    <p>What's your recipe called?</p>
+                    <input type="text" id="titleInput" name="title" class="w-full"/>
+                </div>
+
+                <div class="mx-auto space-y-1">
+                    <p>How many servings is this?</p>
+                    <input type="text" id="servingsInput" name="servings" class="w-full"/>
+                </div>
+
+                <div class="mx-auto space-y-1">
+                    <p>Preparation and cook time(in minutes)?</p>
+                    <input type="text" id="readyInMinutesInput" name="readyInMinutes" class="w-full"/>
+                </div>
+
+                <div class="mx-auto space-y-1">
+                    <p>List the ingredients (please separate each ingredient by putting a comma after it)</p>
+                    <input type="text" id="ingredientsInput" name="ingredients" class="w-full"/>
+                </div>
+
+                <div class="mx-auto space-y-1">
+                    <p>What are the instructions?</p>
+                    <textarea type="text" id="instructionsInput" name="instructions" class="w-full"></textarea>
+                </div>
+
+                <div class="mx-auto pt-6">
+                    <button id="createRecipeButton"
+                            class="block bg-primary-lg text-center text-md no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl shadow-md hover:bg-primary-dg hover:shadow-xl">
+                        Create
+                    </button>
+                </div>
+            </div>
+        </div>
         <!-- Adding client controller so it can set up listeners for some of the above components. -->
         <script src = "/controller/createRecipe.js"></script> 
     </body>
