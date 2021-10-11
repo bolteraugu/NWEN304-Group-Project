@@ -72,6 +72,19 @@ export async function createCookbook(client) {
   return result.insertedId;
 }
 
+/**
+ * Deletes a cookbook. This is used when a user is deleted, their cookbook is deleted as well.
+ * @param client
+ * @param cookbookID
+ * @returns {Promise<*>}
+ */
+export async function deleteCookbook(client, cookbookID) {
+  return await client
+      .db('CookbookDB')
+      .collection('cookbooks')
+      .deleteOne({ _id: new ObjectId(cookbookID) });
+}
+
 export async function checkRecipe(client, cookbookID, recipe) {
   let cookbook = await getCookbook(cookbookID, client);
   let foundRecipe = false;
@@ -128,7 +141,6 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
     );
 }
 
-
 /**
  * Assumes you know the recipe id.
  * TODO discuss recipe structure and whether we want to find them by an id.
@@ -148,6 +160,12 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
     return recipe;
 }
 
+/**
+ * Deletes a user by their ID.
+ * @param client
+ * @param userId
+ * @returns {Promise<*>}
+ */
 export async function deleteUser(client, userId) {
   return await client
     .db('CookbookDB')

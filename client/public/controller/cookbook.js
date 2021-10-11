@@ -20,7 +20,10 @@ function deleteUser() {
                 },
             }).then((response) => {
                 if (response.ok){
+                    deleteCookbook(window.localStorage.getItem("cookbookID"))
                     window.localStorage.removeItem("token");
+                    window.localStorage.removeItem("cookbookID");
+                    window.localStorage.removeItem("userID");
                     initialRenderingNav();
                     window.location.href = '/';
                 } else {
@@ -29,3 +32,16 @@ function deleteUser() {
             });
         })
 }
+
+const deleteCookbook = async (cookbook_id) => {
+    await fetch(
+        `http://localhost:8080/cookbook/${cookbook_id}`,
+        {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Origin: `http://localhost:3000`,
+            },
+        }
+    ).then(() => window.location.href = window.location.href)}

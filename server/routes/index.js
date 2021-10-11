@@ -18,14 +18,14 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import {MONGO_URI, SERVER_PORT} from '../../credentials.js';
 import {
-    addRecipe,
-    connectToMongoDb,
-    createCookbook,
-    getCookbook,
-    getRecipe,
-    checkRecipe,
-    removeRecipe,
-    deleteUser,
+  addRecipe,
+  connectToMongoDb,
+  createCookbook,
+  getCookbook,
+  checkRecipe,
+  getCookbookID,
+  removeRecipe,
+  deleteUser, deleteCookbook
 } from '../controller/mongoDbRequests.js';
 
 mongoose
@@ -425,4 +425,24 @@ app.delete('/users/:id', async (req, res) => {
             console.error(error);
         });
 
+});
+
+app.delete('/cookbook/:id', async (req, res) => {
+  const id = req.params.id;
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  return deleteCookbook(client, id)
+      .then((response) => {
+        if (response.status == 404) {
+          res.status(404).send({
+            status: 404,
+            message: 'The cookbook with the id does not exist.',
+          });
+        } else {
+          res.status(200).send(response);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      }).finally(() => client.close());
 });
