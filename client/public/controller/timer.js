@@ -26,7 +26,7 @@ function inactivityTime() {
         //Function which resets the timer by calling clearTimeout() and setTimeout()
         function resetTimer() {
             clearTimeout(time);
-            time = setTimeout(logout, 300000); //Timer set for 5mins, you should change this to a lower value for testing
+            time = setTimeout(logout, 600000); //Timer set for 10mins, you should change this to a lower value for testing
         }
     }
 };
