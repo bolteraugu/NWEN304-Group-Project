@@ -6,12 +6,14 @@
             <div class="px-16 py-8 space-x-8 flex">
                 <div class="w-1/4">
                     <%- include('./partials/searchField.ejs') %>
+                    <div class="flex">
+                        <%- include('./partials/createRecipeButton.ejs') %>
+                    </div>
                 </div>
 
                 <div class="w-3/4 flex-row">
                     <%- include('./partials/recipeList.ejs') %>
                 </div>
-                    <a id = "createRecipeButton" href="/createRecipe" style="display: none">Create Recipe</a>
             </div>
         </div>
         <script src = "/controller/home.js"></script>
