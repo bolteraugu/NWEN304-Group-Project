@@ -45,6 +45,17 @@ export async function getCookbook(cookbook_id, client) {
   return cookbook; // TODO Put an invalid response code if its undefined
 }
 
+
+export async function getCookbookID(client, userID) {
+  const cursor = client.db('CookbookDB').collection('cookbooks').find({
+    userID: userID,
+  }); // You can also add another object parameter for projection.
+
+  const results = await cursor.toArray();
+
+  return results[0]._id;
+}
+
 /**
  * Adds a cookbook, which should happen when a new user is created.
  * @param {MongoClient} client
@@ -59,6 +70,19 @@ export async function createCookbook(client) {
     });
 
   return result.insertedId;
+}
+
+/**
+ * Deletes a cookbook. This is used when a user is deleted, their cookbook is deleted as well.
+ * @param client
+ * @param cookbookID
+ * @returns {Promise<*>}
+ */
+export async function deleteCookbook(client, cookbookID) {
+  return await client
+      .db('CookbookDB')
+      .collection('cookbooks')
+      .deleteOne({ _id: new ObjectId(cookbookID) });
 }
 
 export async function checkRecipe(client, cookbookID, recipe) {
@@ -134,4 +158,17 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
     }
   }
     return recipe;
+}
+
+/**
+ * Deletes a user by their ID.
+ * @param client
+ * @param userId
+ * @returns {Promise<*>}
+ */
+export async function deleteUser(client, userId) {
+  return await client
+    .db('CookbookDB')
+    .collection('users')
+    .deleteOne({ _id: new ObjectId(userId) });
 }
