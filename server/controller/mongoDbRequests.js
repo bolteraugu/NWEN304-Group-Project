@@ -185,28 +185,3 @@ export async function deleteUser(client, userId) {
     .collection('users')
     .deleteOne({ _id: new ObjectId(userId) });
 }
-
-/**
- * Assumes you know the recipe id.
- * TODO discuss recipe structure and whether we want to find them by an id.
- * @param {MongoClient} client
- * @param {String} keywordQuery
- * @returns Response
- */
- export async function getLocalRecipes(client, keywordQuery) {
-
-  const cursor = client
-    .db('CookbookDB')
-    .collection('recipes')
-    .find({
-      id: parseInt(recipeID),
-    }); // You can also add another object parameter for projection.
-
-  const results = await cursor.toArray();
-  if (results.length === 0) {
-    return null;
-  }
-  else {
-    return results[0];
-  }
-}

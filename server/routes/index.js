@@ -525,3 +525,29 @@ app.get('/users/:id/searches', async (req, res) => {
     res.status(200).send(recipe);
   }
 });
+
+app.post("/createExpiryToken", (req, res) => {
+  let userID = req.body.userID;
+  //Create JWT token using private key and send the token.
+  const token = jwt.sign({ _id: userID }, "JWT_SECRET", {expiresIn: '30s'});
+  res.send({token: token});
+})
+
+app.get('/checkToken', (req, res) => {
+  const header = req.headers['authorization'];
+  const bearer = header.split(' ');
+  jwt.verify(bearer[1], "JWT_SECRET", (err, authorizedData) => {
+    if(err){
+      //If error send Forbidden (403)
+      console.log('JWT has expired');
+      res.sendStatus(403);
+    } 
+    else {
+      //If token is successfully verified, we can send the autorized data 
+      res.json({
+          authroizedData: authorizedData
+      });
+      console.log('SUCCESS: JWT valid');
+    }
+  })
+})
