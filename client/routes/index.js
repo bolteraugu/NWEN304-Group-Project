@@ -73,6 +73,7 @@ router.get('/cookbook/:id', async (req, res) => {
   // TODO Discuss how this should look.
   res.render('Cookbook', {
     title: 'Your Cookbook',
+    id: data.response._id,
     recipes: data ? data.response.recipes : [],
   });
 });
@@ -81,19 +82,31 @@ router.get('/createRecipe', (req, res) => {
 	res.render('CreateRecipe', { title: "Create Recipe"});
 });
 
-/**
- * ? Is this still necessary? What is it doing?
- */
 router.get('/recipes/:id', async (req, res) => {
   const { id } = req.params;
-  let selectedRecipe;
+  let recipe;
   await fetch(`http://localhost:${SERVER_PORT}/recipes/${id}`)
-    .then((response) => response.json())
-    .then((data) => {
-      selectedRecipe = data;
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        recipe = data;
+  });
   res.render('RecipeDetails', {
     title: 'Recipe Details',
-    recipe: selectedRecipe,
+    recipe: recipe,
+  });
+});
+
+router.get('/cookbook/:cookbookID/recipes/:id', async (req, res) => {
+  const cookbookID = req.params.cookbookID;
+  const id = req.params.id;
+  let recipe;
+  await fetch(`http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        recipe = data;
+  });
+  res.render('RecipeDetails', {
+    title: 'Recipe Details',
+    recipe: recipe,
   });
 });

@@ -45,20 +45,6 @@ export async function getCookbook(cookbook_id, client) {
   return cookbook; // TODO Put an invalid response code if its undefined
 }
 
-export async function getCookbookID(client, userID) {
-
-  const cursor = client
-    .db('CookbookDB')
-    .collection('cookbooks')
-    .find({
-      userID: userID,
-    }); // You can also add another object parameter for projection.
-
-    const results = await cursor.toArray();
-
-    return results[0]._id;
-}
-
 /**
  * Adds a cookbook, which should happen when a new user is created.
  * @param {MongoClient} client
@@ -129,4 +115,23 @@ export async function removeRecipe(client, cookbook_id, recipe_id) {
       },
       { multi: false }
     );
+}
+
+/**
+ * Assumes you know the recipe id.
+ * TODO discuss recipe structure and whether we want to find them by an id.
+ * @param {MongoClient} client
+ * @param {String} recipeID
+ * @returns Response
+ */
+ export async function getRecipe(client, cookbookID, recipeID) {
+  const cookbook = await getCookbook(cookbookID, client);
+  let recipe = null;
+
+  for (let i = 0; i < cookbook.recipes.length; i++) {
+    if (cookbook.recipes[i].id === parseInt(recipeID)) {
+      recipe = cookbook.recipes[i]
+    }
+  }
+    return recipe;
 }

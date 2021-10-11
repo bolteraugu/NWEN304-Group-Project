@@ -13,13 +13,13 @@
         <input type="text" id="servingsInput" name="servings"></input>
         <p>Time until ready (in minutes)</p>
         <input type="text" id="readyInMinutesInput" name="readyInMinutes"></input>
-        <p>Ingredients</p>
-        <input type="text" id="ingredientsInput" name="ingredients"></input>
-        <p>Instructions</p>
-        <input type="text" id="instructionsInput" name="instructions"></input>
+        <p>Ingredients (please separate each ingredient by putting a comma after it)</p>
+        <textarea type="text" id="ingredientsInput" name="ingredients"></textarea>
+        <p>Preparations</p>
+        <textarea id="preparationsInput" name="instructions"></textarea>
         <p></p>
         <button id="createRecipeButton">Create</button>
         <!-- Adding client controller so it can set up listeners for some of the above components. -->
-        <script src = "/controller/index.js"></script> 
+        <script src = "/controller/createRecipe.js"></script> 
     </body>
 </html>

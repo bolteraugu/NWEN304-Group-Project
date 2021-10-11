@@ -22,8 +22,8 @@ import {
   connectToMongoDb,
   createCookbook,
   getCookbook,
+  getRecipe,
   checkRecipe,
-  getCookbookID,
   removeRecipe,
 } from '../controller/mongoDbRequests.js';
 
@@ -45,20 +45,22 @@ app.listen(SERVER_PORT, () =>
 
 // Example 1: http://localhost:8080/recipes?keyword=curry
 // Example 2: http://localhost:8080/recipes?keyword=curry&limit=5
-app.get('/recipes', (req, res) => {
+app.get('/recipes', async (req, res) => {
   let keywordQuery = req.query.keyword;
   // If limit exists inside query parameter and is between 0 and 100, then use the limit in query. Otherwise, default to 10
   let limit =
     req.query.limit && req.query.limit > 0 && req.query.limit < 100
       ? req.query.limit
       : 10;
-  getRecipeByQuery(keywordQuery, limit)
+
+  await getRecipeByQuery(keywordQuery, limit)
     .then((response) => {
       res.status(200).send(response);
     })
     .catch((error) => {
       res.status(400).send(error);
     });
+  
 });
 
 app.get('/cookbook/:cookbookID/checkRecipe/:id', async (req, res) => {
@@ -198,6 +200,24 @@ router.post('/signinwithgoogle', async (req, res) => {
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.send({ token: token, userID: userIDClean, cookbookID: cookbookID }).status(200);
   }
+})
+//Login functionality
+router.post('/createRecipe', async (req, res) => {
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+  addRecipe(client, req.body.cookbookID, req.body.recipe)
+  .then((response) => {
+    if (response.status == 404) {
+      res.status(404).send({
+        status: 404,
+        message: 'The cookbook could not be found',
+        });
+    } else {
+        res.status(200).send({response: response});
+      }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 });
 
 // Example 1: http://localhost:8080/recipes/650378
@@ -349,4 +369,26 @@ app.put('/cookbook/:id/recipes/:recipeId', async (req, res) => {
     .catch((error) => {
       console.error(error);
     });
+});
+
+/**
+ * Get recipe from cookbook.
+ */
+ app.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
+  const cookbookID  = req.params.cookbookID;
+  const recipeID = req.params.recipeID;
+
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+
+  const recipe = await getRecipe(client, cookbookID, recipeID);
+  if (recipe == null) {
+    console.log(recipe);
+    res.status(404).send({
+      status: 404,
+      message: 'The recipe with the id does not exist',
+    });
+  }
+  else {
+    res.status(200).send(recipe);
+  }
 });
