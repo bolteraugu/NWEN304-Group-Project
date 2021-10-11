@@ -1,5 +1,4 @@
 import { MongoClient, ObjectId } from 'mongodb';
-import { CLIENT_PORT, MONGO_URI, SERVER_PORT } from '../../credentials.js';
 import {
   addRecipe,
   connectToMongoDb,
@@ -15,7 +14,6 @@ main();
  */
 export default async function main() {
   console.log('Running main');
-  console.log(SERVER_PORT, CLIENT_PORT);
 
   const client = await connectToMongoDb();
 

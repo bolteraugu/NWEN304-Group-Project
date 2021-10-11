@@ -18,9 +18,9 @@ document
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Origin', `http://localhost:3000`);
+        headers.append('Origin', `http://localhost:${process.env.CLIENT_PORT}`);
 
-        await fetch(`http://localhost:8080/register`, {
+        await fetch(`http://localhost:${process.env.SERVER_PORT}/register`, {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({ emailVal: email, passwordVal: password }),

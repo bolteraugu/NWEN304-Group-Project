@@ -1,3 +1,4 @@
+
 //On window load add listeners
 window.addEventListener('load', init);
 
@@ -15,12 +16,12 @@ function login() {
         let email = document.querySelector('#emailInputLogin').value;
         let password = document.querySelector('#passwordInputLogin').value;
         //Send a POST request to the server with the request body containing the email and password
-        await fetch(`http://localhost:8080/login`, {
+        await fetch(`http://localhost:${process.env.SERVER_PORT}/login`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Origin: `http://localhost:3000`,
+            Origin: `http://localhost:${process.env.CLIENT_PORT}`,
           },
           body: JSON.stringify({ emailVal: email, passwordVal: password }),
         })
@@ -59,7 +60,7 @@ function login() {
 
 function loginWithGoogle() {
   const firebaseConfig = {
-    apiKey: "AIzaSyCPoe-cWObB1rYclRbtg3DRqeKPgX16cGw",
+    apiKey: process.env.FIREBASE_API,
     authDomain: "cooked-nwen304-2021.firebaseapp.com",
     projectId: "cooked-nwen304-2021",
     storageBucket: "cooked-nwen304-2021.appspot.com",
@@ -76,12 +77,12 @@ function loginWithGoogle() {
       const credential = res.credential;
       const token = credential.accessToken;
 
-      fetch(`http://localhost:8080/signinwithgoogle`, {
+      fetch(`http://localhost:${process.env.SERVER_PORT}/signinwithgoogle`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Origin: `http://localhost:3000`,
+          Origin: `http://localhost:${process.env.CLIENT_PORT}`,
         },
         body: JSON.stringify({ emailVal: res.user.email, passwordVal: res.user.uid }),
       })

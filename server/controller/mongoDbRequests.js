@@ -1,5 +1,4 @@
 import { MongoClient } from 'mongodb';
-import { MONGO_URI } from '../../credentials.js';
 import { ObjectId } from 'bson';
 
 /**
@@ -9,7 +8,7 @@ import { ObjectId } from 'bson';
  * @returns {Promise<MongoClient>}
  */
 export const connectToMongoDb = async () => {
-  const client = new MongoClient(MONGO_URI, {
+  const client = new MongoClient(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
