@@ -7,8 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tailwind:css": "postcss ./client/public/styles/tailwind.css -o ./client/public/styles/style.css",
-    "client": "node ./client/routes/",
-    "server": "node ./server/routes/"
+    "client": "node -r dotenv/config ./client/routes/",
+    "server": "node -r dotenv/config ./server/routes/"
   },
   "repository": {
     "type": "git",

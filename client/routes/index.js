@@ -3,9 +3,6 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
 import fetch from 'node-fetch';
-import dotenv from 'dotenv'
-
-const env = dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

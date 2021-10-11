@@ -17,7 +17,7 @@ async function initialRenderingRecipeDetails() {
   ) {
     let hasRecipe = false;
     await fetch(
-      `http://localhost:${process.env.SERVER_PORT}/cookbook/${cookbookID}/checkRecipe/${recipe.id}`,
+      `http://localhost:8080/cookbook/${cookbookID}/checkRecipe/${recipe.id}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -59,25 +59,25 @@ async function addListeners() {
  * @returns Response
  */
 const addRecipe = (cookbook_id, recipe) =>
-  fetch(`http://localhost:${process.env.SERVER_PORT}/cookbook/${cookbook_id}/recipes/`, {
+  fetch(`http://localhost:8080/cookbook/${cookbook_id}/recipes/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Origin: `http://localhost:${process.env.CLIENT_PORT}`,
+      Origin: `http://localhost:3000`,
     },
     body: JSON.stringify({ recipe: recipe }),
   }).then(() => (window.location.href = window.location.href));
 
 const removeRecipe = (cookbook_id, recipe_id) => {
   fetch(
-    `http://localhost:${process.env.SERVER_PORT}/cookbook/${cookbook_id}/recipes/${recipe_id}`,
+    `http://localhost:8080/cookbook/${cookbook_id}/recipes/${recipe_id}`,
     {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Origin: `http://localhost:${process.env.CLIENT_PORT}`,
+        Origin: `http://localhost:3000`,
       },
     }
 ).then(() => window.location.href = "/")

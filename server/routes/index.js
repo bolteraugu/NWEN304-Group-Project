@@ -28,9 +28,6 @@ import {
   getKeywordSearch,
 } from '../controller/mongoDbRequests.js';
 
-import dotenv from 'dotenv';
-dotenv.config()
-
 mongoose
   .connect(process.env.MONGO_URI)
   .catch((err) => console.error('Something went wrong', err));
