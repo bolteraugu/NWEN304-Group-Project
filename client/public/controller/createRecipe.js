@@ -5,6 +5,7 @@ function init() {
     addCreateRecipeListeners();
 }
 
+//If you are wondering how the checking token works check out code comments in cookbook.js
 function addCreateRecipeListeners() {
     document.getElementById("createRecipeButton").addEventListener('click', async () => {
         if (window.localStorage.getItem("token") != null) {
@@ -18,7 +19,7 @@ function addCreateRecipeListeners() {
                         window.localStorage.removeItem('token');
                         window.localStorage.removeItem('cookbookID');
                         window.localStorage.removeItem('userID');
-                        window.location.href = window.location.href;
+                        window.location.href = "/";
                     }
                     else {
                         let title = document.getElementById("titleInput").value;
@@ -62,6 +63,7 @@ function addCreateRecipeListeners() {
             window.localStorage.removeItem('token');
             window.localStorage.removeItem('cookbookID');
             window.localStorage.removeItem('userID');
+            window.location.href = "/";
         }
     })
 }

@@ -16,8 +16,8 @@ function logout() {
       });
 }
 
+//If you are wondering how the checking token works check out code comments in cookbook.js
 async function initialRenderingNav() {
-
     if (window.localStorage.getItem("token") != null) {
         await fetch(`http://localhost:8080/checkToken`, {
             method: 'GET',
@@ -51,7 +51,7 @@ async function initialRenderingNav() {
                                     window.localStorage.removeItem('token');
                                     window.localStorage.removeItem('cookbookID');
                                     window.localStorage.removeItem('userID');
-                                    window.location.href = window.location.href;
+                                    window.location.href = "/";
                                 }
                                 else {
                                     window.location.href = '/cookbook/' + window.localStorage.getItem('cookbookID');
@@ -62,7 +62,7 @@ async function initialRenderingNav() {
                         window.localStorage.removeItem('token');
                         window.localStorage.removeItem('cookbookID');
                         window.localStorage.removeItem('userID');
-                        window.location.href = window.location.href;
+                        window.location.href = "/";
                     }
                 })
               }

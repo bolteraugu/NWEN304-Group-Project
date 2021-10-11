@@ -5,6 +5,7 @@ function init() {
     renderingAndListener();
 }
 
+//If you are wondering how the checking token works check out code comments in cookbook.js
 async function renderingAndListener() {
     if (window.localStorage.getItem("token") != null) {
         await fetch(`http://localhost:8080/checkToken`, {
@@ -13,7 +14,12 @@ async function renderingAndListener() {
                 'Authorization': 'Bearer ' + window.localStorage.getItem("token")
             }
           }).then((response) => {
-              if (response.status !== 403) {
+              if (response.status === 403) {
+                window.localStorage.removeItem('token');
+                window.localStorage.removeItem('cookbookID');
+                window.localStorage.removeItem('userID');
+              }
+              else {
                 document.getElementById("createRecipeButton").style.display = "flex";
               }
           })
@@ -32,7 +38,7 @@ async function renderingAndListener() {
                         window.localStorage.removeItem('token');
                         window.localStorage.removeItem('cookbookID');
                         window.localStorage.removeItem('userID');
-                        window.location.href = window.location.href;
+                        window.location.href = "/";
                       }
                       else {
                         window.location.href = "/createRecipe";
@@ -43,7 +49,7 @@ async function renderingAndListener() {
                 window.localStorage.removeItem('token');
                 window.localStorage.removeItem('cookbookID');
                 window.localStorage.removeItem('userID');
-                window.location.href = window.location.href;
+                window.location.href = "/";
             }
         }, 
         false);

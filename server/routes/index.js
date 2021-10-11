@@ -515,7 +515,6 @@ app.get('/users/:id/searches', async (req, res) => {
 
   const recipe = await getRecipe(client, cookbookID, recipeID);
   if (recipe == null) {
-    console.log(recipe);
     res.status(404).send({
       status: 404,
       message: 'The recipe with the id does not exist',
@@ -526,20 +525,23 @@ app.get('/users/:id/searches', async (req, res) => {
   }
 });
 
+//Create token that expires, so if the user leaves the application for a longer period than the expiry time, then when they come back in they have to log back in.
 app.post("/createExpiryToken", (req, res) => {
   let userID = req.body.userID;
   //Create JWT token using private key and send the token.
-  const token = jwt.sign({ _id: userID }, "JWT_SECRET", {expiresIn: '30s'});
+  const token = jwt.sign({ _id: userID }, "JWT_SECRET", {expiresIn: '2h'}); //Change this value to be lower for testing (e.g. 10s for 10 seconds)
   res.send({token: token});
 })
 
+//Checks if JWT token is valid
 app.get('/checkToken', (req, res) => {
+  //Fetching token
   const header = req.headers['authorization'];
   const bearer = header.split(' ');
+  //Checking if token is valid with verify()
   jwt.verify(bearer[1], "JWT_SECRET", (err, authorizedData) => {
     if(err){
       //If error send Forbidden (403)
-      console.log('JWT has expired');
       res.sendStatus(403);
     } 
     else {
@@ -547,7 +549,6 @@ app.get('/checkToken', (req, res) => {
       res.json({
           authroizedData: authorizedData
       });
-      console.log('SUCCESS: JWT valid');
     }
   })
 })
