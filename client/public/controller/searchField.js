@@ -2,15 +2,20 @@
 window.addEventListener('load', init);
 
 function init() {
-    search();
+  search();
 }
 
 function search() {
-    document
+  document
     .querySelector('#searchButton')
     .addEventListener('click', function () {
       let searchQuery = document.querySelector('#searchInput').value;
-      window.location.href = '/?search=' + searchQuery;
+      let userID = window.localStorage.getItem('userID');
+      let urlParams = new URLSearchParams({
+        search: searchQuery,
+      });
+      if (userID) urlParams.append('userID', userID);
+      window.location.href = '/?' + urlParams.toString();
     });
 
   document

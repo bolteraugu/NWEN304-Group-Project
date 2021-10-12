@@ -45,7 +45,6 @@ export async function getCookbook(cookbook_id, client) {
   return cookbook; // TODO Put an invalid response code if its undefined
 }
 
-
 export async function getCookbookID(client, userID) {
   const cursor = client.db('CookbookDB').collection('cookbooks').find({
     userID: userID,
@@ -98,7 +97,6 @@ export async function checkRecipe(client, cookbookID, recipe) {
 }
 
 /**
- * TODO Discuss how we generate recipe ids.
  * @param {MongoClient} client
  * @param {String} cookbook_id
  * @param {Recipe} recipe
@@ -118,9 +116,34 @@ export async function addRecipe(client, cookbook_id, recipe) {
     );
 }
 
+export async function addKeywordSearch(client, keywordQuery, userId) {
+  return await client
+    .db('CookbookDB')
+    .collection('users')
+    .updateOne(
+      {
+        _id: new ObjectId(userId),
+      },
+      {
+        $push: { recentSearches: { $each: [keywordQuery], $slice: -10 } },
+      }
+    );
+}
+
+export async function getKeywordSearch(client, userId) {
+  let cursor = client
+    .db('CookbookDB')
+    .collection('users')
+    .find({
+      _id: new ObjectId(userId),
+    });
+
+  const results = await cursor.toArray();
+  return results[0].recentSearches;
+}
+
 /**
  * Assumes you know the recipe id.
- * TODO discuss recipe structure and whether we want to find them by an id.
  * @param {MongoClient} client
  * @param {String} cookbook_id
  * @param {String} recipe_id

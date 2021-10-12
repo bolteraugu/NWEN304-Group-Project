@@ -20,11 +20,15 @@ router.listen(CLIENT_PORT, () =>
 );
 
 router.get('/', async (req, res) => {
-  let searchQuery = req.query.search || '';
   let results = [];
-  if (searchQuery) {
+
+  if (req.query.search) {
+    const urlParams = new URLSearchParams();
+    urlParams.append('search', req.query.search);
+    if (req.query.userID) urlParams.append('userID', req.query.userID);
+
     await fetch(
-      `http://localhost:${SERVER_PORT}/recipes?keyword=` + searchQuery
+      `http://localhost:${SERVER_PORT}/recipes?` + urlParams.toString()
     )
       .then((response) => response.json())
       .then((data) => {
@@ -36,7 +40,7 @@ router.get('/', async (req, res) => {
     res.render('Home', {
       title: 'Home Page',
       recipes: results,
-      searchQuery: searchQuery,
+      searchQuery: req.query.search,
     });
   } else {
     // If nothing has been searched
@@ -51,7 +55,7 @@ router.get('/', async (req, res) => {
     res.render('Home', {
       title: 'Home Page',
       recipes: results,
-      searchQuery: searchQuery,
+      searchQuery: '',
     });
   }
 });
@@ -70,7 +74,6 @@ router.get('/cookbook/:id', async (req, res) => {
     `http://localhost:${SERVER_PORT}/cookbook/${id}`
   ).then((response) => response.json());
 
-  // TODO Discuss how this should look.
   res.render('Cookbook', {
     title: 'Your Cookbook',
     id: data.response._id,
@@ -79,7 +82,7 @@ router.get('/cookbook/:id', async (req, res) => {
 });
 
 router.get('/createRecipe', (req, res) => {
-	res.render('CreateRecipe', { title: "Create Recipe"});
+  res.render('CreateRecipe', { title: 'Create Recipe' });
 });
 
 router.get('/recipes/:id', async (req, res) => {
