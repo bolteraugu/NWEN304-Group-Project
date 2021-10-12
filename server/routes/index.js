@@ -26,6 +26,7 @@ import {
   deleteCookbook,
   addKeywordSearch,
   getKeywordSearch,
+  getRecipe,
 } from '../controller/mongoDbRequests.js';
 
 mongoose
