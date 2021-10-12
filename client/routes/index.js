@@ -104,7 +104,7 @@ router.get('/cookbook/:cookbookID/recipes/:id', async (req, res) => {
   const cookbookID = req.params.cookbookID;
   const id = req.params.id;
   let recipe;
-  await fetch(`http://localhost:${SERVER_PORT}/cookbook/${cookbookID}/recipes/${id}`)
+  await fetch(`http://localhost:${process.env.SERVER_PORT}/cookbook/${cookbookID}/recipes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         recipe = data;
