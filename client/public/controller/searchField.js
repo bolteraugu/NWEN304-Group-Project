@@ -29,7 +29,9 @@ function search() {
 async function updateRecentSearches() {
   let recentKeywords = ["spicy", "Japanese", "pizza", "dessert", "Italian", "burgers", "noodles"];
   let userID = window.localStorage.getItem('userID');
+
   if (userID) {
+    document.getElementById("searchHeading").innerText = "Your recent searches";
     await fetch(`http://localhost:8080/users/${userID}/searches`)
       .then((response) => response.json())
       .then((data) => {
@@ -39,8 +41,9 @@ async function updateRecentSearches() {
       .catch((e) => {
         console.log(e);
       });
+  } else {
+    document.getElementById("searchHeading").innerText = "Popular searches";
   }
-
   recentKeywords.forEach((keyword) => {
     let keywordDiv = document.createElement("div");
     keywordDiv.className = "flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink shadow-md hover:shadow-lg";
