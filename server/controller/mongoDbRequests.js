@@ -45,20 +45,11 @@ export async function getCookbook(cookbook_id, client) {
   return cookbook; // TODO Put an invalid response code if its undefined
 }
 
-<<<<<<< HEAD
-
 export async function getCookbookID(client, userID) {
   const cursor = client.db('CookbookDB').collection('cookbooks').find({
     userID: userID,
   }); // You can also add another object parameter for projection.
 
-=======
-export async function getCookbookID(client, userID) {
-  const cursor = client.db('CookbookDB').collection('cookbooks').find({
-    userID: userID,
-  }); // You can also add another object parameter for projection.
-
->>>>>>> 0de14d3 (Adds addKeywords and recentSearches)
   const results = await cursor.toArray();
 
   return results[0]._id;
