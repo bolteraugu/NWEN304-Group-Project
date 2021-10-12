@@ -55,7 +55,7 @@ router.get('/', async (req, res) => {
     res.render('Home', {
       title: 'Home Page',
       recipes: results,
-      searchQuery: '', // ? Is this okay??
+      searchQuery: '',
     });
   }
 });
