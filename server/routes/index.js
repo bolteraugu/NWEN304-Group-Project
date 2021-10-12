@@ -6,9 +6,8 @@ import {
     getRecipeSummaryByID,
     getRandomRecipes,
 } from '../controller/index.js';
-import {validateUser} from '../controller/passwordValidate.js';
-import {User} from '../model/user.js';
-import {v4 as uuidv4} from 'uuid';
+import { validateUser } from '../controller/passwordValidate.js';
+import { User } from '../model/user.js';
 //Importing so we can connect to MongoDB
 import mongoose from 'mongoose';
 //Importing so we can create a hash for the password
@@ -16,7 +15,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 //So we don't get blocked by same origin policy since we make fetch requests from our client to our server (which violates this policy hence why we need this 'cors' library)
 import cors from 'cors';
-import {MONGO_URI, SERVER_PORT} from '../../credentials.js';
 import {
   addRecipe,
   connectToMongoDb,
@@ -28,11 +26,12 @@ import {
   deleteCookbook,
   addKeywordSearch,
   getKeywordSearch,
+  getRecipe,
 } from '../controller/mongoDbRequests.js';
 
 mongoose
-    .connect(MONGO_URI)
-    .catch((err) => console.error('Something went wrong', err));
+  .connect(process.env.MONGO_URI)
+  .catch((err) => console.error('Something went wrong', err));
 
 const app = express();
 
@@ -42,8 +41,8 @@ app.use(express.json());
 app.use(cors());
 app.use('/', router);
 
-app.listen(SERVER_PORT, () =>
-    console.log(`Listening on http://localhost:${SERVER_PORT}`)
+app.listen(process.env.SERVER_PORT, () =>
+  console.log(`Listening on http://localhost:${process.env.SERVER_PORT}`)
 );
 
 // Example 1: http://localhost:8080/recipes?keyword=curry
@@ -67,11 +66,11 @@ app.get('/recipes', async (req, res) => {
 });
 
 app.get('/cookbook/:cookbookID/checkRecipe/:id', async (req, res) => {
-    const id = req.params.id;
-    const cookbookID = req.params.cookbookID;
-    const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
-    let hasRecipe = await checkRecipe(client, cookbookID, id);
-    res.send({hasRecipe: hasRecipe}).status(200);
+  const id = req.params.id;
+  const cookbookID = req.params.cookbookID;
+  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
+  let hasRecipe = await checkRecipe(client, cookbookID, id);
+  res.send({ hasRecipe: hasRecipe }).status(200);
 });
 
 //Registers the user by sending their details to MongoDB with their password hashed. Should only send it if email is valid and password is complex enough.
