@@ -25,11 +25,11 @@ router.get('/', async (req, res) => {
 
   if (req.query.search) {
     const urlParams = new URLSearchParams();
-    urlParams.append('search', req.query.search);
+    urlParams.append('keyword', req.query.search);
     if (req.query.userID) urlParams.append('userID', req.query.userID);
 
     await fetch(
-      `http://localhost:${process.env.SERVER_PORT}/recipes?keyword=` + urlParams.toString()
+      `http://localhost:${process.env.SERVER_PORT}/recipes?` + urlParams.toString()
     )
       .then((response) => response.json())
       .then((data) => {
