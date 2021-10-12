@@ -49,6 +49,11 @@ app.listen(process.env.SERVER_PORT, () =>
 // Example 2: http://localhost:8080/recipes?keyword=curry&limit=5
 app.get('/recipes', async (req, res) => {
     let keywordQuery = req.query.keyword;
+    if (req.query.userID) {
+      let client = await connectToMongoDb();
+      addKeywordSearch(client, keywordQuery, req.query.userID).then(() => client.close());
+    }
+
     // If limit exists inside query parameter and is between 0 and 100, then use the limit in query. Otherwise, default to 10
     let limit =
         req.query.limit && req.query.limit > 0 && req.query.limit < 100
@@ -408,7 +413,6 @@ app.get('/cookbook/:cookbookID/recipes/:recipeID', async (req, res) => {
 
     const recipe = await getRecipe(client, cookbookID, recipeID);
     if (recipe == null) {
-        console.log(recipe);
         res.status(404).send({
             status: 404,
             message: 'The recipe with the id does not exist',
