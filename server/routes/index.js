@@ -45,14 +45,15 @@ app.listen(process.env.SERVER_PORT, () =>
   console.log(`Listening on http://localhost:${process.env.SERVER_PORT}`)
 );
 
+app.post('/addSearchKeyword', async (req, res) => {
+  let client = await connectToMongoDb();
+  addKeywordSearch(client, req.body.keyword, req.body.userID);
+})
+
 // Example 1: http://localhost:8080/recipes?keyword=curry
 // Example 2: http://localhost:8080/recipes?keyword=curry&limit=5
 app.get('/recipes', async (req, res) => {
     let keywordQuery = req.query.keyword;
-    if (req.query.userID) {
-      let client = await connectToMongoDb();
-      addKeywordSearch(client, keywordQuery, req.query.userID).then(() => client.close());
-    }
 
     // If limit exists inside query parameter and is between 0 and 100, then use the limit in query. Otherwise, default to 10
     let limit =
@@ -115,7 +116,7 @@ router.post('/register', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     //Send the user to the database
     await user.save();
-    const token = jwt.sign({ _id: user._id }, 'JWT_SECRET');
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
     res.header(
       'Access-Control-Allow-Headers',
@@ -173,8 +174,8 @@ router.post('/login', async (req, res) => {
         if (!validPassword) {
             return res.status(400).send({message: 'Incorrect email or password.'});
         } else {
-            //Create JWT token using private key which is a UUID and send the token.
-            const token = jwt.sign({_id: user._id}, 'JWT_SECRET');
+            //Create JWT token using private key and send the token.
+            const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
 
             const userIDClean = user[0]._id.toString();
             res.send({
@@ -194,7 +195,7 @@ router.post('/signinwithgoogle', async (req, res) => {
     // User exists
 
     //Create JWT token using private key which is a UUID and send the token.
-    const token = jwt.sign({ _id: user._id }, 'JWT_SECRET');
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
     const userIDClean = user[0]._id.toString();
     res.send({
@@ -221,7 +222,7 @@ router.post('/signinwithgoogle', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     //Send the user to the database
     await user.save();
-    const token = jwt.sign({ _id: user._id }, 'JWT_SECRET');
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
         const userIDClean = user._id.toString();
 
@@ -231,7 +232,8 @@ router.post('/signinwithgoogle', async (req, res) => {
             .status(200);
     }
 })
-//Login functionality
+
+
 router.post('/createRecipe', async (req, res) => {
     const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
     addRecipe(client, req.body.cookbookID, req.body.recipe)
@@ -248,25 +250,6 @@ router.post('/createRecipe', async (req, res) => {
         .catch((error) => {
             console.error(error);
         });
-});
-
-//Login functionality
-router.post('/createRecipe', async (req, res) => {
-  const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
-  addRecipe(client, req.body.cookbookID, req.body.recipe)
-  .then((response) => {
-    if (response.status == 404) {
-      res.status(404).send({
-        status: 404,
-        message: 'The cookbook could not be found',
-        });
-    } else {
-        res.status(200).send({response: response});
-      }
-  })
-  .catch((error) => {
-    console.error(error);
-  });
 });
 
 // Example 1: http://localhost:8080/recipes/650378
@@ -529,7 +512,7 @@ app.get('/users/:id/searches', async (req, res) => {
 app.post("/createExpiryToken", (req, res) => {
   let userID = req.body.userID;
   //Create JWT token using private key and send the token.
-  const token = jwt.sign({ _id: userID }, "JWT_SECRET", {expiresIn: '2h'}); //Change this value to be lower for testing (e.g. 10s for 10 seconds)
+  const token = jwt.sign({ _id: userID }, process.env.JWT_SECRET, {expiresIn: '2h'}); //Change this value to be lower for testing (e.g. 10s for 10 seconds)
   res.send({token: token});
 })
 
@@ -539,7 +522,7 @@ app.get('/checkToken', (req, res) => {
   const header = req.headers['authorization'];
   const bearer = header.split(' ');
   //Checking if token is valid with verify()
-  jwt.verify(bearer[1], "JWT_SECRET", (err, authorizedData) => {
+  jwt.verify(bearer[1], process.env.JWT_SECRET, (err, authorizedData) => {
     if(err){
       //If error send Forbidden (403)
       res.sendStatus(403);

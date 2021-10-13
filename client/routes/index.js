@@ -26,7 +26,6 @@ router.get('/', async (req, res) => {
   if (req.query.search) {
     const urlParams = new URLSearchParams();
     urlParams.append('keyword', req.query.search);
-    if (req.query.userID) urlParams.append('userID', req.query.userID);
 
     await fetch(
       `http://localhost:${process.env.SERVER_PORT}/recipes?` + urlParams.toString()
@@ -86,31 +85,39 @@ router.get('/createRecipe', (req, res) => {
   res.render('CreateRecipe', { title: 'Create Recipe' });
 });
 
-router.get('/recipes/:id', async (req, res) => {
+router.get('/recipes/:id/:authorised', async (req, res) => {
   let results = [];
-  const { id } = req.params;
+  const id = req.params.id;
+  const authorised = req.params.authorised;
   let selectedRecipe;
   await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         selectedRecipe = data;
-      });
-      await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}/similar`)
-        .then((response) => response.json())
-        .then((data) => {
-          results = data;
-        });
-
-      // No duplicates names
-      let similarRecipes = results.filter((obj, pos, arr) => {
-        return arr.map(mapObj => mapObj["title"]).indexOf(obj["title"]) === pos;
-      });
-
-      res.render('RecipeDetails', {
-        title: 'Recipe Details',
-        recipe: selectedRecipe,
-        similarRecipes: similarRecipes,
-      });
+  });
+  if (authorised === "true") {
+    await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}/similar`)
+    .then((response) => response.json())
+    .then((data) => {
+      results = data;
+    });
+    // No duplicates names
+    let similarRecipes = results.filter((obj, pos, arr) => {
+      return arr.map(mapObj => mapObj["title"]).indexOf(obj["title"]) === pos;
+    });
+    res.render('RecipeDetails', {
+      title: 'Recipe Details',
+      recipe: selectedRecipe,
+      similarRecipes: similarRecipes,
+    });
+  }
+  else {
+    res.render('RecipeDetails', {
+      title: 'Recipe Details',
+      recipe: selectedRecipe,
+      similarRecipes: null,
+    });
+  }
   }
 );
 

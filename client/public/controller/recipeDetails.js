@@ -23,10 +23,8 @@ async function initialRenderingRecipeDetails() {
                 window.localStorage.removeItem('token');
                 window.localStorage.removeItem('cookbookID');
                 window.localStorage.removeItem('userID');
-                window.location.href = "/";
             }
             else {
-                document.getElementById('similarRecipes').style.display = 'block';
                 let hasRecipe = false;
                 await fetch('http://localhost:8080/cookbook/' + cookbookID + '/checkRecipe/' + recipe.id, {
                 headers: {
@@ -54,7 +52,6 @@ async function initialRenderingRecipeDetails() {
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('cookbookID');
         window.localStorage.removeItem('userID');
-        window.location.href = "/";
     }
 }
 

@@ -24,7 +24,7 @@ async function initialRenderingNav() {
             headers: {
                 'Authorization': 'Bearer ' + window.localStorage.getItem("token")
             }
-          }).then(async (response) => {
+        }).then(async (response) => {
               if (response.status === 403) {
                 document.getElementById("registerButton").style.display = "flex";
                 document.getElementById("loginButton").style.display = "flex";
