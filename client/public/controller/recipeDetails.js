@@ -37,6 +37,7 @@ async function initialRenderingRecipeDetails() {
     } else {
       document.getElementById('saveRecipe').style.display = 'flex';
     }
+    document.getElementById('similarRecipes').style.display = 'block';
   }
 }
 

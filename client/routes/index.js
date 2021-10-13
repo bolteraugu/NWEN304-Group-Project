@@ -87,6 +87,7 @@ router.get('/createRecipe', (req, res) => {
 });
 
 router.get('/recipes/:id', async (req, res) => {
+  let results = [];
   const { id } = req.params;
   let selectedRecipe;
   await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}`)
@@ -94,9 +95,21 @@ router.get('/recipes/:id', async (req, res) => {
     .then((data) => {
       selectedRecipe = data;
     });
+  await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}/similar`)
+    .then((response) => response.json())
+    .then((data) => {
+      results = data;
+    });
+
+  // No duplicates names
+  let similarRecipes = results.filter((obj, pos, arr) => {
+    return arr.map(mapObj => mapObj["title"]).indexOf(obj["title"]) === pos;
+  });
+
   res.render('RecipeDetails', {
     title: 'Recipe Details',
     recipe: selectedRecipe,
+    similarRecipes: similarRecipes,
   });
 });
 
