@@ -30,7 +30,7 @@ function addCreateRecipeListeners() {
                         ingredientsArrayUnformatted.forEach((p) => {
                             ingredientsArray.push({original: p.replace(/(\r\n|\n|\r)/gm, "")});
                         });
-                        let preparations = document.getElementById("preparationsInput").value;
+                        let instructions = document.getElementById("instructionsInput").value;
                         let recipe = {
                             id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
                             title: title,
@@ -38,7 +38,7 @@ function addCreateRecipeListeners() {
                             image: "",
                             readyInMinutes: readyInMinutes,
                             extendedIngredients: ingredientsArray,
-                            instructions: preparations
+                            instructions: instructions
                         }
                         let cookbookID = window.localStorage.getItem("cookbookID")
                         //Send a POST request to the server with the request body containing the recipe details
