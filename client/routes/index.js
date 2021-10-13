@@ -89,7 +89,7 @@ router.get('/createRecipe', (req, res) => {
 router.get('/recipes/:id', async (req, res) => {
   let results = [];
   const { id } = req.params;
-  let recipe;
+  let selectedRecipe;
   await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}`)
       .then((response) => response.json())
       .then((data) => {
