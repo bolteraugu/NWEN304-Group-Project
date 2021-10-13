@@ -112,7 +112,7 @@ router.get('/recipes/:id', async (req, res) => {
         similarRecipes: similarRecipes,
       });
   }
-});
+);
 
 router.get('/cookbook/:cookbookID/recipes/:id', async (req, res) => {
   const cookbookID = req.params.cookbookID;
