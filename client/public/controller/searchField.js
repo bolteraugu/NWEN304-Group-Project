@@ -35,8 +35,7 @@ async function updateRecentSearches() {
     await fetch(`http://localhost:8080/users/${userID}/searches`)
       .then((response) => response.json())
       .then((data) => {
-        recentKeywords = data;
-        console.log(recentKeywords);
+        recentKeywords = data.reverse();
       })
       .catch((e) => {
         console.log(e);
