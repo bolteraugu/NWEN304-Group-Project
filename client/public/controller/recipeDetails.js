@@ -26,6 +26,7 @@ async function initialRenderingRecipeDetails() {
                 window.location.href = "/";
             }
             else {
+                document.getElementById('similarRecipes').style.display = 'block';
                 let hasRecipe = false;
                 await fetch('http://localhost:8080/cookbook/' + cookbookID + '/checkRecipe/' + recipe.id, {
                 headers: {

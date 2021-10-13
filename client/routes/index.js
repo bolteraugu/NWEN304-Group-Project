@@ -123,9 +123,42 @@ router.get('/cookbook/:cookbookID/recipes/:id', async (req, res) => {
       .then((data) => {
         recipe = data;
   });
-  res.render('RecipeDetails', {
-    title: 'Recipe Details',
-    recipe: recipe,
-  });
+
+  if (recipe.summary == null) {
+    res.render('RecipeDetails', {
+      title: 'Recipe Details',
+      recipe: recipe,
+      similarRecipes: null
+    });
+  }
+
+  else {
+    let results = [];
+    await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}/similar`)
+    .then((response) => response.json())
+    .then((data) => {
+      results = data;
+    });
+
+    // No duplicates names
+    let similarRecipes = results.filter((obj, pos, arr) => {
+      return arr.map(mapObj => mapObj["title"]).indexOf(obj["title"]) === pos;
+    });
+    if (similarRecipes.length === 0) {
+      res.render('RecipeDetails', {
+        title: 'Recipe Details',
+        recipe: recipe,
+        similarRecipes: null
+      });
+    }
+    else {
+      res.render('RecipeDetails', {
+        title: 'Recipe Details',
+        recipe: recipe,
+        similarRecipes: similarRecipes
+      });
+    }
+  }
+
 });
 
