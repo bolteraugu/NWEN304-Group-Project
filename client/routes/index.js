@@ -90,9 +90,7 @@ router.get('/recipes/:id', async (req, res) => {
   let results = [];
   const { id } = req.params;
   let recipe;
-
-  if (id.length === 16) {
-      await fetch(`http://localhost:${SERVER_PORT}/userMadeRecipe/${id}`)
+  await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         selectedRecipe = data;
