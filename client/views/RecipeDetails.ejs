@@ -47,8 +47,24 @@
                         <p class="text-sm"><%- recipe.instructions%></p>
                     </div>
                 </div>
+
+                <!-- SIMILAR RECIPES HERE -->
+                <div id="similarRecipes" style="display: none">
+                    <h2 class="uppercase text-primary-dg font-bold text-center">Recommended Recipes</h2>
+                    <% similarRecipes.forEach( (sr) => {  %>
+                    <div class="flex flex-col my-4 mx-6 w-1/4">
+                        <a href=<%-"/recipes/"+sr.id%>>
+                            <a class="hover:text-secondary-pink" href=<%-"/recipes/"+sr.id%>> <%- sr.title %> </a>
+                        </a>
+                    </div>
+                    <% }) %>
+                </div>
+
             </div>
+
         </div>
+
+
         <div class='recipeStore' data-test-value='<%= JSON.stringify(recipe) %>'></div>
         <script src = "/controller/recipeDetails.js"></script>
     </body>
