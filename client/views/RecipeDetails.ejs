@@ -43,13 +43,14 @@
                     <p class="border-b-2 border-secondary-brown border-dashed my-2"></p>
 
                     <div class="space-y-1">
-                        <p class="uppercase text-primary-dg font-bold text-center">Preparations</p>
+                        <p class="uppercase text-primary-dg font-bold text-center">Instructions</p>
                         <p class="text-sm"><%- recipe.instructions%></p>
                     </div>
                 </div>
 
                 <!-- SIMILAR RECIPES HERE -->
-                <div id="similarRecipes" style="display: none">
+                <% if (similarRecipes !== null) { %>
+                <div id="similarRecipes">
                     <h2 class="uppercase text-primary-dg font-bold text-center">Recommended Recipes</h2>
                     <% similarRecipes.forEach( (sr) => {  %>
                     <div class="flex flex-col my-4 mx-6 w-1/4">
@@ -59,6 +60,7 @@
                     </div>
                     <% }) %>
                 </div>
+                <% } %>
 
             </div>
 
