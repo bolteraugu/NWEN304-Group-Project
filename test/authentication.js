@@ -12,7 +12,7 @@ describe('Array', function() {
 });
 
 
-describe('Authorisation Middleware', () => {
+describe('Authentication Tests', () => {
 
 	describe('Logging in with correct details', () => {
 		it('should return an OK response', async () => {
@@ -166,25 +166,25 @@ describe('Authorisation Middleware', () => {
 		});
 	});
 
-	describe('Registering an account with correct email and format', () => {
-		it('should return an okay incorrectly formatted', async () => {
-			await fetch(`http://localhost:8080/register`, {
-				method: 'POST',
-				headers: {
-					Origin: `http://localhost:3000`,
-					'Content-Type': 'application/json',
-					Accept: 'application/json',
-				},
-				body: JSON.stringify({ emailVal: "qwerty20@gmail.com", passwordVal: "qwerty123!" }),
-			})
-				.then((response) => {
-					assert.equal(response.status, 200);
-				})
-				.catch((error) => {
-					console.log(error);
-					assert.fail("Registration failed");
-				})
-		});
-	});
+	// describe('Registering an account with correct email and format', () => {
+	// 	it('should return an okay incorrectly formatted', async () => {
+	// 		await fetch(`http://localhost:8080/register`, {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				Origin: `http://localhost:3000`,
+	// 				'Content-Type': 'application/json',
+	// 				Accept: 'application/json',
+	// 			},
+	// 			body: JSON.stringify({ emailVal: "qwerty22@gmail.com", passwordVal: "qwerty123!" }),
+	// 		})
+	// 			.then((response) => {
+	// 				assert.equal(response.status, 200);
+	// 			})
+	// 			.catch((error) => {
+	// 				console.log(error);
+	// 				assert.fail("Registration failed");
+	// 			})
+	// 	});
+	// });
 
 });

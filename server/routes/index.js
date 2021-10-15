@@ -175,7 +175,7 @@ router.post('/login', async (req, res) => {
             return res.status(400).send({message: 'Incorrect email or password.'});
         } else {
             //Create JWT token using private key and send the token.
-            const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET);
+            const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: 10});
 
             const userIDClean = user[0]._id.toString();
             res.send({
@@ -512,7 +512,7 @@ app.get('/users/:id/searches', async (req, res) => {
 app.post("/createExpiryToken", (req, res) => {
   let userID = req.body.userID;
   //Create JWT token using private key and send the token.
-  const token = jwt.sign({ _id: userID }, process.env.JWT_SECRET, {expiresIn: '2h'}); //Change this value to be lower for testing (e.g. 10s for 10 seconds)
+  const token = jwt.sign({ _id: userID }, process.env.JWT_SECRET, {expiresIn: '10s'}); //Change this value to be lower for testing (e.g. 10s for 10 seconds)
   res.send({token: token});
 })
 
