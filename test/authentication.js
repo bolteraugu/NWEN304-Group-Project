@@ -12,7 +12,7 @@ describe('Array', function() {
 });
 
 
-describe('Authorisation Middleware', () => {
+describe('Authentication Tests', () => {
 
 	describe('Logging in with correct details', () => {
 		it('should return an OK response', async () => {
@@ -175,7 +175,8 @@ describe('Authorisation Middleware', () => {
 					'Content-Type': 'application/json',
 					Accept: 'application/json',
 				},
-				body: JSON.stringify({ emailVal: "qwerty20@gmail.com", passwordVal: "qwerty123!" }),
+				// CHANGE EMAIL NUMBER TO ENSURE NEW USER IS ADDED
+				body: JSON.stringify({ emailVal: "qwerty23@gmail.com", passwordVal: "qwerty123!" }),
 			})
 				.then((response) => {
 					assert.equal(response.status, 200);
