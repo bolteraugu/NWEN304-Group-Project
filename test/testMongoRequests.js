@@ -5,7 +5,7 @@ import {
   createCookbook,
   getCookbook,
   removeRecipe,
-} from './mongoDbRequests.js';
+} from '../server/controller/mongoDbRequests.js';
 
 main();
 

@@ -175,10 +175,9 @@ describe('Authorisation Middleware', () => {
 					'Content-Type': 'application/json',
 					Accept: 'application/json',
 				},
-				body: JSON.stringify({ emailVal: "qwerty18@gmail.com", passwordVal: "qwerty123!" }),
+				body: JSON.stringify({ emailVal: "qwerty20@gmail.com", passwordVal: "qwerty123!" }),
 			})
 				.then((response) => {
-					// console.log(response);
 					assert.equal(response.status, 200);
 				})
 				.catch((error) => {
