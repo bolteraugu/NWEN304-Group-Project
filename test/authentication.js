@@ -176,7 +176,7 @@ describe('Authentication Tests', () => {
 					Accept: 'application/json',
 				},
 				// CHANGE EMAIL NUMBER TO ENSURE NEW USER IS ADDED
-				body: JSON.stringify({ emailVal: "qwerty23@gmail.com", passwordVal: "qwerty123!" }),
+				body: JSON.stringify({ emailVal: "qwerty25@gmail.com", passwordVal: "qwerty123!" }),
 			})
 				.then((response) => {
 					assert.equal(response.status, 200);
