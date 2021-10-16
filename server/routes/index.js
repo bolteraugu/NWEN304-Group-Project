@@ -27,6 +27,7 @@ import {
   addKeywordSearch,
   getKeywordSearch,
   getRecipe,
+  updatePassword
 } from '../controller/mongoDbRequests.js';
 import { sendEmail } from "../controller/sendEmail.js";
 import _ from 'lodash';
@@ -252,19 +253,8 @@ router.put('/resetpassword/:token', async (req, res) => {
                     return res.status(400).send({message: 'User with this token does not exist'});
                 }
 
-                // Token found, user exists. We can change the password
-                const obj = {
-                    password: newPass
-                }
-
-                user = _.extend(user, obj);
-                user.save((err, result) => {
-                    if (err){
-                        return res.status(400).json({message: "Reset password error."})
-                    } else {
-                        return res.status(200).json({message: "Password change successful!"})
-                    }
-                })
+                const client = connectToMongoDb();
+                updatePassword(client, user._id, newPass);
 
             });
         })

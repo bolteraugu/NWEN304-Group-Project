@@ -105,6 +105,26 @@ export async function addRecipe(client, cookbook_id, recipe) {
     );
 }
 
+/**
+ * @param {MongoClient} client
+ * @param {String} cookbook_id
+ * @param {Recipe} recipe
+ * @returns Response
+ */
+ export async function updatePassword(client, userID, password) {
+  return await client
+    .db('CookbookDB')
+    .collection('users')
+    .updateOne(
+      {
+        _id: new ObjectId(userID),
+      },
+      {
+        $push: { password: password },
+      }
+    );
+}
+
 export async function addKeywordSearch(client, keywordQuery, userId) {
   return await client
     .db('CookbookDB')
