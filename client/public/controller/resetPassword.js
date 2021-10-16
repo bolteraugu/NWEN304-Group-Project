@@ -29,10 +29,7 @@ function resetPassword() {
                     if (response.ok) {
                         console.log("Password changed")
 
-                        response.json().then((data) => {
-                            window.localStorage.setItem('token', data.token);
-                            window.localStorage.setItem('userID', data.userID);
-                            window.localStorage.setItem('cookbookID', data.cookbookID);
+                        response.json().then(() => {
                             window.location.href = '/';
                         });
                     } else {

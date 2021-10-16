@@ -235,30 +235,7 @@ router.post('/signinwithgoogle', async (req, res) => {
     }
 })
 
-router.post('/resetpassword', async (req, res) => {
-    let email = req.body.emailVal;
-    let user = await User.find({ email: req.body.emailVal }).limit(1).size();
-
-    if (!user || user.length === 0) { // User doesn't exist
-        return res.status(400).send({message: 'User with this email does not exist'});
-    } else { // User exists
-        const token = jwt.sign({ _id: user._id }, 'RESET_PASSWORD_KEY', {expiresIn: '20min'});
-
-        return User.updateOne({email: email}, {resetLink: token}, async function (err, success) {
-            if (err) {
-                return res.status(400).send({message: 'Reset password link error'});
-            } else {
-                const link = `http://localhost:${process.env.CLIENT_PORT}/resetpassword/${token}`
-                await sendEmail(email, "Password Reset Link", link)
-                res.send("Password reset link sent to your email");
-            }
-        }).catch((e) => {
-            console.log(e);
-        });
-    }
-})
-
-router.post('/resetpassword/:token', async (req, res) => {
+router.put('/resetpassword/:token', async (req, res) => {
     const {resetLink} = req.params.token;
     const newPass = req.body.newPass;
     console.log({resetLink})
@@ -295,6 +272,29 @@ router.post('/resetpassword/:token', async (req, res) => {
         return res.status(401).send({message: 'Authentication Error'});
     }
 });
+
+router.post('/resetpassword', async (req, res) => {
+    let email = req.body.emailVal;
+    let user = await User.find({ email: req.body.emailVal }).limit(1).size();
+
+    if (!user || user.length === 0) { // User doesn't exist
+        return res.status(400).send({message: 'User with this email does not exist'});
+    } else { // User exists
+        const token = jwt.sign({ _id: user._id }, 'RESET_PASSWORD_KEY', {expiresIn: '20min'});
+
+        return User.updateOne({email: email}, {resetLink: token}, async function (err, success) {
+            if (err) {
+                return res.status(400).send({message: 'Reset password link error'});
+            } else {
+                const link = `http://localhost:${process.env.CLIENT_PORT}/resetpassword/${token}`
+                await sendEmail(email, "Password Reset Link", link)
+                res.send("Password reset link sent to your email");
+            }
+        }).catch((e) => {
+            console.log(e);
+        });
+    }
+})
 
 router.post('/createRecipe', async (req, res) => {
     const client = await connectToMongoDb(); //! THIS NEEDS CHANGING

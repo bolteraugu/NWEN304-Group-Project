@@ -68,13 +68,13 @@ router.get('/register', (req, res) => {
   res.render('Register', { title: 'Register' });
 });
 
-router.post('/resetpassword/:token', async (req, res) => {
+router.get('/resetpassword/:token', async (req, res) => {
   const {token} = req.params;
-  await fetch(
-      `http://localhost:${process.env.SERVER_PORT}/resetpassword/${token}`
-  ).then((response) => response.json())
 
-  res.render('ResetPassword', {title: 'Password Reset'});
+  res.render('ResetPassword', {
+    title: 'Password Reset',
+    token: token
+  });
 });
 
 router.get('/cookbook/:id', async (req, res) => {
