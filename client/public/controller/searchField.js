@@ -99,7 +99,7 @@ async function updateRecentSearches() {
 
   recentKeywords.forEach((keyword) => {
     let keywordDiv = document.createElement("div");
-    keywordDiv.className = "flex bg-secondary-brown px-2 py-1 m-1 rounded-xl hover:bg-secondary-pink shadow-md hover:shadow-lg";
+    keywordDiv.className = "flex bg-secondary-brown px-2 py-1 m-1 rounded-xl shadow-md hover:shadow-xl";
 
     let searchTerm = document.createElement("a");
     searchTerm.className = "rounded-m searchTerm";
