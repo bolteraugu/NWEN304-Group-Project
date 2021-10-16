@@ -3,45 +3,50 @@
     <body class="h-screen">
         <%- include('./partials/nav.ejs') %>
         <div class="container page-content p-16 bg-white flex mx-auto">
-            <div class="bg-eggshell rounded-md py-6 shadow-lg p-8 space-y-4 flex-col justify-center mx-auto">
+            <div class="bg-eggshell rounded-md py-6 shadow-lg p-8 space-y-4 flex-col justify-center mx-auto text-center items-center">
 
                 <div class="mx-auto space-y-1">
                     <!-- Login fields and inputs -->
-                    <p class="text-md">Email</p>
+                    <p class="text-md text-left">Email</p>
                     <input type="text" id="emailInputLogin" name="email" class="w-full"/>
                 </div>
 
                 <div class="mx-auto space-y-1">
-                    <p class="text-md">Password</p>
+                    <p class="text-md text-left">Password</p>
                     <input type="password" id="passwordInputLogin" name="password" class="w-full"/>
+
+                    <p id="errorMessageLogin" style="color:red; visibility: hidden; font-size: 14;"></p>
                 </div>
 
-                <div class="pt-6">
-                    <!-- Login button -->
+                <div class="py-6 space-y-0.5">
                     <button id="submitLogin"
                             class="block bg-primary-lg text-center text-md no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl hover:bg-primary-dg hover:shadow-md">
                         Login
                     </button>
+
+                    <p class="text- text-sm">or</p>
+
+                    <button id="googleLogin"
+                            class="block bg-primary-lg text-center text-md no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl hover:bg-primary-dg hover:shadow-md">
+                        Login with Google
+                    </button>
                 </div>
 
-                <div class="text-primary-dg m-4 text-sm">
-                    <!-- Error message -->
-                    <p id = "errorMessageLogin" style="color:red; visibility: hidden; font-size: 14;"></p>
-                </div>
-
-                <button id="forgotPassword">Forgot your password?</button>
+                <button id="forgotPassword"
+                        class="text-center text-sm hover:text-secondary-pink">
+                    Forgot your password?
+                </button>
 
                 <div class="pb-4">
-                    <a class="m-4 text-sm hover:text-secondary-pink" href="/register">Don't have an account?</a>
+                    <a class="text-center text-sm hover:text-secondary-pink" href="/register">Don't have an account?</a>
                 </div>
             </div>
-            <button id="googleLogin">Login with Google</button>
         </div>
 
         <!-- Adding client controller so it can set up listeners for some of the above components. -->
         <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
-        <script src = "/controller/login.js"></script> 
-        <script src = "/controller/exitBrowser.js"></script>
+        <script src="/controller/login.js"></script>
+        <script src="/controller/exitBrowser.js"></script>
     </body>
 </html>
