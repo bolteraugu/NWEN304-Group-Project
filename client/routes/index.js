@@ -68,6 +68,10 @@ router.get('/register', (req, res) => {
   res.render('Register', { title: 'Register' });
 });
 
+router.get('/resetpassword/:token', (req, res) => {
+  res.render('ResetPassword', { title: 'Password Reset' });
+});
+
 router.get('/cookbook/:id', async (req, res) => {
   const { id } = req.params;
   const data = await fetch(

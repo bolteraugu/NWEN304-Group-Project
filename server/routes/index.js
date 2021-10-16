@@ -28,6 +28,10 @@ import {
   getKeywordSearch,
   getRecipe,
 } from '../controller/mongoDbRequests.js';
+import mailgun from 'mailgun-js';
+
+const DOMAIN = "sandbox57ab078d2eb34142bab63ad23c2f309f.mailgun.org";
+const mg = mailgun({apiKey: "c5b67ee64ea12e6e6a6c0cf80f1fa516-2ac825a1-ce14119d", domain: DOMAIN});
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -233,6 +237,42 @@ router.post('/signinwithgoogle', async (req, res) => {
     }
 })
 
+router.put('/forgot-password', async (req, res) => {
+    let email = req.body.emailVal;
+    console.log("Email: ", email)
+    let user = await User.find({ email: req.body.emailVal }).limit(1).size();
+    console.log(user);
+    if (!user || user.length === 0) {
+        return res.status(400).send({message: 'User with this email does not exist'});
+    } else {
+        // User exists
+        const token = jwt.sign({ _id: user._id }, 'RESET_PASSWORD_KEY', {expiresIn: '20min'});
+        const data = {
+            from: 'noreply@gcooked.com',
+            to: email,
+            subject: 'Password Reset Link',
+            html: '<h2>Please click on given link to reset password</h2>' +
+                `<p>http://localhost:${process.env.CLIENT_PORT}/resetpassword/${token}</p>`
+        }
+
+        return User.updateOne({email: email}, {resetLink: token}, function (err, success) {
+            if (err) {
+                return res.status(400).send({message: 'Reset password link error'});
+            } else {
+                mg.messages().send(data, function (err, body) {
+                    if (err) {
+                        return res.json({
+                            error: err.message
+                        })
+                    }
+                    return res.json({message: `Reset password link sent to your email ${email}`})
+                })
+            }
+        }).catch((e) => {
+            console.log(e);
+        });
+    }
+})
 
 router.post('/createRecipe', async (req, res) => {
     const client = await connectToMongoDb(); //! THIS NEEDS CHANGING

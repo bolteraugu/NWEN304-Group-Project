@@ -13,6 +13,10 @@ export const User = mongoose.model('User', new mongoose.Schema({
         required: true,
         minlength: 8,
     },
+    resetLink : {
+        data: String,
+        default: ''
+    },
     cookbookID: {
         type: String,
         required: true,
