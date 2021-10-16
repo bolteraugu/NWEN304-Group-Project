@@ -3,25 +3,21 @@
     <body class="h-screen">
         <%- include('./partials/nav.ejs') %>
         <div class="container page-content p-16 bg-white flex mx-auto">
-            <div class="bg-eggshell rounded-md py-6 shadow-lg p-8 space-y-4 flex-col justify-center mx-auto">
+            <div class="bg-eggshell rounded-md py-6 shadow-lg p-8 space-y-4 flex-col justify-center mx-auto text-center items-center">
 
-                <div class="mx-auto space-y-1">
+                <div class="mx-auto space-y-3">
                     <!-- Login fields and inputs -->
-                    <p class="text-md">Email</p>
-                    <input type="text" id="emailInput" name="email" class="w-full"/>
+                    <p class="text-sm">Enter an email to send a password reset link to</p>
+                    <input type="text" id="emailInput" name="email"
+                           class="text-sm bg-grey-lightest border-2 border-secondary-brown focus:outline-none focus:ring focus:border-secondary-pink p-0.5 rounded-lg shadow-inner w-full text-black my-4 shadow-md"/>
+                    <p id = "errorMessage" style="color:red; visibility: hidden; font-size: 14;"></p>
                 </div>
 
                 <div class="pt-6">
-                    <!-- Login button -->
                     <button id="submitEmail"
                             class="block bg-primary-lg text-center text-md no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl hover:bg-primary-dg hover:shadow-md">
-                        Submit Email
+                        Submit
                     </button>
-                </div>
-
-                <div class="text-primary-dg m-4 text-sm">
-                    <!-- Error message -->
-                    <p id = "errorMessage" style="color:red; visibility: hidden; font-size: 14;"></p>
                 </div>
             </div>
         </div>
