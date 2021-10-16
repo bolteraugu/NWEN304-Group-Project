@@ -7,8 +7,8 @@ export const sendEmail = async (email, subject, text) => {
             port: 25,
             secure: false,
             auth: {
-                user: 'cooked.recipes.1@gmail.com',
-                pass: 'Cooked123!',
+                user: process.env.SUPPORT_EMAIL,
+                pass: process.env.SUPPORT_PASSWORD,
             },
             tls: {
                 rejectUnauthorized: false
@@ -16,7 +16,7 @@ export const sendEmail = async (email, subject, text) => {
         });
 
         await transporter.sendMail({
-            from: 'cooked.recipes.1@gmail.com',
+            from: process.env.SUPPORT_EMAIL,
             to: email,
             subject: subject,
             text: text,

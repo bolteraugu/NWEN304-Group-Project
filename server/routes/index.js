@@ -247,20 +247,13 @@ router.put('/resetpassword', async (req, res) => {
 
     else if (resetLink != null){
             // Token found, check if user exists
+
             User.findOne({resetLink}, async (err, user) => {
                 if (!user || user.length === 0) {
                     return res.status(400).send({message: 'User with this token does not exist'});
                 }
-                let used = user.resetLinkUsed;
-                console.log(user.resetLink);
-                console.log(typeof user.resetLink);
-                console.log(user);
-                console.log(typeof Boolean(used));
-                console.log(used);
-                console.log(!(used));
-                console.log(!(Boolean(used)));
-                console.log(Boolean(used));
-                if (!Boolean(user.resetLinkUsed)) {
+
+                if (user.resetLinkUsed.toString() === "notUsed") {
                     //Create the salt and hash the password
                     const salt = await bcrypt.genSalt(10);
                     const passwordHashed = await bcrypt.hash(newPass, salt);
@@ -289,18 +282,17 @@ router.post('/resetpassword', async (req, res) => {
 
         //Create the salt and hash the password
         const salt = await bcrypt.genSalt(10);
-        const token = await bcrypt.hash(userIDClean, salt);
+        const unfilteredToken = await bcrypt.hash(userIDClean, salt);
+        const token = unfilteredToken.replace("/", "slash");
 
-        return User.updateOne({email: email}, {resetLink: token, resetLinkUsed: false}, async function (err, success) {
+        User.updateOne({email: email}, {resetLink: token, resetLinkUsed: "notUsed"}, async function (err, success) {
             if (err) {
                 return res.status(400).send({message: 'Reset password link error'});
             } else {
-                const link = `http://localhost:${process.env.CLIENT_PORT}/resetpassword/${token}`
-                await sendEmail(email, "Password Reset Link", link)
+                const link = `http://localhost:${process.env.CLIENT_PORT}/resetpassword/${token}`;
+                await sendEmail(email, "Password Reset Link", link);
                 res.send("Password reset link sent to your email");
             }
-        }).catch((e) => {
-            console.log(e);
         });
     }
 })

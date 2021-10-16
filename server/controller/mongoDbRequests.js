@@ -120,7 +120,7 @@ export async function addRecipe(client, cookbook_id, recipe) {
         _id: new ObjectId(userID),
       },
       {
-        $set: { password: password, resetLinkUsed: true },
+        $set: { password: password, resetLinkUsed: "used" },
       }
     );
 }
