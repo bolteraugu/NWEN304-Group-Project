@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {response} from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
@@ -68,8 +68,13 @@ router.get('/register', (req, res) => {
   res.render('Register', { title: 'Register' });
 });
 
-router.get('/resetpassword/:token', (req, res) => {
-  res.render('ResetPassword', { title: 'Password Reset' });
+router.post('/resetpassword/:token', async (req, res) => {
+  const {token} = req.params;
+  await fetch(
+      `http://localhost:${process.env.SERVER_PORT}/resetpassword/${token}`
+  ).then((response) => response.json())
+
+  res.render('ResetPassword', {title: 'Password Reset'});
 });
 
 router.get('/cookbook/:id', async (req, res) => {

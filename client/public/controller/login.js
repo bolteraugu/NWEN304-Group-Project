@@ -126,16 +126,17 @@ function forgotPassword() {
     document.getElementById('forgotPassword').addEventListener('click', () => {
         let email = document.querySelector('#emailInputLogin').value;
 
-        fetch(`http://localhost:8080/forgot-password`, {
-            method: 'PUT',
+        fetch(`http://localhost:8080/resetpassword`, {
+            method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Origin: `http://localhost:3000`,
             },
             body: JSON.stringify({emailVal: email}),
+
         }).then((response) => {
-            //If login was successful then redirect user back to home page (which should be different then if they visited it not logged in)
+
             if (response.ok) {
                 console.log("200")
             } else {
