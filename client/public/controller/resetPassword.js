@@ -19,33 +19,28 @@ function resetPassword() {
             headers.append('Content-Type', 'application/json');
             headers.append('Accept', 'application/json');
             headers.append('Origin', `http://localhost:3000`);
+            let token = window.location.href.split('/').pop();
 
-            await fetch(`http://localhost:8080/resetpassword/:token`, {
+            await fetch(`http://localhost:8080/resetpassword`, {
                 method: 'PUT',
                 headers: headers,
-                body: JSON.stringify({ newPass: password }),
+                body: JSON.stringify({ newPass: password, token: token }),
             })
                 .then((response) => {
-                    if (response.ok) {
-                        console.log("Password changed")
-
-                        response.json().then(() => {
-                            window.location.href = '/';
-                        });
+                    console.log(response);
+                    if (response.ok && response.status === 200) {
+                        window.location.href = "/";
+                        alert("Your password has been changed. Please navigate to the Login screen to login with it.");
                     } else {
-                        //Otherwise if an error occurred
-                        response.json().then((data) => {
-                            if (data.message) {
-                                //If it is one of the errors I specifically throw then show it on screen
-                                document.getElementById('errorMessage').innerText =
-                                    data.message;
-                                document.getElementById('errorMessage').style.visibility =
-                                    'visible';
-                            } else {
-                                //Otherwise just log it
-                                console.log(data);
-                            }
-                        });
+                            response.json().then((data) => {
+                                if (data.message) {
+                                    //If it is one of the errors I specifically throw then show it on screen
+                                    document.getElementById('errorMessage').innerText =
+                                        data.message;
+                                    document.getElementById('errorMessage').style.visibility =
+                                        'visible';
+                                }
+                            });
                     }
                 })
                 .catch((error) => {

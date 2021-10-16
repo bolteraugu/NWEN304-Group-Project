@@ -18,3 +18,8 @@ export function validateUser(email, password) {
         return 2;
     }
 }
+
+export function validateNewPassword(password) {
+    //Password must contain at least one number, letter and special character and must be at least 8 characters.
+    return password.match("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+}

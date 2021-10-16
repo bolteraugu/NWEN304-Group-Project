@@ -18,8 +18,7 @@ export const User = mongoose.model('User', new mongoose.Schema({
         default: ''
     },
     resetLinkUsed: {
-        data: Boolean,
-        default: false
+        data: Boolean
     },
     cookbookID: {
         type: String,

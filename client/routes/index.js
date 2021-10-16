@@ -77,6 +77,13 @@ router.get('/resetpassword/:token', async (req, res) => {
   });
 });
 
+router.get('/enterEmail', async (req, res) => {
+
+  res.render('EnterEmail', {
+    title: 'Enter Email',
+  });
+});
+
 router.get('/cookbook/:id', async (req, res) => {
   const { id } = req.params;
   const data = await fetch(
