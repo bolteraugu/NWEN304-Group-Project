@@ -17,6 +17,8 @@
 
                     <% if (recipe.image !== "") { %>
                         <img class="rounded-xl my-6 w-full object-cover shadow-sm" src=<%-recipe.image%> alt=<%-recipe.title%>>
+                    <% } else { %>
+                        <img class="rounded-xl my-6 w-full object-cover shadow-sm" src="/images/default.png" alt="defaultImage">
                     <% } %>
                     <p class="border-b-2 border-secondary-brown mb-8"></p>
 

@@ -11,7 +11,13 @@
                     <% recipes.forEach(r => { %>
                         <div class="flex flex-col my-4 mx-6 w-1/4">
                             <a href=<%-"/cookbook/" + id + "/recipes/" + r.id%>>
-                                <img class="rounded-md w-72 object-cover shadow-md hover:shadow-lg" src=<%-r.image%>>
+
+                                <% if (r.image !== "") { %>
+                                    <img class="rounded-md w-72 object-cover shadow-md hover:shadow-lg" src=<%-r.image%>>
+                                <% } else { %>
+                                    <img class="rounded-md w-72 object-cover shadow-md hover:shadow-lg" src="/images/default.png" alt="defaultImage">
+                                <% } %>
+
                                 <a class="cursor-pointer text-center text-sm text-secondary-brown mt-2 hover:text-secondary-pink" href=<%-"/cookbook/" + id + "/recipes/" + r.id%>> <%- r.title %> </a>
                             </a>
                         </div>
