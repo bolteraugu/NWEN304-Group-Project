@@ -8,12 +8,19 @@ _Ahad Rahman, August Bolter, Daniel Pullon, Eris Atienza_
 Open `http://localhost:3000` in your web browser to interact with the web app.
 * Our web app can also be accessed from anywhere on `https://cooked-304-client.herokuapp.com/`
 
-## Interface
+## Front-end Web App Interface
+Our web app runs on an Express server to handle the routes. EJS is used as the view engine, which is rendered
+server-side. All other JavaScript code is stored in `/client/public/controller`, which is publicly available
+to the user and is used for a variety of functions such as dynamically updating the DOM and verifying login details.
+This is run by the user's browser's JavaScript engine.
 
+## Web Service API Interface
+Our web service runs entirely on an Express server. All the endpoints are defined in `server/routes/index.js`.
 
 ## Error Handling
 Our error handling is quite robust. It includes the following:
 * Always have a `.catch()` whenever a `fetch()` call is made to ensure program does not crash
+* Web Service API sends back HTTP response codes
 * Custom 404 page when the user navigates to a page that does not exist
 * Error messages for incorrect login details
 * Error message during user registration for:
