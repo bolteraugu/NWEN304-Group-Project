@@ -9,7 +9,7 @@ function init() {
 function addCreateRecipeListeners() {
     document.getElementById("createRecipeButton").addEventListener('click', async () => {
         if (window.localStorage.getItem("token") != null) {
-            await fetch(`http://localhost:8080/checkToken`, {
+            await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + window.localStorage.getItem("token")
@@ -42,12 +42,12 @@ function addCreateRecipeListeners() {
                         }
                         let cookbookID = window.localStorage.getItem("cookbookID")
                         //Send a POST request to the server with the request body containing the recipe details
-                        await fetch(`http://localhost:8080/createRecipe`, {
+                        await fetch(`https://cooked-304-server.herokuapp.com/createRecipe`, {
                             method: 'POST',
                             headers: {
                                 Accept: 'application/json',
                                 'Content-Type': 'application/json',
-                                Origin: `http://localhost:3000`,
+                                Origin: `https://cooked-304-client.herokuapp.com`,
                             },
                             body: JSON.stringify({recipe: recipe, cookbookID: cookbookID}),
                         }).then((response) => {

@@ -14,10 +14,12 @@ router.set('view engine', 'ejs');
 let publicPath = path.join(__dirname, '../public');
 router.use(express.static(publicPath));
 
-router.listen(process.env.CLIENT_PORT, () =>
-  console.log(
-    `Client side running on http://localhost:${process.env.CLIENT_PORT}`
-  )
+router.listen(process.env.PORT, '0.0.0.0', () =>
+    console.log(
+        'Express server listening on %d, in %s mode',
+        process.env.PORT,
+        router.get('env')
+    )
 );
 
 router.get('/', async (req, res) => {
@@ -28,7 +30,7 @@ router.get('/', async (req, res) => {
     urlParams.append('keyword', req.query.search);
 
     await fetch(
-      `http://localhost:${process.env.SERVER_PORT}/recipes?` + urlParams.toString()
+      `${process.env.SERVER_URL}/recipes?` + urlParams.toString()
     )
       .then((response) => response.json())
       .then((data) => {
@@ -44,7 +46,7 @@ router.get('/', async (req, res) => {
     });
   } else {
     // If nothing has been searched
-    await fetch(`http://localhost:${process.env.SERVER_PORT}/randomrecipes`)
+    await fetch(`${process.env.SERVER_URL}/randomrecipes`)
       .then((response) => response.json())
       .then((data) => {
         results = data.recipes ? data.recipes : [];
@@ -87,7 +89,7 @@ router.get('/enterEmail', async (req, res) => {
 router.get('/cookbook/:id', async (req, res) => {
   const { id } = req.params;
   const data = await fetch(
-    `http://localhost:${process.env.SERVER_PORT}/cookbook/${id}`
+    `${process.env.SERVER_URL}/cookbook/${id}`
   ).then((response) => response.json());
 
   res.render('Cookbook', {
@@ -106,13 +108,13 @@ router.get('/recipes/:id/:authorised', async (req, res) => {
   const id = req.params.id;
   const authorised = req.params.authorised;
   let selectedRecipe;
-  await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}`)
+  await fetch(`${process.env.SERVER_URL}/recipes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         selectedRecipe = data;
   });
   if (authorised === "true") {
-    await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}/similar`)
+    await fetch(`${process.env.SERVER_URL}/recipes/${id}/similar`)
     .then((response) => response.json())
     .then((data) => {
       results = data;
@@ -141,7 +143,7 @@ router.get('/cookbook/:cookbookID/recipes/:id', async (req, res) => {
   const cookbookID = req.params.cookbookID;
   const id = req.params.id;
   let recipe;
-  await fetch(`http://localhost:${process.env.SERVER_PORT}/cookbook/${cookbookID}/recipes/${id}`)
+  await fetch(`${process.env.SERVER_URL}/cookbook/${cookbookID}/recipes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         recipe = data;
@@ -157,7 +159,7 @@ router.get('/cookbook/:cookbookID/recipes/:id', async (req, res) => {
 
   else {
     let results = [];
-    await fetch(`http://localhost:${process.env.SERVER_PORT}/recipes/${id}/similar`)
+    await fetch(`${process.env.SERVER_URL}/recipes/${id}/similar`)
     .then((response) => response.json())
     .then((data) => {
       results = data;

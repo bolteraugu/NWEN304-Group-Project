@@ -12,7 +12,7 @@ function deleteUser() {
         .addEventListener('click', async function () {
             if (window.localStorage.getItem("token") != null) {
                 //If they are check if their token is valid
-                await fetch(`http://localhost:8080/checkToken`, {
+                await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + window.localStorage.getItem("token")
@@ -27,12 +27,12 @@ function deleteUser() {
                       }
                       else {
                         const userID = window.localStorage.getItem('userID');
-                        await fetch(`http://localhost:8080/users/${userID}`, {
+                        await fetch(`https://cooked-304-server.herokuapp.com/users/${userID}`, {
                             method: 'DELETE',
                             headers: {
                                 'Content-Type': 'application/json',
                                 Accept: 'application/json',
-                                Origin: `http://localhost:3000`,
+                                Origin: `https://cooked-304-client.herokuapp.com`,
                             },
                         }).then((response) => {
                             if (response.ok){
@@ -61,13 +61,13 @@ function deleteUser() {
 
 const deleteCookbook = async (cookbook_id) => {
     await fetch(
-        `http://localhost:8080/cookbook/${cookbook_id}`,
+        `https://cooked-304-server.herokuapp.com/cookbook/${cookbook_id}`,
         {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
-                Origin: `http://localhost:3000`,
+                Origin: `https://cooked-304-client.herokuapp.com`,
             },
         }
     ).then(() => window.location.href = '/')
@@ -87,7 +87,7 @@ function settingUpListeners() {
                 //And check if user is logged in
                 if (window.localStorage.getItem("token") != null) {
                     //If they are check if their token is valid
-                    await fetch(`http://localhost:8080/checkToken`, {
+                    await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
                         method: 'GET',
                         headers: {
                             'Authorization': 'Bearer ' + window.localStorage.getItem("token")

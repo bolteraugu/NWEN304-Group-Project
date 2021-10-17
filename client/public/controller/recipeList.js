@@ -19,7 +19,7 @@ function settingUpListenersRecipeList() {
                 //And check if user is logged in
                 if (window.localStorage.getItem("token") != null) {
                     //If they are check if their token is valid
-                    await fetch(`http://localhost:8080/checkToken`, {
+                    await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
                         method: 'GET',
                         headers: {
                             'Authorization': 'Bearer ' + window.localStorage.getItem("token")

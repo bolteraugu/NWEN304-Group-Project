@@ -16,12 +16,12 @@ describe('Authentication Tests', () => {
 
 	describe('Logging in with correct details', () => {
 		it('should return an OK response', async () => {
-			await fetch(`http://localhost:8080/login`, {
+			await fetch(`https://cooked-304-server.herokuapp.com/login`, {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
-					Origin: `http://localhost:3000`,
+					Origin: `https://cooked-304-client.herokuapp.com`,
 				},
 				body: JSON.stringify({ emailVal: "drizzydrake@gmail.com", passwordVal: "qwerty123!" }),
 			})
@@ -37,12 +37,12 @@ describe('Authentication Tests', () => {
 
 	describe('Logging in with incorrect details', () => {
 		it('should not return an OK response', async () => {
-			await fetch(`http://localhost:8080/login`, {
+			await fetch(`https://cooked-304-server.herokuapp.com/login`, {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
-					Origin: `http://localhost:3000`,
+					Origin: `https://cooked-304-client.herokuapp.com`,
 				},
 				body: JSON.stringify({ emailVal: "drizzydrake@gmail.com", passwordVal: "dfkjgngdf" }),
 			})
@@ -58,10 +58,10 @@ describe('Authentication Tests', () => {
 
 	describe('Registering an account with email already registered', () => {
 		it('should return an error response as email is already in use', async () => {
-			await fetch(`http://localhost:8080/register`, {
+			await fetch(`https://cooked-304-server.herokuapp.com/register`, {
 				method: 'POST',
 				headers: {
-					Origin: `http://localhost:3000`,
+					Origin: `https://cooked-304-client.herokuapp.com`,
 					'Content-Type': 'application/json',
 					Accept: 'application/json',
 				},
@@ -80,10 +80,10 @@ describe('Authentication Tests', () => {
 
 	describe('Registering an account with invalid email format', () => {
 		it('should return an error response as email is incorrectly formatted', async () => {
-			await fetch(`http://localhost:8080/register`, {
+			await fetch(`https://cooked-304-server.herokuapp.com/register`, {
 				method: 'POST',
 				headers: {
-					Origin: `http://localhost:3000`,
+					Origin: `https://cooked-304-client.herokuapp.com`,
 					'Content-Type': 'application/json',
 					Accept: 'application/json',
 				},
@@ -102,10 +102,10 @@ describe('Authentication Tests', () => {
 
 	describe('Registering an account with weak password', () => {
 		it('should return an error response as password needs to be stronger', async () => {
-			await fetch(`http://localhost:8080/register`, {
+			await fetch(`https://cooked-304-server.herokuapp.com/register`, {
 				method: 'POST',
 				headers: {
-					Origin: `http://localhost:3000`,
+					Origin: `https://cooked-304-client.herokuapp.com`,
 					'Content-Type': 'application/json',
 					Accept: 'application/json',
 				},
@@ -124,10 +124,10 @@ describe('Authentication Tests', () => {
 
 	describe('Registering an account with weak password and incorrect email', () => {
 		it('should return an error response as password needs to be stronger and email is incorrectly formatted', async () => {
-			await fetch(`http://localhost:8080/register`, {
+			await fetch(`https://cooked-304-server.herokuapp.com/register`, {
 				method: 'POST',
 				headers: {
-					Origin: `http://localhost:3000`,
+					Origin: `https://cooked-304-client.herokuapp.com`,
 					'Content-Type': 'application/json',
 					Accept: 'application/json',
 				},
@@ -146,10 +146,10 @@ describe('Authentication Tests', () => {
 
 	describe('Registering an account with weak password and incorrect email', () => {
 		it('should return an error response as password needs to be stronger and email is incorrectly formatted', async () => {
-			await fetch(`http://localhost:8080/register`, {
+			await fetch(`https://cooked-304-server.herokuapp.com/register`, {
 				method: 'POST',
 				headers: {
-					Origin: `http://localhost:3000`,
+					Origin: `https://cooked-304-client.herokuapp.com`,
 					'Content-Type': 'application/json',
 					Accept: 'application/json',
 				},
@@ -168,10 +168,10 @@ describe('Authentication Tests', () => {
 
 	describe('Registering an account with correct email and format', () => {
 		it('should return an okay incorrectly formatted', async () => {
-			await fetch(`http://localhost:8080/register`, {
+			await fetch(`https://cooked-304-server.herokuapp.com/register`, {
 				method: 'POST',
 				headers: {
-					Origin: `http://localhost:3000`,
+					Origin: `https://cooked-304-client.herokuapp.com`,
 					'Content-Type': 'application/json',
 					Accept: 'application/json',
 				},

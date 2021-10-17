@@ -8,7 +8,7 @@ function init() {
 //If you are wondering how the checking token works check out code comments in cookbook.js
 async function renderingAndListener() {
     if (window.localStorage.getItem("token") != null) {
-        await fetch(`http://localhost:8080/checkToken`, {
+        await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + window.localStorage.getItem("token")
@@ -28,7 +28,7 @@ async function renderingAndListener() {
         async function (event) {
             event.preventDefault();
             if (window.localStorage.getItem("token") != null) {
-                await fetch(`http://localhost:8080/checkToken`, {
+                await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + window.localStorage.getItem("token")
