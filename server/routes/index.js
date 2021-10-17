@@ -197,7 +197,7 @@ router.post('/signinwithgoogle', async (req, res) => {
   if (user.length !== 0) {
     // User exists
 
-    //Create JWT token using private key which is a UUID and send the token.
+    //Create JWT token using private key and send the token.
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
     const userIDClean = user[0]._id.toString();
