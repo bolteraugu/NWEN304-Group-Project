@@ -19,7 +19,7 @@ Our web service runs entirely on an Express server. All the endpoints are define
 
 ## Error Handling
 Our error handling is quite robust. It includes the following:
-* Always have a `.catch()` whenever a `fetch()` call is made to ensure program does not crash
+* Have a `.catch()` whenever a `fetch()` call is made to ensure program does not crash
 * Web Service API sends back HTTP response codes
 * Custom 404 page when the user navigates to a page that does not exist
 * Error messages for incorrect login details
