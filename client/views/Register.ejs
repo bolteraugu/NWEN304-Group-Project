@@ -4,23 +4,28 @@
     <%- include('./partials/head.ejs') %>
     <body class="h-screen">
         <%- include('./partials/nav.ejs') %>
-        <div class="container page-content p-16 bg-white flex mx-auto">
-            <div class="bg-eggshell rounded-md py-6 shadow-lg p-8 space-y-4 flex-col justify-center mx-auto">
+        <div class="container page-content p-16 bg-white flex max-w-md mx-auto">
+            <div class="bg-eggshell rounded-md py-6 shadow-lg p-8 space-y-4 flex-col justify-center mx-auto text-center items-center">
                 <div class="mx-auto space-y-1">
                     <!-- Register fields and inputs -->
-                    <p class="text-md">Email</p>
-                    <input type="text" id="emailInput" name="email" class="w-full"/>
+                    <p class="text-md text-left">Email</p>
+                    <input type="text" id="emailInput" name="email"
+                           class="text-sm bg-grey-lightest border-2 border-secondary-brown focus:outline-none focus:ring focus:border-secondary-pink p-0.5 rounded-lg shadow-inner w-full text-black my-4 shadow-md"/>
                 </div>
 
                 <div class="space-y-1">
-                    <p class="text-md">Password</p>
-                    <input type="password" id="passwordInput" name="password" class="w-full"/>
+                    <p class="text-md text-left">Password</p>
+                    <input type="password" id="passwordInput" name="password"
+                           class="text-sm bg-grey-lightest border-2 border-secondary-brown focus:outline-none focus:ring focus:border-secondary-pink p-0.5 rounded-lg shadow-inner w-full text-black my-4 shadow-md"/>
 
                     <!-- Password complexity bar -->
                     <hr id = "complexityBar" style="border:none; visibility: hidden;" />
+
+                    <!-- Error message that shows due to account already existing with inputted email, password not being complex enough or email being invalid. -->
+                    <p id = "errorMessage" style="color:red; visibility: hidden; font-size: 14;"></p>
                 </div>
 
-                <div class="pt-6">
+                <div class="py-6">
                     <!-- Registration button -->
                     <button id="submitRegistration"
                             class="block bg-primary-lg text-center text-md no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl hover:bg-primary-dg hover:shadow-md">
@@ -28,13 +33,8 @@
                     </button>
                 </div>
 
-                <div class="text-primary-dg m-4 text-sm">
-                    <!-- Error message that shows due to account already existing with inputted email, password not being complex enough or email being invalid. -->
-                    <p id = "errorMessage" style="color:red; visibility: hidden; font-size: 14;"></p>
-                </div>
-
                 <div class="pb-4">
-                    <a class="m-4 text-sm hover:text-secondary-pink" href="/login">Already have an account?</a>
+                    <a class="text-center m-4 text-sm hover:text-secondary-pink" href="/login">Already have an account?</a>
                 </div>
             </div>
         </div>
