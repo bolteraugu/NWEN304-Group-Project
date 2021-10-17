@@ -45,7 +45,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/', router);
 
-app.listen(process.env.SERVER_PORT, () =>
+app.listen(process.env.PORT, () =>
   console.log(`Listening on ${process.env.SERVER_URL}`)
 );
 
