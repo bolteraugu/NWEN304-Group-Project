@@ -185,3 +185,7 @@ router.get('/cookbook/:cookbookID/recipes/:id', async (req, res) => {
 
 });
 
+// 404 page
+router.use((req, res) => {
+  res.status(404).render('404', {title: "404 - Page not found"});
+});
