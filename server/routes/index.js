@@ -31,6 +31,7 @@ import {
 } from '../controller/mongoDbRequests.js';
 import { sendEmail } from "../controller/sendEmail.js";
 import _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -192,7 +193,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/signinwithgoogle', async (req, res) => {
   let email = req.body.emailVal;
-  let password = req.body.passwordVal;
+  let password = uuidv4();
   let user = await User.find({ email: req.body.emailVal }).limit(1).size();
   if (user.length !== 0) {
     // User exists
