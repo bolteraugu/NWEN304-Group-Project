@@ -198,7 +198,7 @@ router.post('/signinwithgoogle', async (req, res) => {
   if (user.length !== 0) {
     // User exists
 
-    //Create JWT token using private key which is a UUID and send the token.
+    //Create JWT token using private key and send the token.
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
     const userIDClean = user[0]._id.toString();
@@ -443,7 +443,7 @@ app.put('/cookbook/:id/recipes/', async (req, res) => {
 });
 
 /**
- * Delete recipe from cookbook.
+ * Remove recipe from cookbook.
  */
 app.put('/cookbook/:id/recipes/:recipeId', async (req, res) => {
   const id = req.params.id;
