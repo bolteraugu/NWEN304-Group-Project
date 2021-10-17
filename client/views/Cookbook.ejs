@@ -1,26 +1,34 @@
-<!--// Directory Structure Example-->
-<!--// Feel free to delete this file.-->
-
 <html>
     <%- include('./partials/head.ejs') %>
     <body class="h-screen">
         <%- include('./partials/nav.ejs') %>
-        <h1>Your Cookbook</h1>
-        <div class="w-3/4 flex-row">
-            <button id="deleteUser">Delete User</button>
-                
-            </button>
-            <div class="flex flex-wrap flex-row justify-between">
-                <% recipes.forEach(r => { %>
-                    <div class="flex flex-col my-4 mx-6 w-1/4">
-                        <a href=<%-"/cookbook/" + id + "/recipes/" + r.id%>>
-                            <img class="rounded-md w-72 object-cover shadow-md hover:shadow-lg" src=<%-r.image%>>
-                            <a class="cursor-pointer text-center text-sm text-secondary-brown mt-2 hover:text-secondary-pink" href=<%-"/cookbook/" + id + "/recipes/" + r.id%>> <%- r.title %> </a>
-                        </a>
+        <div class="px-32 py-8 bg-white flex mx-auto">
+            <div class="bg-eggshell flex flex-col w-full rounded-md shadow-lg p-8">
+                <p class="uppercase text-primary-dg font-bold text-center pb-2 text-center">Your Cookbook</p>
+                <p class="border-b-2 border-secondary-brown mb-6 mt-2"></p>
+
+                <div class="flex flex-wrap flex-row justify-between">
+                    <% recipes.forEach(r => { %>
+                        <div class="flex flex-col my-4 mx-6 w-1/4">
+                            <a href=<%-"/cookbook/" + id + "/recipes/" + r.id%>>
+                                <img class="rounded-md w-72 object-cover shadow-md hover:shadow-lg" src=<%-r.image%>>
+                                <a class="cursor-pointer text-center text-sm text-secondary-brown mt-2 hover:text-secondary-pink" href=<%-"/cookbook/" + id + "/recipes/" + r.id%>> <%- r.title %> </a>
+                            </a>
+                        </div>
+                    <%  }) %>
+                </div>
+
+                <div class="flex flex-row-reverse pt-8">
+                    <div class="justify-end">
+                        <button id="deleteUser"
+                                class="block bg-secondary-brown text-center text-sm no-underline text-eggshell mx-auto p-2 px-8 rounded-3xl shadow-md hover:bg-secondary-pink hover:shadow-xl">
+                            Delete User
+                        </button>
                     </div>
-                <%  }) %>
+                </div>
             </div>
         </div>
+
         <script src="/controller/cookbook.js"></script>
     </body>
 </html>
