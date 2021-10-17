@@ -283,8 +283,8 @@ router.post('/resetpassword', async (req, res) => {
 
         //Create the salt and hash the password
         const salt = await bcrypt.genSalt(10);
-        const unfilteredToken = await bcrypt.hash(userIDClean, salt);
-        const token = unfilteredToken.replace("/", "slash");
+        const unfilteredToken = encodeURIComponent(await bcrypt.hash(userIDClean, salt));
+        const token = unfilteredToken;
 
         User.updateOne({email: email}, {resetLink: token, resetLinkUsed: "notUsed"}, async function (err, success) {
             if (err) {
