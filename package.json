@@ -9,7 +9,7 @@
     "tailwind:css": "postcss ./client/public/styles/tailwind.css -o ./client/public/styles/style.css",
     "client": "node -r dotenv/config ./client/routes/",
     "server": "node -r dotenv/config ./server/routes/",
-    "start": "node -r dotenv/config ./server/routes/"
+    "start": "node -r dotenv/config ./client/routes/"
   },
   "repository": {
     "type": "git",
