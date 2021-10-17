@@ -18,10 +18,10 @@ function resetPassword() {
             let headers = new Headers();
             headers.append('Content-Type', 'application/json');
             headers.append('Accept', 'application/json');
-            headers.append('Origin', `http://localhost:3000`);
+            headers.append('Origin', `https://cooked-304-client.herokuapp.com`);
             let token = window.location.href.split('/').pop();
 
-            await fetch(`http://localhost:8080/resetpassword`, {
+            await fetch(`https://cooked-304-server.herokuapp.com/resetpassword`, {
                 method: 'PUT',
                 headers: headers,
                 body: JSON.stringify({ newPass: password, token: token }),

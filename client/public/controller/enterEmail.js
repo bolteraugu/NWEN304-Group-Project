@@ -9,12 +9,12 @@ function forgotPassword() {
     document.getElementById('submitEmail').addEventListener('click', () => {
         let email = document.querySelector('#emailInput').value;
 
-        fetch(`http://localhost:8080/resetpassword`, {
+        fetch(`https://cooked-304-server.herokuapp.com/resetpassword`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                Origin: `http://localhost:3000`,
+                Origin: `https://cooked-304-client.herokuapp.com`,
             },
             body: JSON.stringify({emailVal: email}),
 

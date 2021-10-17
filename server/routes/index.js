@@ -46,7 +46,7 @@ app.use(cors());
 app.use('/', router);
 
 app.listen(process.env.SERVER_PORT, () =>
-  console.log(`Listening on http://localhost:${process.env.SERVER_PORT}`)
+  console.log(`Listening on ${process.env.SERVER_URL}`)
 );
 
 app.post('/addSearchKeyword', async (req, res) => {
@@ -290,7 +290,7 @@ router.post('/resetpassword', async (req, res) => {
             if (err) {
                 return res.status(400).send({message: 'Reset password link error'});
             } else {
-                const link = `http://localhost:${process.env.CLIENT_PORT}/resetpassword/${token}`;
+                const link = `${process.env.CLIENT_URL}/resetpassword/${token}`;
                 await sendEmail(email, "Password Reset Link", link);
                 res.send("Password reset link sent to your email");
             }

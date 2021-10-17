@@ -18,9 +18,9 @@ document
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Origin', `http://localhost:3000`);
+        headers.append('Origin', `https://cooked-304-client.herokuapp.com`);
 
-        await fetch(`http://localhost:8080/register`, {
+        await fetch(`https://cooked-304-server.herokuapp.com/register`, {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({ emailVal: email, passwordVal: password }),

@@ -16,12 +16,12 @@ function login() {
             let email = document.querySelector('#emailInputLogin').value;
             let password = document.querySelector('#passwordInputLogin').value;
             //Send a POST request to the server with the request body containing the email and password
-            await fetch(`http://localhost:8080/login`, {
+            await fetch(`https://cooked-304-server.herokuapp.com/login`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                    Origin: `http://localhost:3000`,
+                    Origin: `https://cooked-304-client.herokuapp.com`,
                 },
                 body: JSON.stringify({emailVal: email, passwordVal: password}),
             })
@@ -79,12 +79,12 @@ function loginWithGoogle() {
                 const credential = res.credential;
                 const token = credential.accessToken;
 
-                fetch(`http://localhost:8080/signinwithgoogle`, {
+                fetch(`https://cooked-304-server.herokuapp.com/signinwithgoogle`, {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
-                        Origin: `http://localhost:3000`,
+                        Origin: `https://cooked-304-client.herokuapp.com`,
                     },
                     body: JSON.stringify({
                         emailVal: res.user.email,

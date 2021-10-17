@@ -15,7 +15,7 @@ function search() {
         search: searchQuery,
       });
       if (window.localStorage.getItem("token") != null && window.localStorage.getItem('userID') != null) {
-        await fetch(`http://localhost:8080/checkToken`, {
+        await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + window.localStorage.getItem("token")
@@ -32,10 +32,10 @@ function search() {
                 let headers = new Headers();
                 headers.append('Content-Type', 'application/json');
                 headers.append('Accept', 'application/json');
-                headers.append('Origin', `http://localhost:3000`);
+                headers.append('Origin', `https://cooked-304-client.herokuapp.com`);
                 console.log(userID);
                 window.location.href = '/?' + urlParams.toString();
-                await fetch(`http://localhost:8080/addSearchKeyword`, {
+                await fetch(`https://cooked-304-server.herokuapp.com/addSearchKeyword`, {
                   method: 'POST',
                   headers: headers,
                   body: JSON.stringify({
@@ -64,7 +64,7 @@ function search() {
 async function updateRecentSearches() {
   let recentKeywords = ["spicy", "Japanese", "pizza", "dessert", "Italian", "burgers", "noodles"];
   if (window.localStorage.getItem("token") != null && window.localStorage.getItem('userID') != null) {
-    await fetch(`http://localhost:8080/checkToken`, {
+    await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem("token")
@@ -79,7 +79,7 @@ async function updateRecentSearches() {
           else {
             let userID = window.localStorage.getItem('userID');
             document.getElementById("searchHeading").innerText = "Your recent searches";
-            await fetch(`http://localhost:8080/users/${userID}/searches`)
+            await fetch(`https://cooked-304-server.herokuapp.com/users/${userID}/searches`)
               .then((response) => response.json())
               .then((data) => {
                 recentKeywords = data.reverse();

@@ -13,7 +13,7 @@ let cookbookID = window.localStorage.getItem('cookbookID');
 //If you are wondering how the checking token works check out code comments in cookbook.js
 async function initialRenderingRecipeDetails() {
     if (window.localStorage.getItem("token") != null) {
-        await fetch(`http://localhost:8080/checkToken`, {
+        await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + window.localStorage.getItem("token")
@@ -26,7 +26,7 @@ async function initialRenderingRecipeDetails() {
             }
             else {
                 let hasRecipe = false;
-                await fetch('http://localhost:8080/cookbook/' + cookbookID + '/checkRecipe/' + recipe.id, {
+                await fetch('https://cooked-304-server.herokuapp.com/cookbook/' + cookbookID + '/checkRecipe/' + recipe.id, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
@@ -75,7 +75,7 @@ async function addListeners() {
  */
 const addRecipe = async (cookbook_id, recipe) => {
     if (window.localStorage.getItem("token") != null) {
-        await fetch(`http://localhost:8080/checkToken`, {
+        await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + window.localStorage.getItem("token")
@@ -88,12 +88,12 @@ const addRecipe = async (cookbook_id, recipe) => {
                 window.location.href = "/";
             }
             else {
-                fetch(`http://localhost:8080/cookbook/${cookbook_id}/recipes/`, {
+                fetch(`https://cooked-304-server.herokuapp.com/cookbook/${cookbook_id}/recipes/`, {
                     method: 'PUT',
                     headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
-                    Origin: `http://localhost:3000`,
+                    Origin: `https://cooked-304-client.herokuapp.com`,
                     },
                     body: JSON.stringify({recipe: recipe}),
                 }).then(() => window.location.href = window.location.href);
@@ -110,7 +110,7 @@ const addRecipe = async (cookbook_id, recipe) => {
 
 const removeRecipe = async (cookbook_id, recipe_id) => {
     if (window.localStorage.getItem("token") != null) {
-        await fetch(`http://localhost:8080/checkToken`, {
+        await fetch(`https://cooked-304-server.herokuapp.com/checkToken`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + window.localStorage.getItem("token")
@@ -123,12 +123,12 @@ const removeRecipe = async (cookbook_id, recipe_id) => {
                 window.location.href = "/";
             }
             else {
-                fetch(`http://localhost:8080/cookbook/${cookbook_id}/recipes/${recipe_id}`, {
+                fetch(`https://cooked-304-server.herokuapp.com/cookbook/${cookbook_id}/recipes/${recipe_id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         Accept: 'application/json',
-                        Origin: `http://localhost:3000`,
+                        Origin: `https://cooked-304-client.herokuapp.com`,
                     },
                 }).then(() => window.location.href = "/");
             }
