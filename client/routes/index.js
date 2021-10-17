@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {response} from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { dirname } from 'path';
@@ -66,6 +66,22 @@ router.get('/login', (req, res) => {
 
 router.get('/register', (req, res) => {
   res.render('Register', { title: 'Register' });
+});
+
+router.get('/resetpassword/:token', async (req, res) => {
+  const {token} = req.params;
+
+  res.render('ResetPassword', {
+    title: 'Password Reset',
+    token: token
+  });
+});
+
+router.get('/enterEmail', async (req, res) => {
+
+  res.render('EnterEmail', {
+    title: 'Enter Email',
+  });
 });
 
 router.get('/cookbook/:id', async (req, res) => {

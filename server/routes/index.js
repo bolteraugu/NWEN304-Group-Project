@@ -6,7 +6,7 @@ import {
     getRecipeSummaryByID,
     getRandomRecipes,
 } from '../controller/index.js';
-import { validateUser } from '../controller/passwordValidate.js';
+import { validateUser, validateNewPassword } from '../controller/passwordValidate.js';
 import { User } from '../model/user.js';
 //Importing so we can connect to MongoDB
 import mongoose from 'mongoose';
@@ -27,7 +27,10 @@ import {
   addKeywordSearch,
   getKeywordSearch,
   getRecipe,
+  updatePassword
 } from '../controller/mongoDbRequests.js';
+import { sendEmail } from "../controller/sendEmail.js";
+import _ from 'lodash';
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -233,6 +236,66 @@ router.post('/signinwithgoogle', async (req, res) => {
     }
 })
 
+router.put('/resetpassword', async (req, res) => {
+    const resetLink = req.body.token;
+    const newPass = req.body.newPass;
+    let valid = validateNewPassword(newPass); //Checking if they are valid
+
+    if (!valid) {
+        return res.status(400).send({message: 'Your new password needs to be stronger. Please make sure it has at least 8 characters and contains at least one letter, number and symbol.'});
+    }
+
+    else if (resetLink != null){
+            // Token found, check if user exists
+
+            User.findOne({resetLink}, async (err, user) => {
+                if (!user || user.length === 0) {
+                    return res.status(400).send({message: 'User with this token does not exist'});
+                }
+
+                if (user.resetLinkUsed.toString() === "notUsed") {
+                    //Create the salt and hash the password
+                    const salt = await bcrypt.genSalt(10);
+                    const passwordHashed = await bcrypt.hash(newPass, salt);
+
+                    const client = await connectToMongoDb();
+                    updatePassword(client, user._id, passwordHashed);
+                    res.status(200).send();
+                }
+                else {
+                     res.status(401).send({message: 'One time token has already been used'});
+                }
+            });
+    } else {
+        return res.status(401).send({message: 'Authentication Error'});
+    }
+});
+
+router.post('/resetpassword', async (req, res) => {
+    let email = req.body.emailVal;
+    let user = await User.find({ email: req.body.emailVal }).limit(1).size();
+
+    if (!user || user.length === 0) { // User doesn't exist
+        return res.status(400).send({message: 'User with this email does not exist'});
+    } else { // User exists
+        const userIDClean = user[0]._id.toString();
+
+        //Create the salt and hash the password
+        const salt = await bcrypt.genSalt(10);
+        const unfilteredToken = await bcrypt.hash(userIDClean, salt);
+        const token = unfilteredToken.replace("/", "slash");
+
+        User.updateOne({email: email}, {resetLink: token, resetLinkUsed: "notUsed"}, async function (err, success) {
+            if (err) {
+                return res.status(400).send({message: 'Reset password link error'});
+            } else {
+                const link = `http://localhost:${process.env.CLIENT_PORT}/resetpassword/${token}`;
+                await sendEmail(email, "Password Reset Link", link);
+                res.send("Password reset link sent to your email");
+            }
+        });
+    }
+})
 
 router.post('/createRecipe', async (req, res) => {
     const client = await connectToMongoDb(); //! THIS NEEDS CHANGING
