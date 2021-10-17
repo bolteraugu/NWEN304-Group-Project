@@ -442,7 +442,7 @@ app.put('/cookbook/:id/recipes/', async (req, res) => {
 });
 
 /**
- * Delete recipe from cookbook.
+ * Remove recipe from cookbook.
  */
 app.put('/cookbook/:id/recipes/:recipeId', async (req, res) => {
   const id = req.params.id;
