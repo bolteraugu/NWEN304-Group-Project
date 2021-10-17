@@ -3,7 +3,7 @@
     <body class="h-screen">
 
     <%- include('./partials/nav.ejs') %>
-        <div class="container page-content py-8 space-x-8 bg-white flex mx-auto">
+        <div class="container page-content py-8 space-x-8 bg-white flex flex-row mx-auto">
             <div class="container w-4/5 bg-eggshell rounded-md shadow-xl flex flex-row mx-auto p-8 space-x-16">
                 <div class="w-1/3 flex-col">
                     <h2 class="uppercase text-primary-dg font-bold text-center"><%- recipe.title %></h2>
@@ -50,23 +50,21 @@
             </div>
 
             <!-- SIMILAR RECIPES HERE -->
-            <div class="container bg-eggshell rounded-md shadow-xl flex flex-col mx-auto w-1/5 py-8 px-4 space-x-16">
-                <p class="uppercase text-primary-dg font-bold text-center">Recommended Recipes</p>
+            <% if (similarRecipes !== null) { %>
+                <div class="bg-eggshell rounded-md shadow-xl flex flex-col mx-auto w-1/5">
+                    <p class="uppercase text-primary-dg font-bold text-center pt-8 pb-2">Recommended Recipes</p>
 
-                <div class="w-full">
-                    <% if (similarRecipes !== null) { %>
-                        <div id="similarRecipes">
-                            <% similarRecipes.forEach( (sr) => {  %>
-                            <div class="flex flex-col space-x-2 space-y-4 w-1/4">
+                    <div class="flex flex-col items-center justify-center px-4 space-y-2">
+                        <% similarRecipes.forEach( (sr) => {  %>
+                            <div class="flex text-center">
                                 <a href=<%-"/recipes/"+sr.id%>>
-                                    <a class="mx-auto text-eggshell text-sm bg-secondary-brown px-2 py-1 m-1 rounded-xl shadow-md hover:shadow-xl hover:bg-secondary-pink" href=<%-"/recipes/"+sr.id%>/true> <%- sr.title %></a>
+                                    <a class="text-eggshell text-sm bg-secondary-brown px-2 py-1 m-1 rounded-xl shadow-md hover:shadow-xl hover:bg-secondary-pink" href=<%-"/recipes/"+sr.id%>/true> <%- sr.title %></a>
                                 </a>
                             </div>
-                            <% }) %>
-                        </div>
-                    <% } %>
+                        <% }) %>
+                    </div>
                 </div>
-            </div>
+            <% } %>
         </div>
 
         <div class='recipeStore' data-test-value='<%= JSON.stringify(recipe) %>'></div>
